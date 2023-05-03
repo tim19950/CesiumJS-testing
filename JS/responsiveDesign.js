@@ -13,12 +13,6 @@ export function updateCesiumContainerHeight() {
             if (window.innerWidth < 768) { // Check if the width is below 768px (replace with your desired value)
                 cesiumContainer.style.height = `calc(100% - ${newHeight}px)`;
 
-                const toolbarHeight = window.innerHeight - document.documentElement.clientHeight;
-                const viewport = window.visualViewport;
-                console.log("innerHeight: " + window.innerHeight);
-                console.log("clientHeight: " + document.documentElement.clientHeight);
-                console.log(viewport);
-
                 // reset the body height to that of the inner browser
                 document.body.style.height = window.innerHeight + "px";
 
