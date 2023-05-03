@@ -19,7 +19,10 @@ export function updateCesiumContainerHeight() {
                 console.log("clientHeight: " + document.documentElement.clientHeight);
                 console.log(viewport);
 
-                document.body.style.height = `calc(100vh - ${toolbarHeight}px)`;
+                // reset the body height to that of the inner browser
+                document.body.style.height = window.innerHeight + "px";
+
+                // document.body.style.height = `calc(100vh - ${toolbarHeight}px)`;
 
             } else {
                 cesiumContainer.style.height = `calc(100vh - ${newHeight}px)`;
