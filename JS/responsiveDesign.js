@@ -11,7 +11,7 @@ export function updateCesiumContainerHeight() {
         for (const entry of entries) {
             let newHeight = entry.borderBoxSize[0].blockSize;
             if (window.innerWidth < 768) { // Check if the width is below 768px (replace with your desired value)
-                cesiumContainer.style.height = `calc(93.5vh - ${newHeight}px)`;
+                cesiumContainer.style.height = `calc(100% - ${newHeight}px)`;
 
                 const toolbarHeight = window.innerHeight - document.documentElement.clientHeight;
                 const viewport = window.visualViewport;
