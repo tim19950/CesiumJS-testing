@@ -19,7 +19,19 @@ export function updateCesiumContainerHeight() {
                 // use with 100% cesiumContainer.style.height
                 // document.body.style.height = window.innerHeight + "px";
 
+                // set viewbox
+                let svg = document.querySelector("svg.svg-folder");
+                svg.setAttribute("viewBox", "0 10 512 512");
+
             } else {
+
+                // set viewbox
+                let svgs = document.querySelectorAll("svg.svg-cirlcehelp,  svg.svg-cirlceimpressum");
+
+                for (let svg of svgs) {
+                    svg.setAttribute("viewBox", "0 -20 512 532");
+                }
+
                 cesiumContainer.style.height = `calc(100vh - ${newHeight}px)`;
             }
         }
