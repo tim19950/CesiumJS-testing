@@ -14,7 +14,7 @@ export function updateCesiumContainerHeight() {
                 cesiumContainer.style.height = `calc(100% - ${newHeight}px)`;
 
                 // reset the body height to that of the inner browser
-                document.body.style.height = window.innerHeight + "px";
+                // document.body.style.height = window.innerHeight + "px";
 
                 // document.body.style.height = `calc(100vh - ${toolbarHeight}px)`;
 
