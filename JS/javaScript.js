@@ -206,7 +206,7 @@ function addMeasureButtons() {
     const geolocateButton = document.getElementById("geolocate_button_toolbar");
 
     let measure_height_button = document.createElement("button");
-    measure_height_button.setAttribute("class", "cesium-button cesium-toolbar-button");
+    measure_height_button.setAttribute("class", "cesium-button cesium-toolbar-button d-none d-lg-block");
     measure_height_button.setAttribute("id", "measure_height_button_toolbar");
     measure_height_button.setAttribute("type", "button");
     measure_height_button.setAttribute("title", "Höhen messen");
@@ -218,7 +218,7 @@ function addMeasureButtons() {
     // toolbar.insertBefore(measure_height_button, modeButton);
 
     let measure_distance_button = document.createElement("button");
-    measure_distance_button.setAttribute("class", "cesium-button cesium-toolbar-button");
+    measure_distance_button.setAttribute("class", "cesium-button cesium-toolbar-button d-none d-lg-block");
     measure_distance_button.setAttribute("id", "measure_distance_button_toolbar");
     measure_distance_button.setAttribute("type", "button");
     measure_distance_button.setAttribute("title", "Strecken messen");
