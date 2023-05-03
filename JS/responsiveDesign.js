@@ -20,16 +20,16 @@ export function updateCesiumContainerHeight() {
                 // document.body.style.height = window.innerHeight + "px";
 
                 // set viewbox
-                let svg = document.querySelector("svg.svg-folder");
-                svg.setAttribute("viewBox", "0 10 512 512");
+                let svgGeojson = document.querySelector("svg.svg-folder");
+                svgGeojson.setAttribute("viewBox", "0 10 512 512");
 
             } else {
 
                 // set viewbox
-                let svgs = document.querySelectorAll("svg.svg-cirlcehelp,  svg.svg-cirlceimpressum");
+                let svgs = document.querySelectorAll("svg.svg-wms, svg.svg-cirlcehelp,  svg.svg-cirlceimpressum");
 
                 for (let svg of svgs) {
-                    svg.setAttribute("viewBox", "0 -20 512 532");
+                    svg.setAttribute("viewBox", "0 -40 512 555");
                 }
 
                 cesiumContainer.style.height = `calc(100vh - ${newHeight}px)`;
