@@ -1,0 +1,13 @@
+.dropdown-item {
+    vertical-align: middle;
+}
+
+.dropdown-item i {
+    width: 17px;
+    height: 17px;
+    margin-left: 5px;
+}
+
+.dropdown-item div {
+    display: inline;
+}
