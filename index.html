@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="ger">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <!-- Include CSS files -->
+    <!-- Bootstrap css and other CSS-Files -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css" integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn" crossorigin="anonymous" />
+
+    <link rel="stylesheet" type="text/css" href="./tour/bootstrap-tourist-master/bootstrap-tourist-master/bootstrap-tourist.css">
+    </link>
+
+    <link rel="stylesheet" type="text/css" href="./CSS/style.css"></link>
+    <link rel="stylesheet" type="text/css" href="./CSS/styleInfoTable.css"></link>
+    <link rel="stylesheet" type="text/css" href="./CSS/styleloaderModal.css"></link>
+    <link rel="stylesheet" type="text/css" href="./CSS/styleswitchlanguage.css"></link>
+    <link rel="stylesheet" type="text/css" href="./CSS/modalwelcome.css"></link>
+
+    <link href="https://cesium.com/downloads/cesiumjs/releases/1.103/Build/Cesium/Widgets/widgets.css" rel="stylesheet">
+
+    <!-- Include the CesiumJS JavaScript and other JS Bibs -->
+    <script src="https://cesium.com/downloads/cesiumjs/releases/1.103/Build/Cesium/Cesium.js"></script>
+    <!-- <script src="./JS/cesium.js"></script> -->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-fQybjgWLrvvRgtW6bFlB7jaZrFsaBXjsOMm/tB9LTS58ONXgqbR9W8oWht/amnpF" crossorigin="anonymous"></script>
+
+    <script src="https://unpkg.com/@mapbox/geojsonhint@3.0.1/geojsonhint.js"></script>
+
+    <script src="./tour/bootstrap-tourist-master/bootstrap-tourist-master/bootstrap-tourist.js"></script>
+
+    <!-- Translation libary -->
+    <script src="https://unpkg.com/@andreasremdt/simple-translator@latest/dist/umd/translator.min.js"></script>
+
+    <script src="./JS/loadAnimations.js" type="module"></script>
+    <script src="./JS/responsiveDesign.js" type="module"></script>
+    <script src="./JS/translate.js" type="module"></script>
+    <script src="./JS/languageSwitch.js" type="module"></script>
+    <script src="./JS/translate.js" type="module"></script>
+
+    <!-- defer wartet auf das Laden der HTML -->
+    <script src="./JS/javaScript.js" defer type="module"></script>
+
+</head>
+
+<body>
+
+    <nav class="navbar navbar-expand-lg navbar-light" id="navbar" style="background-color: #f3f7fa;">
+        <!-- <img id="logo" src="./Icons/logo.png" height="40px" width="40px"></img> -->
+        <a data-i18n="a.title.navbar" class="navbar-brand" href="#">Geoportal</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <div id="geocode" class="eingabe">
+                <div class="input-group input-group-sm">
+                    <input data-i18n="input.placeholder input.title" id="input_geocode" type="text" class="form-control" data-i18n-attr="placeholder title" placeholder="Adressuche..." title="Adresseingabe hier"></input>
+                    <div class="input-group-append">
+                        <button type="button" class="btn btn-info" id="abbrechen_button" title="Delete your search results">
+                            <div style="width: 20px; height: 20px"><svg xmlns="http://www.w3.org/2000/svg"
+                                    viewBox="-20 0 520 600"><!-- Font Awesome Pro 6.1.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. -->
+                                    <path
+                                        d="M135.2 17.69C140.6 6.848 151.7 0 163.8 0H284.2C296.3 0 307.4 6.848 312.8 17.69L320 32H416C433.7 32 448 46.33 448 64C448 81.67 433.7 96 416 96H32C14.33 96 0 81.67 0 64C0 46.33 14.33 32 32 32H128L135.2 17.69zM31.1 128H416V448C416 483.3 387.3 512 352 512H95.1C60.65 512 31.1 483.3 31.1 448V128zM111.1 208V432C111.1 440.8 119.2 448 127.1 448C136.8 448 143.1 440.8 143.1 432V208C143.1 199.2 136.8 192 127.1 192C119.2 192 111.1 199.2 111.1 208zM207.1 208V432C207.1 440.8 215.2 448 223.1 448C232.8 448 240 440.8 240 432V208C240 199.2 232.8 192 223.1 192C215.2 192 207.1 199.2 207.1 208zM304 208V432C304 440.8 311.2 448 320 448C328.8 448 336 440.8 336 432V208C336 199.2 328.8 192 320 192C311.2 192 304 199.2 304 208z">
+                                </svg></div>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-expanded="false">
+                        <div data-i18n="a.title.button.data" style="display: inline;">Daten hinzufügen</div>
+                    </a>
+                    <div class="dropdown-menu" id="first_dropdown" aria-labelledby="navbarDropdown">
+                        <h6 data-i18n="h6.title.localdata" class="dropdown-header">Lokale Datenquellen</h6>
+                        <!-- <input type="file" class="dropdown-item" id="locale_data_input" href="#" name="myfile" multiple accept="application/geo+json" style="display:none"></input> -->
+                        <a data-i18n="a.title.1" data-i18n-attr="title" data-container="body" data-toggle="tooltip" title="Einbindung von externen GeoJSON Dateien" class="dropdown-item" id="locale_data_button" href="#">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -10 512 512" width="16px" height="16px" style="display: inline-block; vertical-align: middle; margin-left: 5px;"><!--! Font Awesome Pro 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M64 480H448c35.3 0 64-28.7 64-64V160c0-35.3-28.7-64-64-64H288c-10.1 0-19.6-4.7-25.6-12.8L243.2 57.6C231.1 41.5 212.1 32 192 32H64C28.7 32 0 60.7 0 96V416c0 35.3 28.7 64 64 64z"/></svg>
+                            <div data-i18n="a.title.button.geojson" style="display: inline-block; vertical-align: middle;">Externe Daten (GeoJSON)</div>
+                        </a>
+                        <h6 data-i18n="h6.title.wms" class="dropdown-header">Web Datenquellen</h6>
+                        <a data-i18n="a.title.2" data-i18n-attr="title" data-container="body" data-toggle="tooltip" title="Einbindung von externen WMS-Diensten" class="dropdown-item" id="external_service" href="#">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -40 512 550" width="17px" height="17px" style="display: inline-block; vertical-align: middle; margin-left: 5px;"><!--! Font Awesome Pro 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M352 256c0 22.2-1.2 43.6-3.3 64H163.3c-2.2-20.4-3.3-41.8-3.3-64s1.2-43.6 3.3-64H348.7c2.2 20.4 3.3 41.8 3.3 64zm28.8-64H503.9c5.3 20.5 8.1 41.9 8.1 64s-2.8 43.5-8.1 64H380.8c2.1-20.6 3.2-42 3.2-64s-1.1-43.4-3.2-64zm112.6-32H376.7c-10-63.9-29.8-117.4-55.3-151.6c78.3 20.7 142 77.5 171.9 151.6zm-149.1 0H167.7c6.1-36.4 15.5-68.6 27-94.7c10.5-23.6 22.2-40.7 33.5-51.5C239.4 3.2 248.7 0 256 0s16.6 3.2 27.8 13.8c11.3 10.8 23 27.9 33.5 51.5c11.6 26 20.9 58.2 27 94.7zm-209 0H18.6C48.6 85.9 112.2 29.1 190.6 8.4C165.1 42.6 145.3 96.1 135.3 160zM8.1 192H131.2c-2.1 20.6-3.2 42-3.2 64s1.1 43.4 3.2 64H8.1C2.8 299.5 0 278.1 0 256s2.8-43.5 8.1-64zM194.7 446.6c-11.6-26-20.9-58.2-27-94.6H344.3c-6.1 36.4-15.5 68.6-27 94.6c-10.5 23.6-22.2 40.7-33.5 51.5C272.6 508.8 263.3 512 256 512s-16.6-3.2-27.8-13.8c-11.3-10.8-23-27.9-33.5-51.5zM135.3 352c10 63.9 29.8 117.4 55.3 151.6C112.2 482.9 48.6 426.1 18.6 352H135.3zm358.1 0c-30 74.1-93.6 130.9-171.9 151.6c25.5-34.2 45.2-87.7 55.3-151.6H493.4z"/></svg>
+                            <div data-i18n="a.title.button.wms" style="display: inline-block; vertical-align: middle;">Externe Dienste (WMS)</div>
+                        </a>
+                    </div>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown_help" role="button" data-toggle="dropdown" aria-expanded="false">
+                        <div data-i18n="a.title.button.moreInfo" style="display: inline;">Weiteres</div>
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <h6 data-i18n="h6.title.help" class="dropdown-header">Hilfe</h6>
+                        <a data-container="body" data-toggle="tooltip" title="Starten der Hilfetour" class="dropdown-item" id="help_tour" href="#">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -40 512 550" width="16px" height="16px" style="display: inline-block; vertical-align: middle; margin-left: 5px;"><!--! Font Awesome Pro 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM169.8 165.3c7.9-22.3 29.1-37.3 52.8-37.3h58.3c34.9 0 63.1 28.3 63.1 63.1c0 22.6-12.1 43.5-31.7 54.8L280 264.4c-.2 13-10.9 23.6-24 23.6c-13.3 0-24-10.7-24-24V250.5c0-8.6 4.6-16.5 12.1-20.8l44.3-25.4c4.7-2.7 7.6-7.7 7.6-13.1c0-8.4-6.8-15.1-15.1-15.1H222.6c-3.4 0-6.4 2.1-7.5 5.3l-.4 1.2c-4.4 12.5-18.2 19-30.6 14.6s-19-18.2-14.6-30.6l.4-1.2zM224 352a32 32 0 1 1 64 0 32 32 0 1 1 -64 0z"/></svg>
+                            <div data-i18n="a.title.button.help" style="display: inline-block; vertical-align: middle;">Funktionen</div>
+                        </a>
+                        <h6 data-i18n="h6.title.rights" class="dropdown-header">Rechtliches</h6>
+                        <a data-container="body" data-toggle="tooltip" title="Informationen zum Datenschutz" class="dropdown-item" id="data_protection" href="#">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -10 512 512" width="16px" height="16px" style="display: inline-block; vertical-align: middle; margin-left: 5px;"><!--! Font Awesome Pro 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M256 0c4.6 0 9.2 1 13.4 2.9L457.7 82.8c22 9.3 38.4 31 38.3 57.2c-.5 99.2-41.3 280.7-213.6 363.2c-16.7 8-36.1 8-52.8 0C57.3 420.7 16.5 239.2 16 140c-.1-26.2 16.3-47.9 38.3-57.2L242.7 2.9C246.8 1 251.4 0 256 0zm0 66.8V444.8C394 378 431.1 230.1 432 141.4L256 66.8l0 0z"/></svg>
+                            <div data-i18n="a.title.button.dataPrivacy" style="display: inline-block; vertical-align: middle;">Datenschutz</div>
+                        </a>
+                        <a data-container="body" data-toggle="tooltip" title="Informationen zum Impressum" class="dropdown-item" id="impressum" href="#">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -40 512 550" width="16px" height="16px" style="display: inline-block; vertical-align: middle; margin-left: 5px;"><!--! Font Awesome Pro 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM216 336h24V272H216c-13.3 0-24-10.7-24-24s10.7-24 24-24h48c13.3 0 24 10.7 24 24v88h8c13.3 0 24 10.7 24 24s-10.7 24-24 24H216c-13.3 0-24-10.7-24-24s10.7-24 24-24zm40-208a32 32 0 1 1 0 64 32 32 0 1 1 0-64z"/></svg>
+                            <div data-i18n="a.title.button.impressum" style="display: inline-block; vertical-align: middle;">Impressum</div>
+                        </a>
+                    </div>
+                </li>
+                <li class="d-sm-block d-lg-none nav-item dropdown" id="languageSmallDevices">
+                    <a data-i18n="a.sprache.text" class="nav-link dropdown-toggle" href="#" id="languageDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Sprache
+                      </a>
+                    <div class="dropdown-menu" aria-labelledby="languageDropdown">
+
+                        <div class="d-flex d-lg-flex align-items-center ml-auto lang-switch">
+                            <div class="language">
+                                <h1 data-i18n="h1.english">Englisch</h1>
+                                <img data-lang="eng" src="https://cdn3.iconfinder.com/data/icons/finalflags/256/United-Kingdom-flag.png" class="eng">
+                            </div>
+                            <div class="language">
+                                <h1 data-i18n="h1.german">Deutsch</h1>
+                                <img data-lang="ger" src="https://cdn3.iconfinder.com/data/icons/finalflags/256/Germany-Flag.png" class="ger">
+                            </div>
+                            <div class="language">
+                                <h1 data-i18n="h1.thai">Thai</h1>
+                                <img data-lang="thai" src=" https://cdn3.iconfinder.com/data/icons/finalflags/256/Thailand-Flag.png" class="thai">
+                            </div>
+                        </div>
+
+                    </div>
+                </li>
+            </ul>
+
+            <!-- Language in the website-->
+            <div class="d-none d-lg-flex align-items-center ml-auto lang-switch">
+                <div class="language">
+                    <h1 data-i18n="h1.english">Englisch</h1>
+                    <img data-lang="eng" src="https://cdn3.iconfinder.com/data/icons/finalflags/256/United-Kingdom-flag.png" class="eng">
+                </div>
+                <div class="language">
+                    <h1 data-i18n="h1.german">Deutsch</h1>
+                    <img data-lang="ger" src="https://cdn3.iconfinder.com/data/icons/finalflags/256/Germany-Flag.png" class="ger">
+                </div>
+                <div class="language">
+                    <h1 data-i18n="h1.thai">Thai</h1>
+                    <img data-lang="thai" src=" https://cdn3.iconfinder.com/data/icons/finalflags/256/Thailand-Flag.png" class="thai">
+                </div>
+            </div>
+
+        </div>
+
+    </nav>
+
+
+    <div class="container">
+        <div class="loader"></div>
+    </div>
+
+    <div id="cesiumContainer">
+
+        <!-- Then put toasts within -->
+        <div class="toast position-fixed hide" id="myToast" role="alert" aria-live="assertive" aria-atomic="true" data-autohide="false">
+            <div class="toast-header">
+                <img src="https://cdn-icons-png.flaticon.com/512/5998/5998883.png" width="25" height="25" class="mr-2" alt="...">
+                <strong data-i18n="strong.measureLine" class="mr-auto mb-2"> Gemessene strecke </strong>
+                <small id="toastTime"></small>
+                <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="toast-body" id="toastBody">
+            </div>
+        </div>
+
+        <div class="dropdown" id="layermenue_button_toolbar">
+            <button data-i18n="button.layers" class="dropdown dropdown-toggle cesium-toolbar-button cesium-button" id="menu_btn" type="button" title="Layermenü" data-toggle="dropdown" aria-expanded="false">Layers
+            </button>
+            <div class="dropdown-menu layermenu" id="layermenue_dropdown">
+                <div data-i18n="section.title.1" class="section_text" id="section_1_text">Kartendaten</div>
+                <div class="section" id="section_1">
+                    <a data-i18n="a.title.osm" data-i18n-attr="title" class="dropdown-item layermenu" id="layer_item_1" title="OSM Kartendaten">
+                        <img id="layer_img_1" class="img_layers active" src="https://cesium.com/downloads/cesiumjs/releases/1.98/Build/Cesium/Widgets/Images/ImageryProviders/openStreetMap.png">
+                        <span data-i18n="span.layer.osm" class="title active">OSM Kartendaten</span>
+                    </a>
+                    <a data-i18n="a.title.esri" data-i18n-attr="title" class="dropdown-item layermenu" id="layer_item_2" title="ESRI World Imagery Kartendaten">
+                        <img id="layer_img_2" class="img_layers" src="https://sandcastle.cesium.com/CesiumUnminified/Widgets/Images/ImageryProviders/esriWorldImagery.png">
+                        <span data-i18n="span.layer.esri" class="title">ESRI Kartendaten</span>
+                    </a>
+                </div>
+                <div data-i18n="section.title.2" class="section_text" id="section_2_text">Gebäude</div>
+                <div class="section" id="section_2">
+                    <a data-i18n="a.title.osmBuildings" data-i18n-attr="title" class="dropdown-item layermenu" id="layer_item_3" title="Gebäudedaten in 3D von Open street map">
+                        <img id="layer_img_3" class="img_layers" src="./Icons/MapboxGL01.jpg">
+                        <span data-i18n="span.layer.osmgeb" class="title">OSM Gebäude 3D</span>
+                    </a>
+                </div>
+                <div data-i18n="section.title.3" class="section_text" id="section_3_text">Gelände</div>
+                <div class="section" id="section_3">
+                    <a data-i18n="a.title.wgs84" data-i18n-attr="title" class="dropdown-item layermenu" id="layer_item_4" title="WGS84 Standard-Ellipsoid, auch bekannt als EPSG:4326">
+                        <img id="layer_img_4" class="img_layers active" src="https://cesium.com/downloads/cesiumjs/releases/1.100/Build/Cesium/Widgets/Images/TerrainProviders/Ellipsoid.png">
+                        <span data-i18n="span.layer.wgs84" class="title active">WGS 84 Ellipsoid</span>
+                    </a>
+                    <a data-i18n="a.title.cesiumTerrain" data-i18n-attr="title" class="dropdown-item layermenu" id="layer_item_5" title="Hochauflösender globaler Geländesatz, der aus verschiedenen Datenquellen zusammengestellt ist und über Cesium ion gehostet wird">
+                        <img id="layer_img_5" class="img_layers" src="https://demos.cesium.com/NewYork/ThirdParty/Cesium/Widgets/Images/TerrainProviders/CesiumWorldTerrain.png">
+                        <span data-i18n="span.layer.vrworld" class="title">Cesium-World Gelände</span>
+                    </a>
+                </div>
+                <div data-i18n="section.title.4" class="section_text" id="section_4_text">Externe Daten</div>
+                <div class="section" id="section_4">
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="modal_welcome" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="false">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header bg-primary text-light text-center">
+                        <div class="container-header">
+                            <h2 data-i18n="modalwelcome.h2.title" class="modal-title mx-auto mb-3">Willkommen beim Geoportal</h2>
+                        </div>
+                        <!-- Language in modal welcome -->
+                        <div class="d-flex d-lg-flex align-items-center ml-auto lang-switch" id="lang2">
+                            <div class="language">
+                                <h1 data-i18n="h1.english">Englisch</h1>
+                                <img data-lang="eng" src="https://cdn3.iconfinder.com/data/icons/finalflags/256/United-Kingdom-flag.png" class="eng">
+                            </div>
+                            <div class="language">
+                                <h1 data-i18n="h1.german">Deutsch</h1>
+                                <img data-lang="ger" src="https://cdn3.iconfinder.com/data/icons/finalflags/256/Germany-Flag.png" class="ger">
+                            </div>
+                            <div class="language">
+                                <h1 data-i18n="h1.thai">Thai</h1>
+                                <img data-lang="thai" src=" https://cdn3.iconfinder.com/data/icons/finalflags/256/Thailand-Flag.png" class="thai">
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="modal-body text-center">
+                        <img src="./Icons/VR world tile map image.PNG" height="120px" width="170px" class="mb-4">
+                        <h3 data-i18n="modalwelcome.h3.body" class="mb-3">Erkunden Sie die Welt in 3D</h3>
+                        <p data-i18n="modalwelcome.p.body" class="mb-4">
+                            Das Geoportal bietet Ihnen eine einfache und intuitive Darstellung von Geodaten. Entdecken Sie neue Orte und Perspektiven mit unserer interaktiven 3D-Karte.
+                        </p>
+                    </div>
+                    <div class="modal-footer">
+                        <button data-i18n="modalwelcome.button.go" id="btnA" type="button" class="btn btn-lg btn-secondary" data-dismiss="modal">Auf gehts</button>
+                        <button data-i18n="modalwelcome.button.help" id="btnB" type="button" class="btn btn-lg btn-primary ml-auto" id="modal_help_tour" data-dismiss="modal">Erste Schritte</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal" id="fileModal">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 data-i18n="modal.h5.filetitle" class="modal-title" style="display: inline;">Datei auswählen</h5>
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="alert alert-warning" role="alert" id="alert1">
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                              </button>
+                        </div>
+                        <div class="custom-file">
+                            <input type="file" class="custom-file-input" id="fileInput" multiple accept="application/geo+json">
+                            <label data-i18n="modalfile.label.data-browse" data-i18n-attr="data-browse" id="fileLabel" class="custom-file-label" for="fileInput" data-browse="Durchsuchen...">Keine Datei ausgewählt</label>
+                        </div>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button data-i18n="modal.button.add" type="button" class="btn btn-success" id="addGeoJsonMenu">Zum Menü hinzufügen</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal" id="modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="false">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="ModalLabel" style="display: inline;"></h5>
+                        <button type="button" class="close" aria-label="Close" data-dismiss="modal">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body" id="modalBody">
+                    </div>
+                    <div class="modal-footer">
+                        <button data-i18n="modal.button.okay" type="button" class="btn btn-success" data-dismiss="modal">Okay</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal" id="modalMeasure" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="false">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="ModalLabelMeasure" style="display: inline;"></h5>
+                        <button type="button" class="close" aria-label="Close" data-dismiss="modal">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body" id="modalBodyMeasurePoint">
+                    </div>
+                    <div class="modal-footer">
+                        <button data-i18n="modal.button.okay" type="button" class="btn btn-success" data-dismiss="modal">Okay</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal" id="modalMeasureLine" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="false">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="ModalLabelMeasureLine" style="display: inline;"></h5>
+                        <button type="button" class="close" aria-label="Close" data-dismiss="modal">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body" id="modalBodyMeasureLine">
+                    </div>
+                    <div class="modal-footer">
+                        <button data-i18n="modal.button.okay" type="button" class="btn btn-success" data-dismiss="modal">Okay</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="modal_load_data" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 data-i18n="modal.h5.loaddata.title" class="modal-title" id="exampleModalLabel" style="display: inline;">Information</h5>
+                        <button type="button" class="close" aria-label="Close" data-dismiss="modal">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div data-i18n="modal.div.loaded" class="alert alert-success" id="success-geojson" role="alert" style="display: none;">Das Laden der GeoJSON Datei war erfolgreich.</div>
+                    <div id="loadingGeojson" class="modal-body">
+                        <div style="display: inline;"></div>
+                        <div class="d-flex align-items-center">
+                            <div class="spinner-border" role="status" aria-hidden="true"></div>
+                            <strong data-i18n="modal.strong.loaddata" class="load">Lädt GeoJSON Layer...</strong>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button data-i18n="modal.button.loaddata.okay" type="button" class="btn btn-success" data-dismiss="modal">Okay</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="modal_delete_all_data" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="false">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 data-i18n="modal.h5.delete.title" class="modal-title" id="exampleModalLabel" style="display: inline;">Information</h5>
+                        <button type="button" class="close" aria-label="Close" data-dismiss="modal">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body" id="modal_body_delete_all_data">
+                    </div>
+                    <div class="modal-footer">
+                        <button data-i18n="modal.button.delete.okay" type="button" id="ok_button_delete_all_data" class=" btn btn-success" data-dismiss="modal">Okay</button>
+                        <button data-i18n="modal.button.delete.abort" type="button" id="abbrechen_button_delete_all_data" class="btn btn-primary" data-dismiss="modal">Abbrechen</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="modal_osm_buildings_clamping" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="false" data-backdrop="false">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 data-i18n="modal.h5.oms.title" class="modal-title" id="exampleModalLabel" style="display: inline;">Information</h5>
+                        <button type="button" class="close" aria-label="Close" data-dismiss="modal">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body" id="modal_body_osm_buildings_clamping">
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" id="ok_button_osm_buildings_terrain" class=" btn btn-success" data-dismiss="modal"></button>
+                        <button data-i18n="modal.button.delete.abort" type="button" id="abbrechen_button_osm_buildings_terrain" class="btn btn-primary" data-dismiss="modal">Abbrechen</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal" id="modal_load_service" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="false">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 data-i18n="modal.h5.wms.title" class="modal-title" id="exampleModalLabel" style="display: inline;">WMS Eingabe</h5>
+                        <button type="button" class="close" aria-label="Close" data-dismiss="modal">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="alert alert-warning" role="alert" id="noWMSURL">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                          </button>
+                    </div>
+                    <div class="alert alert-warning" role="alert" id="noURLRecognised">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                          </button>
+                    </div>
+                    <div class="alert alert-warning" role="alert" id="errorRequest">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                          </button>
+                    </div>
+                    <div class="alert alert-warning" role="alert" id="noRequestSend">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                          </button>
+                    </div>
+                    <div class="alert alert-warning" role="alert" id="noWMSelected">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                          </button>
+                    </div>
+                    <div class="alert alert-warning" role="alert" id="noWMSQueryed">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                          </button>
+                    </div>
+                    <div class="alert alert-success" id="success" role="alert">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                          </button>
+                    </div>
+                    <div class="modal-body">
+                        <div data-i18n="modal.div.wms.body">Geben Sie hier den WMS Dienst an.</div>
+                        <div class="mb-3">
+                            <label data-i18n="modal.label.wms.title" for="message-text" class="col-form-label">WMS URL</label>
+                            <textarea data-i18n="modal.label.wms.data-content modal.label.wms.placeholder" data-i18n-attr="data-content placeholder" data-toggle="popover" data-placement="right" data-content="URL des Web Mapping Services" class="form-control" id="wms-text" placeholder="WMS URL hier eingeben... In der Form: https://sgx.geodatenzentrum.de/wms_starkregen"></textarea>
+                            <div class="d-flex align-items-center">
+                                <div class="spinner-border spinner-border-sm hide" role="status" aria-hidden="true"></div>
+                                <strong data-i18n="modal.strong.wms.title" class="loadWMS hide">Layer werden geladen...</strong>
+                            </div>
+                        </div>
+                        <div class="mb-3" id="wms_list" style="display:none">
+                            <label data-i18n="modal.label.wms.title2" for="exampleDataList" class="form-label">WMS Layer auswählen</label>
+                            <input data-i18n="modal.label.wms.data-content2 modal.label.wms.placeholder2" data-i18n-attr="data-content placeholder" data-toggle="popover" data-placement="right" data-content="Layer des Web Mapping Services" class="form-control" list="datalistOptions"
+                                id="exampleDataList" placeholder="Layer suchen...">
+                            <datalist id="datalistOptions">
+                            </datalist>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button data-i18n="modal.button.wms.query" type="button" id="anfrage_button_wms" class="btn btn-primary">Layer anfragen</button>
+                        <button data-i18n="modal.button.wms.add" type="button" id="ok_button_wms" class="btn btn-success">Zum Menü hinzufügen</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- <button type="button " class="cesium-button cesium-toolbar-button cesium-home-button " data-bind="attr: { title: tooltip },click: command,cesiumSvgPath: { path: _svgPath, width: 28, height: 28 } " title="View Home "><svg class="cesium-svgPath-svg
+                            " width="28 " height="28 " viewBox="0 0 28 28 "><path d="M14,4l-10,8.75h20l-4.25-3.7188v-4.6562h-2.812v2.1875l-2.938-2.5625zm-7.0938,9.906v10.094h14.094v-10.094h-14.094zm2.1876,2.313h3.3122v4.25h-3.3122v-4.25zm5.8442,1.281h3.406v6.438h-3.406v-6.438z "></path></svg></button> -->
+
+    </div>
+
+</body>
+
+</html>

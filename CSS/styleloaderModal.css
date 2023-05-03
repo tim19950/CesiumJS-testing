@@ -1,0 +1,20 @@
+/* Loading animation loading geojson*/
+
+.spinner-border,
+strong {
+    margin-top: 10px;
+    margin-right: 10px;
+}
+
+.spinner-border.hide,
+strong.hide {
+    display: none;
+}
+
+.loadWMS {
+    font-size: smaller;
+}
+
+.spinner-border {
+    color: #2ecc71;
+}

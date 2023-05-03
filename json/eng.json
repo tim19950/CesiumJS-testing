@@ -1,0 +1,147 @@
+{
+    "a": {
+        "title": {
+            "1": "Integration of external GeoJSON files",
+            "2": "Integration of external WMS services",
+            "osm": "OSM map data",
+            "esri": "ESRI World Imagery map data",
+            "osmBuildings": "3D building data from Open street map",
+            "wgs84": "WGS84 standard ellipsoid, also known as EPSG:4326",
+            "cesiumTerrain": "High-resolution global terrain dataset compiled from various data sources and hosted on Cesium ion",
+            "navbar": "Geoportal",
+            "button": {
+                "data": "Add data",
+                "geojson": "Local data (GeoJSON)",
+                "wms": "External services (WMS)",
+                "moreInfo": "More information",
+                "help": "Functions",
+                "dataPrivacy": "Data privacy",
+                "impressum": "Imprint"
+            }
+        },
+        "sprache": {
+            "text": "Language"
+        }
+    },
+    "h6": {
+        "title": {
+            "localdata": "Local Data Sources",
+            "wms": "Web Data Sources",
+            "help": "Help",
+            "rights": "Legal Information"
+        }
+    },
+
+    "h1": {
+        "english": "English",
+        "german": "German",
+        "thai": "Thai"
+    },
+
+    "input": {
+        "placeholder": "Address Search...",
+        "title": "Enter Address Here"
+    },
+    "modalfile": {
+        "label": {
+            "data-browse": "Search..."
+        }
+    },
+    "strong": {
+        "measureLine": "Measured Distance"
+    },
+
+    "button": {
+        "layers": "Layers"
+    },
+
+    "section": {
+        "title": {
+            "1": "Map Data",
+            "2": "Buildings",
+            "3": "Terrain",
+            "4": "External Data"
+        }
+    },
+    "span": {
+        "layer": {
+            "osm": "OSM Map Data",
+            "esri": "ESRI Map Data",
+            "osmgeb": "OSM Buildings 3D",
+            "wgs84": "WGS 84 Ellipsoid",
+            "vrworld": "Cesium-World Terrain"
+        }
+    },
+
+    "modalwelcome": {
+        "h2": {
+            "title": "Welcome to the Geoportal"
+        },
+        "h3": {
+            "body": "Explore the World in 3D"
+        },
+        "p": {
+            "body": "The Geoportal provides you with a simple and intuitive representation of geodata. Discover new places and perspectives with our interactive 3D map."
+        },
+        "button": {
+            "go": "Let's Go",
+            "help": "Quick tour"
+        }
+    },
+    "modal": {
+        "h5": {
+            "filetitle": "Select File",
+            "loaddata": {
+                "title": "Information"
+            },
+            "delete": {
+                "title": "Information"
+            },
+            "osm": {
+                "title": "Information"
+            },
+            "wms": {
+                "title": "WMS Input"
+            }
+        },
+        "button": {
+            "add": "Add to Menu",
+            "okay": "Okay",
+            "delete": {
+                "okay": "Okay",
+                "abort": "Cancel"
+            },
+            "loaddata": {
+                "okay": "Okay"
+            },
+            "wms": {
+                "query": "Request Layer",
+                "add": "Add to Menu"
+            }
+        },
+        "div": {
+            "loaded": "The loading of the GeoJSON file was successful.",
+            "wms": {
+                "body": "Enter the WMS service here."
+            }
+        },
+        "label": {
+            "wms": {
+                "title": "WMS URL",
+                "title2": "Select WMS Layer",
+                "data-content": "URL of the web mapping service",
+                "data-content2": "Layer of the Web Mapping Service",
+                "placeholder": "Enter WMS URL here... In the form: https://sgx.geodatenzentrum.de/wms_starkregen",
+                "placeholder2": "Search for layers..."
+            }
+
+        },
+        "strong": {
+            "wms": {
+                "title": "Loading Layers..."
+            },
+            "loaddata": "Loading GeoJSON layer..."
+        }
+
+    }
+}

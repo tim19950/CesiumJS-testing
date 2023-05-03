@@ -1,0 +1,27 @@
+.container-header {
+    position: relative;
+    white-space: normal;
+    top: 1.5rem;
+}
+
+.modal-header {
+    display: block;
+}
+
+#btnA:hover {
+    filter: drop-shadow(0 0 0.5rem rgb(184, 184, 184));
+}
+
+#btnA,
+#btnB {
+    transition: transform 0.3s ease-out, box-shadow 0.3s ease-out;
+}
+
+#btnB:hover {
+    filter: drop-shadow(0 0 0.5rem #ada5ff);
+}
+
+#btnA:hover,
+#btnB:hover {
+    transform: translateY(-0.25em) translateZ(0.25em);
+}

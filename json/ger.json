@@ -1,0 +1,148 @@
+{
+    "a": {
+        "title": {
+            "1": "Einbindung von externen GeoJSON Dateien",
+            "2": "Einbindung von externen WMS-Diensten",
+            "osm": "OSM Kartendaten",
+            "esri": "ESRI World Imagery Kartendaten",
+            "osmBuildings": "Gebäudedaten in 3D von Open street map",
+            "wgs84": "WGS84 Standard-Ellipsoid, auch bekannt als EPSG:4326",
+            "cesiumTerrain": "Hochauflösender globaler Geländesatz, der aus verschiedenen Datenquellen zusammengestellt ist und über Cesium ion gehostet wird",
+            "navbar": "Geoportal",
+            "button": {
+                "data": "Daten hinzufügen",
+                "geojson": "Lokale Daten (GeoJSON)",
+                "wms": "Externe Dienste (WMS)",
+                "moreInfo": "Weiteres",
+                "help": "Funktionen",
+                "dataPrivacy": "Datenschutz",
+                "impressum": "Impressum"
+            }
+        },
+        "sprache": {
+            "text": "Sprache"
+        }
+    },
+
+    "h6": {
+        "title": {
+            "localdata": "Lokale Datenquellen",
+            "wms": "Web Datenquellen",
+            "help": "Hilfe",
+            "rights": "Rechtliches"
+        }
+    },
+
+    "h1": {
+        "english": "Englisch",
+        "german": "Deutsch",
+        "thai": "Thai"
+    },
+
+    "input": {
+        "placeholder": "Adressuche...",
+        "title": "Adresseingabe hier"
+    },
+    "modalfile": {
+        "label": {
+            "data-browse": "Durchsuchen..."
+        }
+    },
+    "strong": {
+        "measureLine": "Gemessene strecke"
+    },
+
+    "button": {
+        "layers": "Layers"
+    },
+    "section": {
+        "title": {
+            "1": "Kartendaten",
+            "2": "Gebäude",
+            "3": "Gelände",
+            "4": "Externe Daten"
+        }
+
+    },
+    "span": {
+        "layer": {
+            "osm": "OSM Kartendaten",
+            "esri": "ESRI Kartendaten",
+            "osmgeb": "OSM Gebäude 3D",
+            "wgs84": "WGS 84 Ellipsoid",
+            "vrworld": "Cesium-World Gelände"
+        }
+    },
+
+    "modalwelcome": {
+        "h2": {
+            "title": "Willkommen beim Geoportal"
+        },
+        "h3": {
+            "body": "Erkunden Sie die Welt in 3D"
+        },
+        "p": {
+            "body": "Das Geoportal bietet Ihnen eine einfache und intuitive Darstellung von Geodaten. Entdecken Sie neue Orte und Perspektiven mit unserer interaktiven 3D-Karte."
+        },
+        "button": {
+            "go": "Auf gehts",
+            "help": "Erste Schritte"
+        }
+    },
+    "modal": {
+        "h5": {
+            "filetitle": "Datei auswählen",
+            "loaddata": {
+                "title": "Information"
+            },
+            "delete": {
+                "title": "Information"
+            },
+            "osm": {
+                "title": "Information"
+            },
+            "wms": {
+                "title": "WMS Eingabe"
+            }
+        },
+        "button": {
+            "add": "Zum Menü hinzufügen",
+            "okay": "Okay",
+            "delete": {
+                "okay": "Okay",
+                "abort": "Abbrechen"
+            },
+            "loaddata": {
+                "okay": "Okay"
+            },
+            "wms": {
+                "query": "Layer anfragen",
+                "add": "Zum Menü hinzufügen"
+            }
+        },
+        "div": {
+            "loaded": "Das Laden der GeoJSON Datei war erfolgreich.",
+            "wms": {
+                "body": "Geben Sie hier den WMS Dienst an."
+            }
+        },
+        "label": {
+            "wms": {
+                "title": "WMS URL",
+                "title2": "WMS Layer auswählen",
+                "data-content": "URL des Web Mapping Services",
+                "data-content2": "Layer des Web Mapping Services",
+                "placeholder": "WMS URL hier eingeben... In der Form: https://sgx.geodatenzentrum.de/wms_starkregen",
+                "placeholder2": "Layer suchen..."
+            }
+        },
+        "strong": {
+            "wms": {
+                "title": "Layer werden geladen..."
+            },
+            "loaddata": "Lädt GeoJSON Layer..."
+        }
+
+    }
+
+}
