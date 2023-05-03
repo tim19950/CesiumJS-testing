@@ -18,6 +18,7 @@ export function updateCesiumContainerHeight() {
                 console.log("innerHeight: " + window.innerHeight);
                 console.log("clientHeight: " + document.documentElement.clientHeight);
                 console.log(viewport);
+
                 document.body.style.height = `calc(100vh - ${toolbarHeight}px)`;
 
             } else {

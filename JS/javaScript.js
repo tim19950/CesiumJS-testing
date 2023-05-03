@@ -171,7 +171,7 @@ function start() {
     // Call updateMaxHeight on page load
     updateMaxHeightLayerMenu();
     // Responsive design to update height when menu folded out on small devices
-    updateCesiumContainerHeight();
+    // updateCesiumContainerHeight();
 
     toggleLanguage();
     deleteLanguageSwitchModal();
