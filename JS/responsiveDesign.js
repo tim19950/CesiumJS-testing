@@ -11,12 +11,11 @@ export function updateCesiumContainerHeight() {
         for (const entry of entries) {
             let newHeight = entry.borderBoxSize[0].blockSize;
             if (window.innerWidth < 768) { // Check if the width is below 768px (replace with your desired value)
-                cesiumContainer.style.height = `calc(100% - ${newHeight}px)`;
+                cesiumContainer.style.height = `calc(100vh - ${newHeight}px)`;
 
                 // reset the body height to that of the inner browser
-                // document.body.style.height = window.innerHeight + "px";
-
-                // document.body.style.height = `calc(100vh - ${toolbarHeight}px)`;
+                // use to fit the screen on mobile devices
+                document.body.style.height = window.innerHeight + "px";
 
             } else {
                 cesiumContainer.style.height = `calc(100vh - ${newHeight}px)`;

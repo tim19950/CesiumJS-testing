@@ -269,15 +269,6 @@ span.title.active {
         /* For small devices make the infobox more wider */
         width: fit-content !important;
     }
-    html,
-    body {
-        width: 100%;
-        /* prevent the scrolling with UI mobile browser */
-        position: fixed;
-        /* prevent overscroll bounce*/
-        overflow-y: scroll;
-        -webkit-overflow-scrolling: touch;
-    }
 }
 
 
