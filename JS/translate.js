@@ -1,5 +1,5 @@
 let translator = new Translator({
-    filesLocation: '/json'
+    filesLocation: '/test/json'
 });
 
 let ger, eng, thai;
