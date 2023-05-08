@@ -2225,6 +2225,7 @@ function add_external_service() {
             // Feld leeren
             document.getElementById("exampleDataList").value = "";
 
+            // Start the loading animation
             startLoadingAnimationWMS();
 
             // initiales leeren der Auswahlliste der Layer des WMS
@@ -2320,6 +2321,7 @@ function add_external_service() {
 
                 }
 
+                // stop the loading animation for all cases onload
                 stopLoadingAnimationWMS();
             };
             // Force the response to be parsed as XML
@@ -2337,6 +2339,8 @@ function add_external_service() {
                 // noRequestSend.innerHTML = "<strong>Achtung!</strong> Request konnte nicht abgesetzt werden, bitte nochmal versuchen.";
 
                 translate(undefined, undefined, undefined, noRequestSend, undefined);
+                // stop the loading animation for onerror
+                stopLoadingAnimationWMS();
             };
 
             // anhängen der requestparameter des WMS GetCapabilities requestes
