@@ -15,14 +15,14 @@
     <link rel="stylesheet" type="text/css" href="./CSS/style.css"></link>
     <link rel="stylesheet" type="text/css" href="./CSS/styleInfoTable.css"></link>
     <link rel="stylesheet" type="text/css" href="./CSS/styleloaderModal.css"></link>
-    <link rel="stylesheet" type="text/css" href="./CSS/stylesSwitchLanguage.css"></link>
     <link rel="stylesheet" type="text/css" href="./CSS/styleMenu.css"></link>
     <link rel="stylesheet" type="text/css" href="./CSS/styleModalWelcome.css"></link>
+    <link rel="stylesheet" type="text/css" href="./CSS/stylesSwitchLanguage.css"></link>
 
-    <link href="https://cesium.com/downloads/cesiumjs/releases/1.103/Build/Cesium/Widgets/widgets.css" rel="stylesheet">
+    <link href="https://cesium.com/downloads/cesiumjs/releases/1.105/Build/Cesium/Widgets/widgets.css" rel="stylesheet">
 
     <!-- Include the CesiumJS JavaScript and other JS Bibs -->
-    <script src="https://cesium.com/downloads/cesiumjs/releases/1.103/Build/Cesium/Cesium.js"></script>
+    <script src="https://cesium.com/downloads/cesiumjs/releases/1.105/Build/Cesium/Cesium.js"></script>
     <!-- <script src="./JS/cesium.js"></script> -->
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
@@ -125,15 +125,15 @@
 
                         <div class="d-flex d-lg-flex align-items-center ml-auto lang-switch">
                             <div class="language">
-                                <h1 data-i18n="h1.english">Englisch</h1>
+                                <h1 class="smallDevices" data-i18n="h1.english">Englisch</h1>
                                 <img data-lang="eng" src="https://cdn3.iconfinder.com/data/icons/finalflags/256/United-Kingdom-flag.png" class="eng">
                             </div>
                             <div class="language">
-                                <h1 data-i18n="h1.german">Deutsch</h1>
+                                <h1 class="smallDevices" data-i18n="h1.german">Deutsch</h1>
                                 <img data-lang="ger" src="https://cdn3.iconfinder.com/data/icons/finalflags/256/Germany-Flag.png" class="ger">
                             </div>
                             <div class="language">
-                                <h1 data-i18n="h1.thai">Thai</h1>
+                                <h1 class="smallDevices" data-i18n="h1.thai">Thai</h1>
                                 <img data-lang="thai" src=" https://cdn3.iconfinder.com/data/icons/finalflags/256/Thailand-Flag.png" class="thai">
                             </div>
                         </div>
@@ -168,6 +168,8 @@
     </div>
 
     <div id="cesiumContainer">
+
+        <div id="containerCredit"></div>
 
         <!-- Then put toasts within -->
         <div class="toast position-fixed hide" id="myToast" role="alert" aria-live="assertive" aria-atomic="true" data-autohide="false">
@@ -276,7 +278,7 @@
                         </div>
                         <div class="custom-file">
                             <input type="file" class="custom-file-input" id="fileInput" multiple accept="application/geo+json">
-                            <label data-i18n="modalfile.label.data-browse" data-i18n-attr="data-browse" id="fileLabel" class="custom-file-label" for="fileInput" data-browse="Durchsuchen...">Keine Datei ausgewählt</label>
+                            <label data-i18n="modalfile.label.data-browse" data-i18n-attr="data-browse" id="fileLabel" class="custom-file-label" for="fileInput" data-browse="Durchsuchen..."></label>
                         </div>
 
                     </div>

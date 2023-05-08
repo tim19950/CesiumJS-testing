@@ -261,6 +261,10 @@ span.title.active {
     display: flex !important;
 }
 
+.dropdown-header {
+    font-size: 1em;
+}
+
 
 /* Für Bildschirme mit einer maximalen Breite von 768px */
 
@@ -268,6 +272,12 @@ span.title.active {
     .cesium-infoBox {
         /* For small devices make the infobox more wider */
         width: fit-content !important;
+    }
+    .dropdown-header {
+        font-size: 1.5em;
+    }
+    .language .smallDevices {
+        font-size: 1em;
     }
 }
 

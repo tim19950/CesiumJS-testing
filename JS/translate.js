@@ -1,5 +1,6 @@
 let translator = new Translator({
-    filesLocation: '/CesiumJS-testing/json'
+    // filesLocation: '/CesiumJS-testing/json'
+    filesLocation: '/json'
 });
 
 let ger, eng, thai;
@@ -159,8 +160,123 @@ export function translateButtonTitle(language, button) {
     }
 }
 
+export function translateToast(toastBody, distance, total_distance) {
+
+    let translator = new Translator();
+
+    translator.add("ger", {
+        toastMessage: {
+            textContent: "Bitte wählen Sie noch einen Punkt, um die Messung zu starten."
+        },
+        toastMessagedistanceOver1000andTotalDistanceOver1000: {
+            innerText: "Distanz: " + (distance / 1000).toFixed(3) + " Kilometer \n Gesamtdistanz des Linienzugs: " + (total_distance / 1000).toFixed(3) + " Kilometer"
+        },
+        toastMessageTotalDistanceOver1000: {
+            innerText: "Distanz: " + distance.toFixed(3) + " Meter \n Gesamtdistanz des Linienzugs: " + (total_distance / 1000).toFixed(3) + " Kilometer"
+        },
+        toastMessagedistanceBelow1000: {
+            innerText: "Distanz: " + distance.toFixed(3) + " Meter \n Gesamtdistanz des Linienzugs: " + total_distance.toFixed(3) + " Meter"
+        }
+    });
+
+    translator.add("eng", {
+        toastMessage: {
+            textContent: "Please select another point to start the measurement."
+        },
+        toastMessagedistanceOver1000andTotalDistanceOver1000: {
+            innerText: "Distance: " + (distance / 1000).toFixed(3) + " kilometers \n Total distance of the line: " + (total_distance / 1000).toFixed(3) + " kilometers"
+        },
+        toastMessageTotalDistanceOver1000: {
+            innerText: "Distance: " + distance.toFixed(3) + " meters \n Total distance of the line: " + (total_distance / 1000).toFixed(3) + " kilometers"
+        },
+        toastMessagedistanceBelow1000: {
+            innerText: "Distance: " + distance.toFixed(3) + " meters \n Total distance of the line: " + total_distance.toFixed(3) + " meters"
+        }
+    });
+
+    translator.add("thai", {
+        toastMessage: {
+            textContent: "กรุณาเลือกจุดอีกตัวเพื่อเริ่มต้นการวัด"
+        },
+        toastMessagedistanceOver1000andTotalDistanceOver1000: {
+            innerText: "ระยะทาง: " + (distance / 1000).toFixed(3) + " กิโลเมตร \n ระยะทางรวมของเส้น: " + (total_distance / 1000).toFixed(3) + " กิโลเมตร"
+        },
+        toastMessageTotalDistanceOver1000: {
+            innerText: "ระยะทาง: " + distance.toFixed(3) + " เมตร \n ระยะทางรวมของเส้น: " + (total_distance / 1000).toFixed(3) + " กิโลเมตร"
+        },
+        toastMessagedistanceBelow1000: {
+            innerText: "ระยะทาง: " + distance.toFixed(3) + " เมตร \n ระยะทางรวมของเส้น: " + total_distance.toFixed(3) + " เมตร"
+        }
+    });
+
+    // Get all img tags
+    const imagTags = document.querySelectorAll('img.eng, img.thai, img.ger');
+
+    // Loop through the img tags
+    for (const imgTag of imagTags) {
+        // Get the language class of the img tag
+        const lang = imgTag.classList[0];
+
+        // Check if the img tag has the "active-flag" class which id added when clicked before
+        if (imgTag.classList.contains('active-flag')) {
+            // Do something with the img tag based on its language class
+            updateToastText(lang);
+        }
+    }
+
+    function updateToastText(language) {
+        if (toastBody) {
+            switch (toastBody.id) {
+                case "toastBody":
+
+                    if (distance) {
+                        if (distance > 1000 && total_distance > 1000) {
+                            // Wenn die Distanz und total distance größer als 1000 Meter ist, umrechnen in Kilometer
+                            toastBody.innerText = __('toastMessagedistanceOver1000andTotalDistanceOver1000.innerText', language);
+                            break;
+                        } else if (total_distance > 1000) {
+                            toastBody.innerText = __('toastMessageTotalDistanceOver1000.innerText', language);
+                            break;
+                        } else {
+                            toastBody.innerText = __('toastMessagedistanceBelow1000.innerText', language);
+                            break;
+                        }
+                    } else {
+                        toastBody.textContent = __('toastMessage.textContent', language);
+                        break;
+                    }
+
+            }
+        }
+    }
+
+}
+
+export function translateInfoTable(inputString) {
+
+    // Get all img tags
+    const imagTags = document.querySelectorAll('img.eng, img.thai, img.ger');
+
+    // Loop through the img tags
+    for (const imgTag of imagTags) {
+        // Get the language class of the img tag
+        const lang = imgTag.classList[0];
+
+        // Check if the img tag has the "active-flag" class which id added when clicked before
+        if (imgTag.classList.contains('active-flag')) {
+            // Do something with the img tag based on its language class
+            translateInfoTabeFetch(lang);
+        }
+    }
+
+    async function translateInfoTabeFetch(lang) {
+
+        //TODO implement translation for infotable with API
+    }
+}
+
 // function to translate according to the dynamic events in JS happening
-export function translate(modalHeader, modalBody, errorMessage, alert, button, handler) {
+export function translate(modalHeader, modalBody, errorMessage, alert, button, handler, label) {
 
     let translator = new Translator();
 
@@ -410,6 +526,7 @@ export function translate(modalHeader, modalBody, errorMessage, alert, button, h
         if (imgTag.classList.contains('active-flag')) {
             // Do something with the img tag based on its language class
             updateModalText(lang);
+
         }
     }
 
@@ -471,8 +588,13 @@ export function translate(modalHeader, modalBody, errorMessage, alert, button, h
                         modalBody.innerText = __('modalBodyMeasureLine.innerText', language);
                     }
                     break;
+            }
+        }
+
+        if (label) {
+            switch (label.id) {
                 case "fileLabel":
-                    modalBody.innerText = __('fileSelected.innerText', language);
+                    label.innerText = __('fileSelected.innerText', language);
                     break;
             }
         }

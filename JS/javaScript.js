@@ -1,7 +1,7 @@
 import { loadAnimationGeoJSON, stopLoadAnimationGeoJSON, startLoadingAnimationWMS, stopLoadingAnimationWMS, loadingInfoTable } from './loadAnimations.js';
 import { updateCesiumContainerHeight, updateMaxHeightLayerMenu } from './responsiveDesign.js';
 import { toggleLanguage, deleteLanguageSwitchModal } from './languageSwitch.js';
-import { translate, translateButtonTitle } from './translate.js';
+import { translate, translateButtonTitle, translateInfoTable, translateToast } from './translate.js';
 import { tour_steps_ger, tour_steps_eng, tour_steps_th, buttonTextGer, buttonTextEng, buttonTextThai } from './toursteps.js';
 
 
@@ -101,7 +101,9 @@ function start() {
         // was die CPU Last reduziert
         requestRenderMode: true,
         // Optimierung, es wird nicht immer nach 0.0 sec ein neuer Frame gerendert 
-        maximumRenderTimeChange: Infinity
+        maximumRenderTimeChange: Infinity,
+
+        // creditDisplay: new Cesium.CreditDisplay(document.getElementsByClassName("cesium-credit-lightbox-overlay")[0])
     });
 
     // add geoloction button
@@ -110,10 +112,6 @@ function start() {
     addMeasureButtons();
     // add the layer menu
     LayerMenu();
-
-    let toolbar = document.getElementsByClassName("cesium-viewer-toolbar")[0];
-
-    // toolbar.style.display = "-webkit-box";
 
     viewer.scene.debugShowFramesPerSecond = true;
 
@@ -178,10 +176,21 @@ function start() {
 
     translateButtonTitles();
 
+    addCreditsIcons();
+
     // drawLineDynamically();
 
-    // leider nicht performant genug, wenn die entities gelöscht werden
+    // leider nicht performant genug, wenn die entities gelöscht werden, wenn diese aus der view verschwinden
     // viewer.scene.postRender.addEventListener(updateBuildingsview);
+}
+
+function addCreditsIcons() {
+    // Add a credit with a tooltip, image and link to display onscreen
+    let creditIcons8 = new Cesium.Credit(`<a href="http://icons8.com/icons" target="_blank">Icons8 Icons</a>`);
+    viewer.creditDisplay.addStaticCredit(creditIcons8);
+
+    let creditFontAwesome = new Cesium.Credit(`<a href="https://fontawesome.com/" target="_blank">Fontawesome Icons</a>`);
+    viewer.creditDisplay.addStaticCredit(creditFontAwesome);
 }
 
 function addGeolocationButton() {
@@ -194,7 +203,7 @@ function addGeolocationButton() {
     geolocation_button.setAttribute("type", "button");
     geolocation_button.setAttribute("title", "Positionsbestimmung");
 
-    geolocation_button.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="-50 0 512 512"><!--! Font Awesome Pro 6.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. --><path d="M168.3 499.2C116.1 435 0 279.4 0 192C0 85.96 85.96 0 192 0C298 0 384 85.96 384 192C384 279.4 267 435 215.7 499.2C203.4 514.5 180.6 514.5 168.3 499.2H168.3zM192 256C227.3 256 256 227.3 256 192C256 156.7 227.3 128 192 128C156.7 128 128 156.7 128 192C128 227.3 156.7 256 192 256z"/></svg>';
+    geolocation_button.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="28" height="28"><!--! Font Awesome Pro 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M256 0c17.7 0 32 14.3 32 32V66.7C368.4 80.1 431.9 143.6 445.3 224H480c17.7 0 32 14.3 32 32s-14.3 32-32 32H445.3C431.9 368.4 368.4 431.9 288 445.3V480c0 17.7-14.3 32-32 32s-32-14.3-32-32V445.3C143.6 431.9 80.1 368.4 66.7 288H32c-17.7 0-32-14.3-32-32s14.3-32 32-32H66.7C80.1 143.6 143.6 80.1 224 66.7V32c0-17.7 14.3-32 32-32zM128 256a128 128 0 1 0 256 0 128 128 0 1 0 -256 0zm128-80a80 80 0 1 1 0 160 80 80 0 1 1 0-160z"/></svg>';
 
     modeButton.before(geolocation_button);
 
@@ -211,7 +220,7 @@ function addMeasureButtons() {
     measure_height_button.setAttribute("type", "button");
     measure_height_button.setAttribute("title", "Höhen messen");
 
-    measure_height_button.innerHTML = '<img src="https://cdn-icons-png.flaticon.com/512/4187/4187610.png" width="29" height="29"><a href="https://www.flaticon.com/free-icons/height" title="height icons">Height icons created by Freepik - Flaticon</a></img>';
+    measure_height_button.innerHTML = '<img src="./Icons/height-marker-white-96.svg" width="32" height="31"><a href="http://icons8.com/icons"</a></img>';
 
     // add measure height button after the geolocate button
     geolocateButton.after(measure_height_button);
@@ -223,8 +232,9 @@ function addMeasureButtons() {
     measure_distance_button.setAttribute("type", "button");
     measure_distance_button.setAttribute("title", "Strecken messen");
 
-    measure_distance_button.innerHTML = '<img src="https://cdn-icons-png.flaticon.com/512/5998/5998883.png" width="29" height="29"><a href="https://www.flaticon.com/free-icons/distance" title="distance icons">Distance icons created by Good Ware - Flaticon</a></img>';
+    measure_distance_button.innerHTML = '<img src="./Icons/measure-line-white-outline.svg" width="30" height="32"><a href="http://icons8.com/icons"</a></img>';
 
+    // measure_distance_button.innerHTML = '<i class="fa-solid fa-ruler-horizontal fa-xl" style="color: #ffffff;"></i>';
     // add measure distance button after the measure_height_button
     measure_height_button.after(measure_distance_button);
 
@@ -1351,8 +1361,9 @@ function geolocate() {
             position: cartesian_three,
             description: "An marker with my current location.",
             billboard: {
-                image: "./Icons/outline_location_on_black_24dp_2.png",
-                distanceDisplayCondition: new Cesium.DistanceDisplayCondition(0.0, 4000.0),
+                image: "./Icons/user-location.svg",
+                scale: 0.5,
+                distanceDisplayCondition: new Cesium.DistanceDisplayCondition(0.0, 3000.0),
                 heightReference: Cesium.HeightReference.CLAMP_TO_GROUND,
                 pixelOffset: new Cesium.Cartesian2(0, -15),
                 scaleByDistance: new Cesium.NearFarScalar(0, 1.0, 4000, 0.1)
@@ -1550,7 +1561,8 @@ function choose_geocode() {
                     name: name_adress,
                     position: cartesian_position,
                     billboard: {
-                        image: "./Icons/outline_location_on_black_24dp_2.png",
+                        image: "./Icons/search-address-pin.svg",
+                        scale: 0.5,
                         distanceDisplayCondition: new Cesium.DistanceDisplayCondition(0.0, 4000.0),
                         heightReference: Cesium.HeightReference.CLAMP_TO_GROUND,
                         pixelOffset: new Cesium.Cartesian2(0, -15),
@@ -1658,9 +1670,9 @@ function add_external_geodata() {
         alert.style.display = "none";
 
         // document.getElementsByClassName("custom-file-label")[0].innerText = "Keine Datei...";
-        let modalBody = document.getElementsByClassName("custom-file-label")[0];
+        let label = document.getElementsByClassName("custom-file-label")[0];
 
-        translate(undefined, modalBody, undefined, undefined, undefined);
+        translate(undefined, undefined, undefined, undefined, undefined, undefined, label);
 
         // Set title of input element to nothing and the selected files
         document.getElementById("fileInput").title = "";
@@ -2731,34 +2743,51 @@ function measureFunctions() {
                         var altitude = cartographic.height;
                         var altitudeString = Math.round(altitude).toString();
 
-                        // Bild ist von https://fonts.google.com/icons?icon.query=location
+                        // Define the start and end positions of the polyline
+                        var startPosition = cartesian;
+                        var endPosition = Cesium.Cartesian3.fromDegrees(longitude, latitude, altitude + 2);
+
+                        // Create a new polyline entity and add it to the viewer
                         viewer.entities.add({
-                            name: "Point height marker",
-                            position: cartesian,
-                            billboard: {
-                                image: "./Icons/outline_location_on_black_24dp_2.png",
-                                distanceDisplayCondition: new Cesium.DistanceDisplayCondition(0.0, 4000.0),
-                                // Darstellung auch auf Gebäuden, auf clamptoground kann verzichtet werden
-                                // Damit das billboard nicht im boden versinkt, wird pixeloffset verwendet
-                                pixelOffset: new Cesium.Cartesian2(0, -15),
-                                scaleByDistance: new Cesium.NearFarScalar(0, 1.0, 4000, 0.1)
+                            name: "Polyline",
+                            polyline: {
+                                positions: [endPosition, startPosition],
+                                material: new Cesium.PolylineArrowMaterialProperty(),
+                                width: 10,
+                                distanceDisplayCondition: new Cesium.DistanceDisplayCondition(0.0, 2000.0)
                             },
                             id: 'point_height_marker' + height_id++
                         });
 
+                        // // Bild ist von https://fonts.google.com/icons?icon.query=location
+                        // viewer.entities.add({
+                        //     name: "Point height marker",
+                        //     position: cartesian,
+                        //     billboard: {
+                        //         image: "./Icons/icon-height.svg", // use a custom SVG image for the marker
+                        //         width: 35, // adjust the size of the marker as needed
+                        //         height: 35,
+                        //         distanceDisplayCondition: new Cesium.DistanceDisplayCondition(0.0, 2000.0),
+                        //         pixelOffset: new Cesium.Cartesian2(0, -15),
+                        //         // scaleByDistance: new Cesium.NearFarScalar(0, 1.0, 3000, 0.1)
+                        //     },
+                        //     id: 'point_height_marker' + height_id++
+                        // });
+
                         viewer.entities.add({
                             name: "Point height label",
-                            position: Cesium.Cartesian3.fromDegrees(longitude, latitude, altitude),
+                            position: Cesium.Cartesian3.fromDegrees(longitude, latitude, altitude + 2.1),
                             label: {
-                                // heightReference: Cesium.HeightReference.CLAMP_TO_GROUND,
                                 text: altitudeString + " Meter",
-                                eyeOffset: new Cesium.Cartesian3(0.0, 0.0, -25.0),
-                                scale: 0.75,
-                                translucencyByDistance: new Cesium.NearFarScalar(0, 1.0, 5000, 0.0),
-                                fillColor: Cesium.Color.MAROON
+                                font: "bold 30px 'Helvetica Neue', Helvetica, Arial, sans-serif", // use a custom font for the label
+                                // pixelOffset: new Cesium.Cartesian2(0, -35),
+                                style: Cesium.LabelStyle.FILL_AND_OUTLINE,
+                                verticalOrigin: Cesium.VerticalOrigin.BOTTOM,
+                                scale: 1.0,
+                                distanceDisplayCondition: new Cesium.DistanceDisplayCondition(0.0, 2000.0),
+                                scaleByDistance: new Cesium.NearFarScalar(0, 1.0, 2000, 0.1)
                             },
                             id: 'height_label_' + label_id++
-
                         });
 
                     }
@@ -2882,6 +2911,17 @@ function measureFunctions() {
 
                         if (array_coord.length === 1) {
 
+                            // points.add({
+                            //     position: array_coord[0],
+                            //     color: Cesium.Color.CYAN,
+                            //     disableDepthTestDistance: Number.POSITIVE_INFINITY,
+                            //     distanceDisplayCondition: new Cesium.DistanceDisplayCondition(0.0, 5000.0),
+                            //     pixelSize: 8,
+                            //     id: 'distance_marker_' + marker_id++
+                            // });
+
+                            // console.log(array_coord.length);
+
                             // Bild ist von https://fonts.google.com/icons?icon.query=location
                             viewer.entities.add({
                                 name: "Polyline marker",
@@ -2891,14 +2931,17 @@ function measureFunctions() {
                                     // Darstellung auch auf Gebäuden, auf clamptoground kann verzichtet werden
                                     distanceDisplayCondition: new Cesium.DistanceDisplayCondition(0.0, 4000.0),
                                     scaleByDistance: new Cesium.NearFarScalar(0, 1.0, 4000, 0.1),
-                                    // color: Cesium.Color.WHITE,
-                                    outlineColor: Cesium.Color.DODGERBLUE,
-                                    outlineWidth: 4,
+                                    outlineColor: Cesium.Color.BLACK,
+                                    outlineWidth: 1,
+                                    pixelSize: 8,
+                                    disableDepthTestDistance: Number.POSITIVE_INFINITY // disable depth testing for the point
                                 },
                                 id: 'distance_marker_' + marker_id++
                             });
 
                             bodyToast.textContent = "Bitte wählen Sie noch einen Punkt, um die Messung zu starten.";
+
+                            translateToast(bodyToast, 0, 0);
 
                             // Wählen Sie das <small>-Element aus
                             const toastTime = document.querySelector('#toastTime');
@@ -2913,38 +2956,6 @@ function measureFunctions() {
 
                         } else {
 
-                            // // A polyline with two connected line segments
-                            // const polyline = new Cesium.SimplePolylineGeometry({
-                            //     positions: array_coord,
-                            //     primitiveType: Cesium.PrimitiveType.LINE_STRIP,
-                            // });
-                            // const geometry = Cesium.SimplePolylineGeometry.createGeometry(polyline);
-
-                            // const instance = new Cesium.GeometryInstance({
-                            //     geometry: new Cesium.GroundPolylineGeometry({
-                            //         positions: array_coord,
-                            //         width: 4.0
-                            //     }),
-                            //     id: 'polyline_distance_' + distance_id++
-                            // });
-
-                            // viewer.scene.groundPrimitives.add(new Cesium.GroundPolylinePrimitive({
-                            //     geometryInstances: instance,
-                            //     interleave: true,
-                            //     appearance: new Cesium.PolylineMaterialAppearance({
-                            //         material: new Cesium.Material({
-                            //             fabric: {
-                            //                 type: 'PolylineOutline',
-                            //                 uniforms: {
-                            //                     color: Cesium.Color.WHITE,
-                            //                     outlineColor: Cesium.Color.DEEPSKYBLUE,
-                            //                     outlineWidth: 2
-                            //                 }
-                            //             }
-                            //         })
-                            //     })
-                            // }));
-
                             // let cartographic2 = Cesium.Cartographic.fromCartesian(array_coord[1]);
                             // let longitude2 = Cesium.Math.toDegrees(cartographic2.longitude);
                             // let latitude2 = Cesium.Math.toDegrees(cartographic2.latitude);
@@ -2957,12 +2968,12 @@ function measureFunctions() {
                                     distanceDisplayCondition: new Cesium.DistanceDisplayCondition(0.0, 5000.0),
                                     width: 5,
                                     depthFailMaterial: new Cesium.PolylineOutlineMaterialProperty({
-                                        color: Cesium.Color.WHITE,
+                                        color: Cesium.Color.fromAlpha(Cesium.Color.WHITE, 0.5),
                                         outlineColor: Cesium.Color.DEEPSKYBLUE,
                                         outlineWidth: 2
                                     }),
                                     material: new Cesium.PolylineOutlineMaterialProperty({
-                                        color: Cesium.Color.WHITE,
+                                        color: Cesium.Color.fromAlpha(Cesium.Color.WHITE, 0.5),
                                         outlineColor: Cesium.Color.DEEPSKYBLUE,
                                         outlineWidth: 2
                                     }),
@@ -2970,6 +2981,16 @@ function measureFunctions() {
                                 id: 'polyline_distance_' + distance_id++
                             });
 
+                            // points.get(0).show = true;
+
+                            // points.add({
+                            //     position: array_coord[1],
+                            //     color: Cesium.Color.CYAN,
+                            //     disableDepthTestDistance: Number.POSITIVE_INFINITY,
+                            //     distanceDisplayCondition: new Cesium.DistanceDisplayCondition(0.0, 5000.0),
+                            //     pixelSize: 8,
+                            //     id: 'distance_marker_' + marker_id++
+                            // });
 
                             // Bild ist von https://fonts.google.com/icons?icon.query=location
                             viewer.entities.add({
@@ -2980,9 +3001,10 @@ function measureFunctions() {
                                     // Darstellung auch auf Gebäuden, auf clamptoground kann verzichtet werden
                                     distanceDisplayCondition: new Cesium.DistanceDisplayCondition(0.0, 4000.0),
                                     scaleByDistance: new Cesium.NearFarScalar(0, 1.0, 4000, 0.1),
-                                    // color: Cesium.Color.WHITE,
-                                    outlineColor: Cesium.Color.DODGERBLUE,
-                                    outlineWidth: 4,
+                                    outlineColor: Cesium.Color.BLACK,
+                                    outlineWidth: 1,
+                                    pixelSize: 8,
+                                    disableDepthTestDistance: Number.POSITIVE_INFINITY // disable depth testing for the point
                                 },
                                 id: 'distance_marker_' + marker_id++
                             });
@@ -3067,12 +3089,15 @@ function setToast(distance, total_distance, bodyToast, myToast) {
     if (distance > 1000 && total_distance > 1000) {
         // Wenn die Distanz und total distance größer als 1000 Meter ist, umrechnen in Kilometer
         bodyToast.innerText = "Distanz: " + (distance / 1000).toFixed(3) + " Kilometer \n Gesamtdistanz des Linienzugs: " + (total_distance / 1000).toFixed(3) + " Kilometer";
+        translateToast(bodyToast, distance, total_distance);
     } else if (total_distance > 1000) {
         // Wenn die total distance größer als 1000 Meter ist, umrechnen in Kilometer
-        bodyToast.innerText = "Distanz: " + distance.toFixed(3) + " Meter \n Gesamtdistanz des Linienzugs: " + (total_distance / 1000).toFixed(3) + " Kilometer";
+        // bodyToast.innerText = "Distanz: " + distance.toFixed(3) + " Meter \n Gesamtdistanz des Linienzugs: " + (total_distance / 1000).toFixed(3) + " Kilometer";
+        translateToast(bodyToast, distance, total_distance);
     } else {
         // Wenn die Distanz kleiner oder gleich 1000 Meter ist, in Metern belassen
-        bodyToast.innerText = "Distanz: " + distance.toFixed(3) + " Meter \n Gesamtdistanz des Linienzugs: " + total_distance.toFixed(3) + " Meter";
+        // bodyToast.innerText = "Distanz: " + distance.toFixed(3) + " Meter \n Gesamtdistanz des Linienzugs: " + total_distance.toFixed(3) + " Meter";
+        translateToast(bodyToast, distance, total_distance);
     }
 
     // Call function to set and start the update of the time in the toast
@@ -3295,10 +3320,16 @@ function get_featureinfo() {
             // Show blue marker on click on map
             ShowClickMarker(click);
 
+            let cartographic;
+            let longitude;
+            let latitude;
+
             let cartesian = viewer.scene.pickPosition(click.position);
-            let cartographic = Cesium.Cartographic.fromCartesian(cartesian);
-            let longitude = Cesium.Math.toDegrees(cartographic.longitude);
-            let latitude = Cesium.Math.toDegrees(cartographic.latitude);
+            if (cartesian) {
+                cartographic = Cesium.Cartographic.fromCartesian(cartesian);
+                longitude = Cesium.Math.toDegrees(cartographic.longitude);
+                latitude = Cesium.Math.toDegrees(cartographic.latitude);
+            }
 
             // Entities anklicken
             let picked_entity = viewer.scene.pick(click.position);
@@ -3318,18 +3349,35 @@ function get_featureinfo() {
 
             // Add the css from the main html to the iframe html documents head to activate animation in the info Table
             let htmlHead = document.head;
-            console.log(htmlHead);
-            // find the link element with the CSS stylesheet
-            let linkElement = htmlHead.children[6];
+            // console.log(htmlHead);
 
-            // only add the css stylesheet once to the iframe html 
-            if (infobox_karte.frame.contentDocument.head.childElementCount == 1) {
-                // console.log(infobox_karte.frame.contentDocument.head.children);
-                infobox_karte.frame.contentDocument.head.appendChild(linkElement);
+            // Get the content document of the infobox_karte frame
+            let infoboxDoc = infobox_karte.frame.contentDocument;
 
+            // Check if the link tag already exists in the head
+            let existingLinkTag = infoboxDoc.querySelector('head link[href="./CSS/styleInfoTable.css"]');
+            if (!existingLinkTag) {
+                // Create a new link tag
+                let newLinkTag = infoboxDoc.createElement('link');
+                newLinkTag.rel = 'stylesheet';
+                newLinkTag.type = 'text/css';
+                newLinkTag.href = './CSS/styleInfoTable.css';
+
+                // Add the new link tag to the head
+                infoboxDoc.head.appendChild(newLinkTag);
             } else {
                 console.log('Link already exists in the head of infobox_karte.frame.contentDocument');
             }
+
+
+            // // only add the css stylesheet once to the iframe html 
+            // if (infobox_karte.frame.contentDocument.head.childElementCount == 1) {
+            //     // console.log(infobox_karte.frame.contentDocument.head.children);
+            //     infobox_karte.frame.contentDocument.head.appendChild(linkElement);
+
+            // } else {
+            //     console.log('Link already exists in the head of infobox_karte.frame.contentDocument');
+            // }
 
             // access the document object of the iframe
             var iframe = infobox_karte.frame;
@@ -3379,8 +3427,6 @@ function get_featureinfo() {
             // console.log(loadingRow);
 
             infobox_karte.viewModel.closeClicked.addEventListener(() => {
-
-                // Prüfen, ob bereits entitites der infomarker bestehen und falls ja löschen
                 // close infobox
                 closeInfoBox(infobox_karte);
 
@@ -3453,61 +3499,46 @@ function get_featureinfo() {
 
                             if (entity.id.includes("geolocate_point_")) {
 
-                                tD.innerHTML = "Ort";
-                                tD2.innerHTML = entity.name;
+                                // tD.innerHTML = "Ort";
+                                // tD2.innerHTML = entity.name;
 
-                                // to replace the generated long and lat fo revery click with the coords from the gelocate point
-                                let posEntity = entity.position.getValue(Cesium.JulianDate.now());
-
-                                let cartographic = Cesium.Cartographic.fromCartesian(posEntity);
-                                let longitude = Cesium.Math.toDegrees(cartographic.longitude);
-                                let latitude = Cesium.Math.toDegrees(cartographic.latitude);
-
-                                // safe values from point in array
-                                let arr = ["Longitude", longitude, "Latitude", latitude];
-                                let counter = 1;
-
-                                // Iterate over array and replace the values
-                                for (let i = 0; i < arr.length; i += 2) {
-                                    let tr = document.createElement('tr'); //Zeile
-                                    let tD = document.createElement('td');
-                                    let tD2 = document.createElement('td');
-                                    tD.innerHTML = arr[i];
-                                    tD2.innerHTML = arr[i + 1];
-
-                                    tr.appendChild(tD);
-                                    tr.appendChild(tD2);
-                                    table.replaceChild(tr, table.children[counter++]);
-
-                                }
-
-                                // add Ort and enttiy name as TD
-                                tr.appendChild(tD);
-                                tr.appendChild(tD2);
-                                table.appendChild(tr);
+                                // replace the generated long and lat fo revery click with the coords from the clicked entity
+                                table = getFeaturesEntity(entity, table);
+                                // // add Ort and enttiy name as TD
+                                // tr.appendChild(tD);
+                                // tr.appendChild(tD2);
+                                // table.appendChild(tr);
 
                                 infobox_karte.viewModel.description = table.outerHTML;
 
                                 // infobox_karte.viewModel.titleText = entity.name;
-                            } else if (entity.id.includes("distance_marker_") || entity.id.includes("point_height_marker") || entity.id.includes("polyline_distance_")) {
+                            } else if (entity.id.includes("distance_marker_") || entity.id.includes("point_height_marker") || entity.id.includes("polyline_distance_") || entity.id.includes("searchadress_point_")) {
 
-                                tD.innerHTML = "Objekt";
-                                tD2.innerHTML = entity.name;
+                                // replace the generated long and lat fo revery click with the coords from the clicked entity
+                                table = getFeaturesEntity(entity, table);
 
-                                tr.appendChild(tD);
-                                tr.appendChild(tD2);
-                                table.appendChild(tr);
+                                // tD.innerHTML = "Objekt";
+                                // tD2.innerHTML = entity.name;
+
+                                // tr.appendChild(tD);
+                                // tr.appendChild(tD2);
+                                // table.appendChild(tr);
 
                                 infobox_karte.viewModel.description = table.outerHTML;
 
-                            } else if (entity.id.includes("searchadress_point_")) {
+                            } else if (entity.id.includes("point_info_marker")) {
 
-                                tD.innerHTML = "Adresse";
-                                tD2.innerHTML = entity.name;
+                                console.log(entity.id);
 
-                                tr.appendChild(tD);
-                                tr.appendChild(tD2);
-                                table.appendChild(tr);
+                                // replace the generated long and lat fo revery click with the coords from the clicked entity
+                                table = getFeaturesEntity(entity, table);
+
+                                // tD.innerHTML = "Adresse";
+                                // tD2.innerHTML = entity.name;
+
+                                // tr.appendChild(tD);
+                                // tr.appendChild(tD2);
+                                // table.appendChild(tr);
 
                                 infobox_karte.viewModel.description = table.outerHTML;
 
@@ -3517,10 +3548,11 @@ function get_featureinfo() {
                                 // input string
                                 let inputString = entity.description.getValue(Cesium.JulianDate.now());
 
-                                console.log(inputString);
-
                                 inputString = inputString.replaceAll('<th>', '<td>');
                                 inputString = inputString.replaceAll('</th>', '</td>');
+
+                                // TODO
+                                // translateInfoTable(inputString);
 
                                 // Convert string to HTML document object
                                 let parser = new DOMParser();
@@ -3689,7 +3721,7 @@ function get_featureinfo() {
             } else {
 
                 loadingAnimation.row.style.display = "contents";
-                //loadingAnimation.row.classList.remove("hide");
+                // loadingAnimation.row.classList.remove("hide");
                 loadingAnimation.animation.style.display = "block";
                 // loadingAnimation.animation.classList.remove("hide");
 
@@ -3874,19 +3906,87 @@ function get_featureinfo() {
         }, Cesium.ScreenSpaceEventType.LEFT_CLICK);
 }
 
-function addLongLattoTable(longitude, latitude, table) {
-    let arr = ["Longitude", longitude, "Latitude", latitude];
+function getFeaturesEntity(entity, table) {
 
-    for (let i = 0; i < arr.length; i += 2) {
-        let tr = document.createElement('tr'); //Zeile
+    if (entity.position) {
+        let posEntity = entity.position.getValue(Cesium.JulianDate.now());
+
+        let cartographic = Cesium.Cartographic.fromCartesian(posEntity);
+        let longitude = Cesium.Math.toDegrees(cartographic.longitude);
+        let latitude = Cesium.Math.toDegrees(cartographic.latitude);
+
+        // safe values from point in array
+        let arr = ["Longitude", longitude.toFixed(5), "Latitude", latitude.toFixed(5), "Objekt", entity.name];
+        let counter = 1;
+
+        for (let i = 0; i < arr.length; i += 2) {
+            let tr = document.createElement('tr'); //Zeile
+            let tD = document.createElement('td');
+            let tD2 = document.createElement('td');
+            tD.innerHTML = arr[i];
+            tD2.innerHTML = arr[i + 1];
+
+            tr.appendChild(tD);
+            tr.appendChild(tD2);
+            table.appendChild(tr);
+            table.replaceChild(tr, table.children[counter++]);
+            // console.log(table.children[counter++]);
+        }
+    } else {
+        // If position is not defined, add a row to the table with "undefined" values
+        let tr = document.createElement('tr');
         let tD = document.createElement('td');
         let tD2 = document.createElement('td');
-        tD.innerHTML = arr[i];
-        tD2.innerHTML = arr[i + 1];
+        tD.innerHTML = "Longitude";
+        tD2.innerHTML = "undefined";
 
         tr.appendChild(tD);
         tr.appendChild(tD2);
         table.appendChild(tr);
+        table.replaceChild(tr, table.children[1]);
+
+        tr = document.createElement('tr');
+        tD = document.createElement('td');
+        tD2 = document.createElement('td');
+        tD.innerHTML = "Latitude";
+        tD2.innerHTML = "undefined";
+
+        tr.appendChild(tD);
+        tr.appendChild(tD2);
+        table.appendChild(tr);
+        table.replaceChild(tr, table.children[2]);
+
+        tr = document.createElement('tr');
+        tD = document.createElement('td');
+        tD2 = document.createElement('td');
+        tD.innerHTML = "Objekt";
+        tD2.innerHTML = entity.name;
+
+        tr.appendChild(tD);
+        tr.appendChild(tD2);
+        table.appendChild(tr);
+        table.replaceChild(tr, table.children[3]);
+    }
+
+    return table;
+}
+
+function addLongLattoTable(longitude, latitude, table) {
+
+    if (longitude && latitude) {
+        let arr = ["Longitude", longitude.toFixed(5), "Latitude", latitude.toFixed(5)];
+
+        for (let i = 0; i < arr.length; i += 2) {
+            let tr = document.createElement('tr'); //Zeile
+            let tD = document.createElement('td');
+            let tD2 = document.createElement('td');
+            tD.innerHTML = arr[i];
+            tD2.innerHTML = arr[i + 1];
+
+            tr.appendChild(tD);
+            tr.appendChild(tD2);
+            table.appendChild(tr);
+        }
     }
 }
 
@@ -3914,38 +4014,45 @@ function closeInfoBox(infoBox) {
 }
 
 function addMarkerClickInfo(cartesian, info_id) {
-    let array_entities = [];
+    // let array_entities = [];
     // löschen der Werte aus dem Array!
     for (let teil of viewer.entities.values) {
         if (teil.id.includes("point_info_marker")) {
-            array_entities.push(teil);
-            console.log("info point");
+            // array_entities.push(teil);
+            viewer.entities.remove(teil);
         }
     }
 
     // Zwischengespeicherte Entities in Array, um diese zu löschen. viewer.entities.values funktioniert nicht!!
-    for (let entity of array_entities) {
-        console.log("info point removed");
-        viewer.entities.remove(entity);
-    }
+    // for (let entity of array_entities) {
+    //     console.log("info point removed");
+    //     viewer.entities.remove(entity);
+    // }
 
-    // Bild ist von https://fonts.google.com/icons?icon.query=location
+    var cartographic = Cesium.Cartographic.fromCartesian(cartesian);
+    var longitude = Cesium.Math.toDegrees(cartographic.longitude);
+    var latitude = Cesium.Math.toDegrees(cartographic.latitude);
+    var altitude = cartographic.height;
+
+    // Bild ist von https: //fonts.google.com/icons?icon.query=location
     viewer.entities.add({
         name: "Point info marker",
-        position: cartesian,
+        position: Cesium.Cartesian3.fromDegrees(longitude, latitude, altitude),
         billboard: {
-            image: "./Icons/marker_info.png",
-            // scale: 2,
-            distanceDisplayCondition: new Cesium.DistanceDisplayCondition(0.0, 4000.0),
+            image: "./Icons/info-marker.svg",
+            distanceDisplayCondition: new Cesium.DistanceDisplayCondition(0.0, 2000.0),
+            scaleByDistance: new Cesium.NearFarScalar(0, 1.0, 2000, 0.6),
+
             // Darstellung auch auf Gebäuden, auf clamptoground kann verzichtet werden
             // Damit das billboard nicht im boden versinkt, wird pixeloffset verwendet
-            pixelOffset: new Cesium.Cartesian2(0, -15),
-            scaleByDistance: new Cesium.NearFarScalar(0, 1.0, 4000, 0.1)
+            pixelOffset: new Cesium.Cartesian2(0, -20),
+            disableDepthTestDistance: Number.POSITIVE_INFINITY // disable depth testing for the point
         },
         id: 'point_info_marker' + info_id++
     });
 
     // Explicitly render a new frame für info marker
     viewer.scene.requestRender();
+
     return info_id;
 }

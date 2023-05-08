@@ -72,7 +72,7 @@ export function loadingInfoTable(table) {
 
     // create a new row for the loading animation and insert at the start of table
     let loadingRow = table.insertRow(0);
-    loadingRow.className = "loading-row";
+    loadingRow.setAttribute("class", "loading-row");
 
     // create a new cell for the loading animation
     let loadingCell = loadingRow.insertCell();
@@ -81,7 +81,7 @@ export function loadingInfoTable(table) {
 
     // create the loading animation element
     let loadingAnimation = document.createElement("div");
-    loadingAnimation.className = "loading-animation";
+    loadingAnimation.setAttribute("class", "loading-animation");
 
     // append the loading animation to the cell
     loadingCell.appendChild(loadingAnimation);

@@ -1,6 +1,6 @@
 /* Loading animation infotable */
 
-.loading-animation {
+div.loading-animation {
     border: 3px solid rgba(0, 0, 0, 0.3);
     border-top-color: #2ecc71;
     border-radius: 50%;
@@ -9,17 +9,22 @@
     animation: spin 1s ease-in-out infinite;
     float: left;
     margin-right: 10px;
+    display: block;
 }
 
-.loading-animation.hide {
+
+/* Not used due to little height problems with infobox when first clicked in the map */
+
+
+/* .loading-animation.hide {
     display: none;
 }
 
 .loading-row.hide {
     display: none;
-}
+} */
 
-.loading-row {
+tr.loading-row {
     display: contents;
 }
 
