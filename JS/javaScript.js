@@ -4029,30 +4029,32 @@ function addMarkerClickInfo(cartesian, info_id) {
     //     viewer.entities.remove(entity);
     // }
 
-    var cartographic = Cesium.Cartographic.fromCartesian(cartesian);
-    var longitude = Cesium.Math.toDegrees(cartographic.longitude);
-    var latitude = Cesium.Math.toDegrees(cartographic.latitude);
-    var altitude = cartographic.height;
+    if (cartesian) {
+        let cartographic = Cesium.Cartographic.fromCartesian(cartesian);
+        let longitude = Cesium.Math.toDegrees(cartographic.longitude);
+        let latitude = Cesium.Math.toDegrees(cartographic.latitude);
+        let altitude = cartographic.height;
 
-    // Bild ist von https: //fonts.google.com/icons?icon.query=location
-    viewer.entities.add({
-        name: "Point info marker",
-        position: Cesium.Cartesian3.fromDegrees(longitude, latitude, altitude),
-        billboard: {
-            image: "./Icons/info-marker.svg",
-            distanceDisplayCondition: new Cesium.DistanceDisplayCondition(0.0, 2000.0),
-            scaleByDistance: new Cesium.NearFarScalar(0, 1.0, 2000, 0.6),
+        // Bild ist von https: //fonts.google.com/icons?icon.query=location
+        viewer.entities.add({
+            name: "Point info marker",
+            position: Cesium.Cartesian3.fromDegrees(longitude, latitude, altitude),
+            billboard: {
+                image: "./Icons/info-marker.svg",
+                distanceDisplayCondition: new Cesium.DistanceDisplayCondition(0.0, 2000.0),
+                scaleByDistance: new Cesium.NearFarScalar(0, 1.0, 2000, 0.6),
 
-            // Darstellung auch auf Gebäuden, auf clamptoground kann verzichtet werden
-            // Damit das billboard nicht im boden versinkt, wird pixeloffset verwendet
-            pixelOffset: new Cesium.Cartesian2(0, -20),
-            disableDepthTestDistance: Number.POSITIVE_INFINITY // disable depth testing for the point
-        },
-        id: 'point_info_marker' + info_id++
-    });
+                // Darstellung auch auf Gebäuden, auf clamptoground kann verzichtet werden
+                // Damit das billboard nicht im boden versinkt, wird pixeloffset verwendet
+                pixelOffset: new Cesium.Cartesian2(0, -20),
+                disableDepthTestDistance: Number.POSITIVE_INFINITY // disable depth testing for the point
+            },
+            id: 'point_info_marker' + info_id++
+        });
 
-    // Explicitly render a new frame für info marker
-    viewer.scene.requestRender();
+        // Explicitly render a new frame für info marker
+        viewer.scene.requestRender();
+    }
 
     return info_id;
 }

@@ -1,6 +1,6 @@
 let translator = new Translator({
-    filesLocation: '/CesiumJS-testing/json'
-        // filesLocation: '/json'
+    //filesLocation: '/CesiumJS-testing/json'
+    filesLocation: '/json'
 });
 
 let ger, eng, thai;
