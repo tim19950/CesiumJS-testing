@@ -73,7 +73,7 @@ async function start() {
         terrainShadows: Cesium.ShadowMode.DISABLED,
         //Setzen einer Atmospähre
         skyAtmosphere: new Cesium.SkyAtmosphere(),
-        // msaaSamples: 0,
+        msaaSamples: 0,
         //Voreingestelltes Terrain (ESRI 3D Gelände) und Oberflächenbilder (OSM)
         // terrainProvider: Cesium.createWorldTerrain(),
         // terrainProvider: new Cesium.VRTheWorldTerrainProvider({
@@ -89,9 +89,7 @@ async function start() {
         // was die CPU Last reduziert
         requestRenderMode: true,
         // Optimierung, es wird nicht immer nach 0.0 sec ein neuer Frame gerendert 
-        maximumRenderTimeChange: Infinity,
-
-        // creditDisplay: new Cesium.CreditDisplay(document.getElementsByClassName("cesium-credit-lightbox-overlay")[0])
+        maximumRenderTimeChange: Infinity
     });
 
     // add geoloction button
@@ -165,8 +163,6 @@ async function start() {
     translateButtonTitles();
 
     addCreditsIcons();
-
-    // drawLineDynamically();
 
     // leider nicht performant genug, wenn die entities gelöscht werden, wenn diese aus der view verschwinden
     // viewer.scene.postRender.addEventListener(updateBuildingsview);
