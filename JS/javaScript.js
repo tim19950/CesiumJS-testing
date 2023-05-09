@@ -2257,7 +2257,7 @@ function add_external_service() {
                             let hasName = false;
                             let hasTitle = false;
                             let hasBoundingBox = false;
-                            let titleWMS, nameWMS;
+                            let titleWMS, nameWMS, abstract;
 
                             // Der WMS unterstütz nicht die getFeatureInfo
                             for (let child of element_layer.children) {
@@ -2272,6 +2272,8 @@ function add_external_service() {
                                     titleWMS = child.textContent;
                                 } else if (child.nodeName === "BoundingBox") {
                                     hasBoundingBox = true;
+                                } else if (child.nodeName === "Abstract") {
+                                    abstract = child.textContent;
                                 }
 
                             }
@@ -2281,6 +2283,7 @@ function add_external_service() {
                                 // console.log(child);
                                 option.value = titleWMS;
                                 option.setAttribute("data-LayersWms", nameWMS);
+                                option.setAttribute("data-LayersWmsAbstract", abstract);
                                 document.getElementById("datalistOptions").appendChild(option);
                             }
                             //}
@@ -2356,7 +2359,7 @@ function add_external_service() {
         let layer_title = document.getElementById("exampleDataList").value;
         console.log(layer_title);
 
-        let value_name_wms;
+        let value_name_wms, abstractWMS;
         let okbtn = document.getElementById("ok_button_wms");
 
         // when no layer in the collection and try add layer to menu
@@ -2403,6 +2406,7 @@ function add_external_service() {
             for (let option of datalistOptions.children) {
                 if (option.value === titleWMS) {
                     value_name_wms = option.dataset.layerswms;
+                    abstractWMS = option.dataset.layerswmsabstract;
                 }
             }
 
@@ -2426,14 +2430,14 @@ function add_external_service() {
             // // when the layer was selected, close modal
             okbtn.setAttribute("data-dismiss", "modal");
 
-            addWMSLayer(value_name_wms, value_url_wms, layer_title, ID);
+            addWMSLayer(value_name_wms, value_url_wms, layer_title, ID, abstractWMS);
 
         }
     });
 
 }
 
-function addWMSLayer(value_name_wms, value_url_wms, layer_title, ID) {
+function addWMSLayer(value_name_wms, value_url_wms, layer_title, ID, abstract) {
 
     let section_4 = document.getElementById("section_4");
     section_4.style.display = "block";
@@ -2446,7 +2450,7 @@ function addWMSLayer(value_name_wms, value_url_wms, layer_title, ID) {
 
     // Set the attributes for the new <a> tag
     newLink.className = "dropdown-item layermenu";
-    newLink.title = value_name_wms;
+    newLink.title = abstract;
     newLink.setAttribute("data-urlWms", value_url_wms);
     newLink.setAttribute("data-LayersWms", value_name_wms);
     // newLink.setAttribute("data-layerTitle", layer_title);
