@@ -82,7 +82,7 @@ let tour_steps_ger = [{
         element: '#fullscreen',
         title: 'Vollbild',
         content: 'Über diesen Button kann das Bürgerportal in den Fullscreenmodus gebracht werden.',
-        // placement: "bottom",
+        placement: "top",
         preventInteraction: true
     },
     {
@@ -200,7 +200,7 @@ let tour_steps_eng = [{
         element: '#fullscreen',
         title: 'Fullscreen',
         content: 'This button can be used to switch to fullscreen mode.',
-        // placement: "bottom",
+        placement: "top",
         preventInteraction: true
     },
     {
@@ -294,7 +294,7 @@ let tour_steps_th = [{
         element: '#fullscreen',
         title: 'เต็มจอ',
         content: 'ปุ่มนี้ใช้เพื่อเปิดโหมดเต็มจอ',
-        // placement: "bottom",
+        placement: "top",
         preventInteraction: true
     },
     {
