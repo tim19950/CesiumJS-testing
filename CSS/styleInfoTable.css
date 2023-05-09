@@ -106,6 +106,7 @@ span.title.active {
 #section_4 {
     display: none;
     width: fit-content;
+    min-width: 100%;
 }
 
 
