@@ -14,33 +14,21 @@ window.addEventListener('load', function() {
     start();
 });
 
-function start() {
+async function start() {
 
     Cesium.Ion.defaultAccessToken =
         "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJlYWE3NThhYi01N2QyLTRlYjgtODVjOC0yNmZmOTVkMjc5NmUiLCJpZCI6MjAzMTcsInNjb3BlcyI6WyJhc3IiLCJnYyJdLCJpYXQiOjE1ODU2NDYwOTh9.15deq-wlgG1etoMnlMVacxOD48gTv1p85401mlsO6P8";
 
+    // // Auf NRW zoomen am Start
+    // var extent = Cesium.Rectangle.fromDegrees(
+    //     5.863953,
+    //     51.042848,
+    //     9.103,
+    //     51.857073
+    // );
 
-    // Auf NRW zoomen am Start
-    var extent = Cesium.Rectangle.fromDegrees(
-        5.863953,
-        51.042848,
-        9.103,
-        51.857073
-    );
-
-    Cesium.Camera.DEFAULT_VIEW_RECTANGLE = extent;
-    Cesium.Camera.DEFAULT_VIEW_FACTOR = 0;
-
-    // var esri = new Cesium.ArcGisMapServerImageryProvider({
-    // url: 'https://tiles.arcgis.com/tiles/lKwB42uXpb8Mwu4v/arcgis/rest/services/Holzbach_Raster/MapServer',
-    // token: 'jecrAPoev0IyTv5uRRBpTkBoWhQrGfPG1Hfw93nuBXEXPCdGX-clF3kQyB21QT65_ilirbZz18DGkGn1IwMBnlx8sMumHI9mb6hdyyLeX6PyO1EVtudVvSavKglUxvAzaEaopZ_eG6Ime_xpu3ZYkg..'
-    // });
-
-    // var layers = viewer.scene.imageryLayers;
-
-    // var layer = layers.addImageryProvider(esri);
-
-    // viewer.flyTo(layer);
+    // Cesium.Camera.DEFAULT_VIEW_RECTANGLE = extent;
+    // Cesium.Camera.DEFAULT_VIEW_FACTOR = 0;
 
     // Create ArcGIS Map imagery provider
     let esri = new Cesium.ArcGisMapServerImageryProvider({
@@ -85,12 +73,12 @@ function start() {
         terrainShadows: Cesium.ShadowMode.DISABLED,
         //Setzen einer Atmospähre
         skyAtmosphere: new Cesium.SkyAtmosphere(),
-        msaaSamples: 0,
+        // msaaSamples: 0,
         //Voreingestelltes Terrain (ESRI 3D Gelände) und Oberflächenbilder (OSM)
         // terrainProvider: Cesium.createWorldTerrain(),
         // terrainProvider: new Cesium.VRTheWorldTerrainProvider({
         //     url: 'http://www.vr-theworld.com/vr-theworld/tiles1.0.0/73/'
-        //         //         //         //     url: 'https://api.maptiler.com/tiles/terrain-quantized-mesh/?key=poisGDv6bKJxzUUYIWpE' // get your own key at https://cloud.maptiler.com
+        //         //         //         //         //     url: 'https://api.maptiler.com/tiles/terrain-quantized-mesh/?key=poisGDv6bKJxzUUYIWpE' // get your own key at https://cloud.maptiler.com
         // }),
 
         // terrainProvider: new Cesium.ArcGISTiledElevationTerrainProvider({
@@ -116,7 +104,7 @@ function start() {
     viewer.scene.debugShowFramesPerSecond = true;
 
     //FXAA Kantenglättung
-    viewer.scene.postProcessStages.fxaa.enabled = false;
+    viewer.scene.postProcessStages.fxaa.enabled = true;
     // Ambient Occlusion 
     viewer.scene.postProcessStages.ambientOcclusion.enabled = false;
     viewer.scene.postProcessStages.bloom.enabled = false;
@@ -203,7 +191,7 @@ function addGeolocationButton() {
     geolocation_button.setAttribute("type", "button");
     geolocation_button.setAttribute("title", "Positionsbestimmung");
 
-    geolocation_button.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="28" height="28"><!--! Font Awesome Pro 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M256 0c17.7 0 32 14.3 32 32V66.7C368.4 80.1 431.9 143.6 445.3 224H480c17.7 0 32 14.3 32 32s-14.3 32-32 32H445.3C431.9 368.4 368.4 431.9 288 445.3V480c0 17.7-14.3 32-32 32s-32-14.3-32-32V445.3C143.6 431.9 80.1 368.4 66.7 288H32c-17.7 0-32-14.3-32-32s14.3-32 32-32H66.7C80.1 143.6 143.6 80.1 224 66.7V32c0-17.7 14.3-32 32-32zM128 256a128 128 0 1 0 256 0 128 128 0 1 0 -256 0zm128-80a80 80 0 1 1 0 160 80 80 0 1 1 0-160z"/></svg>';
+    geolocation_button.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="27" height="28"><!--! Font Awesome Pro 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M256 0c17.7 0 32 14.3 32 32V66.7C368.4 80.1 431.9 143.6 445.3 224H480c17.7 0 32 14.3 32 32s-14.3 32-32 32H445.3C431.9 368.4 368.4 431.9 288 445.3V480c0 17.7-14.3 32-32 32s-32-14.3-32-32V445.3C143.6 431.9 80.1 368.4 66.7 288H32c-17.7 0-32-14.3-32-32s14.3-32 32-32H66.7C80.1 143.6 143.6 80.1 224 66.7V32c0-17.7 14.3-32 32-32zM128 256a128 128 0 1 0 256 0 128 128 0 1 0 -256 0zm128-80a80 80 0 1 1 0 160 80 80 0 1 1 0-160z"/></svg>';
 
     modeButton.before(geolocation_button);
 
@@ -220,7 +208,7 @@ function addMeasureButtons() {
     measure_height_button.setAttribute("type", "button");
     measure_height_button.setAttribute("title", "Höhen messen");
 
-    measure_height_button.innerHTML = '<img src="./Icons/height-marker-white-96.svg" width="32" height="31"><a href="http://icons8.com/icons"</a></img>';
+    measure_height_button.innerHTML = '<img src="./Icons/height-marker-white-96.svg" width="30" height="31"><a href="http://icons8.com/icons"</a></img>';
 
     // add measure height button after the geolocate button
     geolocateButton.after(measure_height_button);
@@ -1954,6 +1942,9 @@ function handleExternalServices(node, value_name_wms, value_url_wms) {
 
     let imageryLayer;
 
+    console.log(value_url_wms);
+    console.log(value_name_wms);
+
     // Create WMSImageryProvider
     let wms_provider = new Cesium.WebMapServiceImageryProvider({
         url: value_url_wms,
@@ -2178,12 +2169,7 @@ function add_external_service() {
         for (let alert of alerts) {
             alert.style.display = "none";
         }
-        // noWMSURL.style.display = "none";
-        // noWMSURLreco.style.display = "none";
-        // errorRequest.style.display = "none";
-        // noRequestSend.style.display = "none";
-        // noWMSQueryed.style.display = "none";
-        // noWMSSelected.style.display = "none";
+
     });
 
     // document.getElementById("wms-text").addEventListener('input', () => {
@@ -2202,19 +2188,14 @@ function add_external_service() {
         value_url_wms = document.getElementById("wms-text").value;
 
         if (value_url_wms == "") {
-            // alert("Bitte zuerst den WMS Anfragen und dann auf OK!");
 
+            // Alertmeldungen und sucessmeldung nicht sichtbar stellen des WMS modals
             for (let alert of alerts) {
                 alert.style.display = "none";
             }
 
             noWMSURL.style.display = "";
             // alert.innerHTML = "<strong>Achtung!</strong>Geben Sie erst eine URL des WMS an!";
-            // noWMSURLreco.style.display = "none";
-            // errorRequest.style.display = "none";
-            // noRequestSend.style.display = "none";
-            // noWMSQueryed.style.display = "none";
-            // noWMSSelected.style.display = "none";
 
             translate(undefined, undefined, undefined, noWMSURL, undefined);
 
@@ -2251,25 +2232,61 @@ function add_external_service() {
 
                         htmlcollection_layer = response_text.getElementsByTagName("Layer");
 
-                        // var htmlcollection_title = response_text.getElementsByTagName("Title");
-                        // var htmlcollection_name = response_text.getElementsByTagName("Name");
+                        console.log(htmlcollection_layer);
 
                         for (let element_layer of htmlcollection_layer) {
-                            // Attribute vorhanden, das Attribut "queryable" ist vorhanden (Layer im WMS) und das erste Element hat den Nodenamen "Name"
-                            // Damit kann auf die abfragbaren Layer des GetCapabilites zugegriffen werden
-                            if (element_layer.attributes[0] && element_layer.attributes[0].name == "queryable" &&
-                                element_layer.firstElementChild.nodeName == "Name") {
-                                for (let child of element_layer.children) {
-                                    // console.log(child);
-                                    if (child.nodeName == "Title") {
-                                        let option = document.createElement("option");
-                                        option.value = child.textContent;
-                                        document.getElementById("datalistOptions").appendChild(option);
-                                    }
+
+                            // // Attribute vorhanden, das Attribut "queryable" ist vorhanden (Layer im WMS) und das erste Element hat den Nodenamen "Name" und den Wert 1
+                            // // Der WMS unterstütz die getFeatureInfo
+                            // if (element_layer.attributes[0] && element_layer.attributes[0].name === "queryable" &&
+                            //     element_layer.attributes[0].nodeValue === 1 &&
+                            //     element_layer.firstElementChild.nodeName === "Name") {
+                            //     for (let child of element_layer.children) {
+                            //         // console.log(child);
+                            //         if (child.nodeName === "Title") {
+                            //             let option = document.createElement("option");
+                            //             option.value = child.textContent;
+                            //             // console.log(child);
+                            //             // Add the name of the WMS as a dataset attribute to the option the user can choose in list
+                            //             option.setAttribute("data-LayersWms", child.previousElementSibling.textContent);
+                            //             document.getElementById("datalistOptions").appendChild(option);
+                            //         }
+                            //     }
+                            // } else if (element_layer.firstElementChild.nodeName === "Name") {
+
+                            let hasName = false;
+                            let hasTitle = false;
+                            let hasBoundingBox = false;
+                            let titleWMS, nameWMS;
+
+                            // Der WMS unterstütz nicht die getFeatureInfo
+                            for (let child of element_layer.children) {
+                                // console.log(child);
+
+                                if (child.nodeName === "Name") {
+                                    hasName = true;
+                                    nameWMS = child.textContent;
+                                } else if (child.nodeName === "Title") {
+                                    hasTitle = true;
+                                    // set title of the wms
+                                    titleWMS = child.textContent;
+                                } else if (child.nodeName === "BoundingBox") {
+                                    hasBoundingBox = true;
                                 }
+
                             }
+
+                            if (hasName && hasTitle && hasBoundingBox) {
+                                let option = document.createElement("option");
+                                // console.log(child);
+                                option.value = titleWMS;
+                                option.setAttribute("data-LayersWms", nameWMS);
+                                document.getElementById("datalistOptions").appendChild(option);
+                            }
+                            //}
                         }
 
+                        // Alertmeldungen und sucessmeldung nicht sichtbar stellen des WMS modals
                         for (let alert of alerts) {
                             alert.style.display = "none";
                         }
@@ -2277,15 +2294,10 @@ function add_external_service() {
                         success.style.display = "";
                         // success.innerHTML = "Die Abfrage der Layer des WMS war erfolgreich.";
                         translate(undefined, undefined, undefined, success, undefined);
-                        // noWMSURL.style.display = "none";
-                        // noWMSURLreco.style.display = "none";
-                        // errorRequest.style.display = "none";
-                        // noRequestSend.style.display = "none";
-                        // noWMSQueryed.style.display = "none";
-                        // noWMSSelected.style.display = "none";
 
                     } else {
 
+                        // Alertmeldungen und sucessmeldung nicht sichtbar stellen des WMS modals
                         for (let alert of alerts) {
                             alert.style.display = "none";
                         }
@@ -2293,18 +2305,14 @@ function add_external_service() {
                         noWMSURLreco.style.display = "";
                         // noWMSURLreco.innerHTML = "<strong>Achtung!</strong>Keine URL erkannt, bitte nochmal versuchen.";
                         translate(undefined, undefined, undefined, noWMSURLreco, undefined);
-                        // success.style.display = "none";
-                        // noWMSURL.style.display = "none";
-                        // errorRequest.style.display = "none";
-                        // noRequestSend.style.display = "none";
-                        // noWMSQueryed.style.display = "none";
-                        // noWMSSelected.style.display = "none";
+
                     }
 
                 } else {
                     console.log(this.status);
                     // alert("Fehler in dem Request, bitte nochmal versuchen");
 
+                    // Alertmeldungen und sucessmeldung nicht sichtbar stellen des WMS modals
                     for (let alert of alerts) {
                         alert.style.display = "none";
                     }
@@ -2312,12 +2320,6 @@ function add_external_service() {
                     errorRequest.style.display = "";
                     // errorRequest.innerHTML = "<strong>Achtung!</strong>Fehler in dem Request, bitte nochmal versuchen.";
                     translate(undefined, undefined, undefined, errorRequest, undefined);
-                    // success.style.display = "none";
-                    // noWMSURL.style.display = "none";
-                    // noWMSURLreco.style.display = "none";
-                    // noRequestSend.style.display = "none";
-                    // noWMSQueryed.style.display = "none";
-                    // noWMSSelected.style.display = "none";
 
                 }
 
@@ -2329,8 +2331,8 @@ function add_external_service() {
 
             // Bei Fehler, only triggers if the request couldn't be made at all
             xhttp.onerror = function() {
-                // alert("Request konnte nicht abgesetzt werden.");
-                // let alert4 = document.getElementById("error4");
+
+                // Alertmeldungen und sucessmeldung nicht sichtbar stellen des WMS modals
                 for (let alert of alerts) {
                     alert.style.display = "none";
                 }
@@ -2344,7 +2346,7 @@ function add_external_service() {
             };
 
             // anhängen der requestparameter des WMS GetCapabilities requestes
-            xhttp.open("GET", value_url_wms + "?request=GetCapabilities&service=WMS");
+            xhttp.open("GET", value_url_wms + "?REQUEST=GetCapabilities&SERVICE=WMS");
             xhttp.send();
         }
 
@@ -2357,11 +2359,10 @@ function add_external_service() {
         let value_name_wms;
         let okbtn = document.getElementById("ok_button_wms");
 
-        // layer_title_array.push(layer_title);
-
         // when no layer in the collection and try add layer to menu
         if (!htmlcollection_layer) {
 
+            // Alertmeldungen und sucessmeldung nicht sichtbar stellen des WMS modals
             for (let alert of alerts) {
                 alert.style.display = "none";
             }
@@ -2370,6 +2371,7 @@ function add_external_service() {
             // noWMSQueryed.innerHTML = "<strong>Achtung!</strong>Bitte zuerst den WMS anfragen und dann auf 'Zum Menü hinzufügen' klicken.";
 
             translate(undefined, undefined, undefined, noWMSQueryed, undefined);
+
             // when layer not selected
         } else if (layer_title.length === 0) {
 
@@ -2378,33 +2380,48 @@ function add_external_service() {
                 okbtn.setAttribute("data-dismiss", "");
             }
 
+            // Alertmeldungen und sucessmeldung nicht sichtbar stellen des WMS modals
+            for (let alert of alerts) {
+                alert.style.display = "none";
+            }
+
             // show alert message
             noWMSSelected.style.display = "";
             // noWMSSelected.innerHTML = "<strong>Achtung!</strong>Bitte zuerst den WMS auswählen und dann auf 'Zum Menü hinzufügen' klicken.";
-            success.style.display = "none";
+            // success.style.display = "none";
             translate(undefined, undefined, undefined, noWMSSelected, undefined);
 
         } else {
 
-            for (let element_layer of htmlcollection_layer) {
-                // console.log(element_layer.firstElementChild.nodeName);
+            // get choosen title to compare with list to set value_name_wms
+            let titleWMS = document.getElementById("exampleDataList").value;
 
-                if (element_layer.attributes[0] && element_layer.attributes[0].name == "queryable" && element_layer.firstElementChild.nodeName == "Name") {
-                    for (let child of element_layer.children) {
-                        // console.log(child);
-                        if (child.nodeName == "Title" && child.textContent == layer_title) {
+            // get datalist options
+            let datalistOptions = document.getElementById("datalistOptions");
 
-                            value_name_wms = child.previousElementSibling.textContent;
-
-                            // value_name_wms_array.push(value_name_wms);
-
-                        }
-                    }
+            // wenn der value des ausgewählten elements gleich dem aus der liste, dann setzt die value_name var des wms um diesen später abzufragen
+            for (let option of datalistOptions.children) {
+                if (option.value === titleWMS) {
+                    value_name_wms = option.dataset.layerswms;
                 }
             }
 
-            // value_url_wms = document.getElementById("wms-text").value;
-            // console.log(value_url_wms);
+            // for (let element_layer of htmlcollection_layer) {
+            //     // console.log(element_layer.firstElementChild.nodeName);
+
+            //     if (element_layer.attributes[0] && element_layer.attributes[0].name == "queryable" && element_layer.firstElementChild.nodeName == "Name") {
+            //         for (let child of element_layer.children) {
+            //             // console.log(child);
+            //             if (child.nodeName == "Title" && child.textContent == layer_title) {
+
+            //                 value_name_wms = child.previousElementSibling.textContent;
+
+            //                 // value_name_wms_array.push(value_name_wms);
+
+            //             }
+            //         }
+            //     }
+            // }
 
             // // when the layer was selected, close modal
             okbtn.setAttribute("data-dismiss", "modal");
@@ -2415,7 +2432,6 @@ function add_external_service() {
     });
 
 }
-
 
 function addWMSLayer(value_name_wms, value_url_wms, layer_title, ID) {
 
@@ -2475,61 +2491,6 @@ function addWMSLayer(value_name_wms, value_url_wms, layer_title, ID) {
     StopCloseMenu();
 }
 
-// function add_external_wms_1() {
-
-//     let html_element;
-
-//     for (element of document.getElementsByClassName("cesium-baseLayerPicker-itemLabel")) {
-//         if (element.innerHTML == icon_external_wms_service_1.name) {
-//             html_element = element;
-
-//         }
-//     }
-
-//     // Aufruf der function, die die Geodaten hinzufügt
-//     // WMS Externe Dienste
-//     let wms_provider = new Cesium.WebMapServiceImageryProvider({
-//         url: value_url_wms,
-//         layers: value_name_wms_array[0],
-//         parameters: {
-//             format: 'image/png',
-//             transparent: true
-//         }
-//     });
-
-//     if (!viewer.imageryLayers.contains(imagerylayer_wms_array[0])) {
-//         imagerylayer_wms_array[0] = viewer.imageryLayers.addImageryProvider(wms_provider);
-//         console.log("initial");
-//         html_element.style.color = "rgb(0, 255, 106)";
-//     }
-//     // else if (imagerylayer_wms_array[0].show) {
-//     //     // viewer.imageryLayers.remove(imagerylayer_wms_array[0]);
-//     //     imagerylayer_wms_array[0].show = false;
-//     //     console.log("a");
-//     //     html_element.style.color = "";
-//     // }
-
-//     // nach einmaligem klicken auf den Button wird das onlickevent ausgelöst.
-//     html_element.parentElement.onclick = () => {
-
-//         // ist der WMS in der Szene, wird dieser gelöscht
-//         if (imagerylayer_wms_array[0].show) {
-//             console.log("Bereits enthalten, wird gelöscht!");
-//             // viewer.imageryLayers.remove(imagerylayer_wms_1);
-//             imagerylayer_wms_array[0].show = false;
-//             html_element.style.color = "";
-//             // html_element.class = "cesium-baseLayerPicker-itemLabel";
-//             // ist der WMS nicht in der Szene, wird dieser hinzugefügt
-//         } else {
-//             imagerylayer_wms_array[0].show = true;
-//             // imagerylayer_wms_1 = viewer.imageryLayers.addImageryProvider(wms_provider);
-//             console.log("Layer wird neu hinzugefügt!");
-//             html_element.style.color = "rgb(0, 255, 106)";
-//         }
-//     }
-
-// }
-
 function handleKeyPress(event) {
 
     if (event.keyCode === 27 || event.code === "Escape") {
@@ -2560,110 +2521,6 @@ function handleKeyPress(event) {
         viewer.scene.requestRender();
     }
 }
-
-// function drawLineDynamically() {
-
-//     // Der Click Handler wird zertört, damit keine Klicks in der Karte mehr als Attributtabelle auftauchen
-//     handler_karte_click = handler_karte_click && handler_karte_click.destroy();
-
-//     viewer.cesiumWidget.screenSpaceEventHandler.removeInputAction(
-//         Cesium.ScreenSpaceEventType.LEFT_DOUBLE_CLICK
-//     );
-
-//     function createPoint(worldPosition) {
-//         const point = viewer.entities.add({
-//             position: worldPosition,
-//             point: {
-//                 color: Cesium.Color.WHITE,
-//                 pixelSize: 5,
-//                 heightReference: Cesium.HeightReference.CLAMP_TO_GROUND,
-//             },
-//         });
-//         return point;
-//     }
-
-//     let drawingMode = "line";
-
-//     function drawShape(positionData) {
-//         let shape;
-//         if (drawingMode === "line") {
-//             shape = viewer.entities.add({
-//                 polyline: {
-//                     positions: positionData,
-//                     // clampToGround: true,
-//                     width: 4,
-//                 },
-//             });
-//         } else if (drawingMode === "polygon") {
-//             shape = viewer.entities.add({
-//                 polygon: {
-//                     hierarchy: positionData,
-//                     material: new Cesium.ColorMaterialProperty(
-//                         Cesium.Color.WHITE.withAlpha(0.7)
-//                     ),
-//                 },
-//             });
-//         }
-//         return shape;
-//     }
-//     let activeShapePoints = [];
-//     let activeShape;
-//     let floatingPoint;
-//     const handler = new Cesium.ScreenSpaceEventHandler(viewer.canvas);
-//     handler.setInputAction(function(event) {
-//         // We use `viewer.scene.globe.pick here instead of `viewer.camera.pickEllipsoid` so that
-//         // we get the correct point when mousing over terrain.
-
-//         const ray = viewer.camera.getPickRay(event.position);
-//         const earthPosition = viewer.scene.globe.pick(ray, viewer.scene);
-//         // `earthPosition` will be undefined if our mouse is not over the globe.
-//         if (Cesium.defined(earthPosition)) {
-//             if (activeShapePoints.length === 0) {
-//                 floatingPoint = createPoint(earthPosition);
-//                 activeShapePoints.push(earthPosition);
-//                 const dynamicPositions = new Cesium.CallbackProperty(function() {
-//                     // if (drawingMode === "polygon") {
-//                     //     return new Cesium.PolygonHierarchy(activeShapePoints);
-//                     // }
-//                     return activeShapePoints;
-//                 }, false);
-//                 console.log(activeShapePoints);
-//                 activeShape = drawShape(dynamicPositions);
-//                 // Dies ist nötig, da sonst die neuen Elemeten im Bild nicht erscheinen
-//                 viewer.scene.requestRender();
-//             }
-//             activeShapePoints.push(earthPosition);
-//             createPoint(earthPosition);
-//         }
-//     }, Cesium.ScreenSpaceEventType.LEFT_CLICK);
-
-//     handler.setInputAction(function(event) {
-//         if (Cesium.defined(floatingPoint)) {
-//             const ray = viewer.camera.getPickRay(event.endPosition);
-//             const newPosition = viewer.scene.globe.pick(ray, viewer.scene);
-//             if (Cesium.defined(newPosition)) {
-//                 floatingPoint.position.setValue(newPosition);
-//                 activeShapePoints.pop();
-//                 activeShapePoints.push(newPosition);
-//             }
-//         }
-//     }, Cesium.ScreenSpaceEventType.MOUSE_MOVE);
-
-//     // Redraw the shape so it's not dynamic and remove the dynamic shape.
-//     function terminateShape() {
-//         activeShapePoints.pop();
-//         drawShape(activeShapePoints);
-//         viewer.entities.remove(floatingPoint);
-//         viewer.entities.remove(activeShape);
-//         floatingPoint = undefined;
-//         activeShape = undefined;
-//         activeShapePoints = [];
-//     }
-//     handler.setInputAction(function(event) {
-//         terminateShape();
-//     }, Cesium.ScreenSpaceEventType.RIGHT_CLICK);
-
-// }
 
 function measureFunctions() {
 
@@ -2762,21 +2619,6 @@ function measureFunctions() {
                             },
                             id: 'point_height_marker' + height_id++
                         });
-
-                        // // Bild ist von https://fonts.google.com/icons?icon.query=location
-                        // viewer.entities.add({
-                        //     name: "Point height marker",
-                        //     position: cartesian,
-                        //     billboard: {
-                        //         image: "./Icons/icon-height.svg", // use a custom SVG image for the marker
-                        //         width: 35, // adjust the size of the marker as needed
-                        //         height: 35,
-                        //         distanceDisplayCondition: new Cesium.DistanceDisplayCondition(0.0, 2000.0),
-                        //         pixelOffset: new Cesium.Cartesian2(0, -15),
-                        //         // scaleByDistance: new Cesium.NearFarScalar(0, 1.0, 3000, 0.1)
-                        //     },
-                        //     id: 'point_height_marker' + height_id++
-                        // });
 
                         viewer.entities.add({
                             name: "Point height label",
@@ -3228,41 +3070,6 @@ function setLanguageHelpTour() {
     return helptour;
 }
 
-// function delete_all_geodata() {
-
-//     document.getElementById("delete_data_button").addEventListener('click', () => {
-
-//         let my_modal = new bootstrap.Modal(document.getElementById("modal_delete_all_data"));
-//         let body = document.getElementById("modal_body_delete_all_data");
-//         body.innerText = "Möchten Sie wirklich alle Geodaten aus der Szene entfernen?";
-
-//         my_modal.show();
-
-//         document.getElementById("ok_button_delete_all_data").addEventListener('click', () => {
-
-//             let layer_menue_geodata = document.querySelectorAll("div.cesium-baseLayerPicker-item");
-
-//             // auswahl der Layer im Menü wird gelöscht
-//             for (let layer of layer_menue_geodata) {
-//                 layer.children[1].style = "";
-//             }
-
-//             //Erst entfernen der Geojson Dateien
-//             viewer.dataSources.removeAll();
-
-//             viewer.entities.removeAll();
-
-//             viewer.scene.primitives.destroyPrimitives = false;
-
-//             // viewer.scene.primitives.removeAll();
-
-//             for (let element of external_wms_array) {
-//                 viewer.imageryLayers.remove(element);
-//             }
-//         })
-//     });
-// }
-
 function ShowClickMarker(click) {
 
     // Get the click position in the map
@@ -3283,8 +3090,9 @@ function ShowClickMarker(click) {
 
     // Remove the click animation after a delay
     setTimeout(function() {
-        clickAnimation.parentNode.removeChild(clickAnimation);
-    }, 1000);
+        if (clickAnimation)
+            clickAnimation.parentNode.removeChild(clickAnimation);
+    }, 850);
 }
 
 function get_featureinfo() {
@@ -3312,6 +3120,12 @@ function get_featureinfo() {
 
     // Neue Infobox
     let infobox_karte = new Cesium.InfoBox(infoboxcontainer);
+
+    // set eventlistner for close click on infobox
+    infobox_karte.viewModel.closeClicked.addEventListener(() => {
+        // close infobox
+        closeInfoBox(infobox_karte);
+    });
 
     // Neuer Selection Indicator
     // var selection_indicator = new Cesium.SelectionIndicator(selectionindicator_container, viewer.scene);
@@ -3352,9 +3166,6 @@ function get_featureinfo() {
             // loadingAnimation.animation.style.display = "block";
 
             // Add the css from the main html to the iframe html documents head to activate animation in the info Table
-            let htmlHead = document.head;
-            // console.log(htmlHead);
-
             // Get the content document of the infobox_karte frame
             let infoboxDoc = infobox_karte.frame.contentDocument;
 
@@ -3373,43 +3184,6 @@ function get_featureinfo() {
                 console.log('Link already exists in the head of infobox_karte.frame.contentDocument');
             }
 
-
-            // // only add the css stylesheet once to the iframe html 
-            // if (infobox_karte.frame.contentDocument.head.childElementCount == 1) {
-            //     // console.log(infobox_karte.frame.contentDocument.head.children);
-            //     infobox_karte.frame.contentDocument.head.appendChild(linkElement);
-
-            // } else {
-            //     console.log('Link already exists in the head of infobox_karte.frame.contentDocument');
-            // }
-
-            // access the document object of the iframe
-            var iframe = infobox_karte.frame;
-
-            // Get the iframe document
-
-            //             // Select the .loading-animation element and apply the CSS styles
-            //             const loadingAnimation = iframeDoc.querySelector('.loading-animation');
-            //             loadingAnimation.style.border = '3px solid rgba(0, 0, 0, 0.3)';
-            //             loadingAnimation.style.borderTopColor = '#2ecc71';
-            //             loadingAnimation.style.borderRadius = '50%';
-            //             loadingAnimation.style.width = '20px';
-            //             loadingAnimation.style.height = '20px';
-            //             loadingAnimation.style.animation = 'spin 1s ease-in-out infinite';
-            //             loadingAnimation.style.margin = '0 auto';
-
-            //             // Add the keyframes animation
-            //             const style = iframeDoc.createElement('style');
-            //             style.innerHTML = `
-            //     @keyframes spin {
-            //         to { -webkit-transform: rotate(360deg); transform: rotate(360deg); }
-            //     }
-            // `;
-            //             iframeDoc.head.appendChild(style);
-
-            // console.log(document.getElementsByClassName("loadingRow"));
-
-            // Jetzt sollte das Element gefunden werden können
             // document.getElementById("loading-row").style.display = "table-row";
 
             // bei jedem click wird eine neue Zeile und tD erstellt
@@ -3429,12 +3203,6 @@ function get_featureinfo() {
 
             // let loadingRow = document.getElementsByClassName("loadingRow");
             // console.log(loadingRow);
-
-            infobox_karte.viewModel.closeClicked.addEventListener(() => {
-                // close infobox
-                closeInfoBox(infobox_karte);
-
-            });
 
             if (!Cesium.defined(picked_entity)) {
                 console.log('No features picked.');
@@ -3469,8 +3237,6 @@ function get_featureinfo() {
                 infobox_karte.viewModel.description = table.outerHTML;
 
                 if (picked_entity.id instanceof Cesium.Entity) {
-                    // Prüfen, ob bereits entitites der infomarker bestehen und falls ja löschen!
-                    // info_id = addMarkerClickInfo(cartesian, info_id);
 
                     let entity = picked_entity.id;
                     // infobox_karte.viewModel.showInfo = true;
@@ -3569,28 +3335,6 @@ function get_featureinfo() {
                                         table.appendChild(tableRows[i]);
                                     }
                                 }
-
-                                // for (let i = 0; i < length; i++) {
-                                //     propertyName = entity.properties.propertyNames[i];
-                                //     // Holen der Attributwerte
-                                //     var json_object = entity.properties.getValue(Cesium.JulianDate.now());
-                                //     var values = Object.values(json_object);
-                                //     property = values[i];
-
-                                //     // Neue Spalten erzeugen für jede Property
-                                //     var tr = document.createElement('tr'); //Zeile
-                                //     var th = document.createElement('th'); //Überschriftenzelle center und fett dargestellt
-                                //     var td = document.createElement('td'); //Datenzelle linksbündig und regular
-
-                                //     // setzen der spalte
-                                //     th.innerHTML = propertyName;
-                                //     td.innerHTML = property;
-
-                                //     tr.appendChild(th);
-                                //     tr.appendChild(td);
-                                //     table.appendChild(tr);
-
-                                // }
 
                                 loadingAnimation.row.style.display = "none";
                                 // loadingAnimation.row.classList.add("hide");
@@ -3696,7 +3440,6 @@ function get_featureinfo() {
             const featuresPromise = viewer.imageryLayers.pickImageryLayerFeatures(pickRay, viewer.scene);
             if (!Cesium.defined(featuresPromise)) {
 
-                // OSM Data Long and Lat
                 console.log('No features picked.');
 
                 loadingAnimation.row.style.display = "none";
@@ -3705,22 +3448,6 @@ function get_featureinfo() {
                 //loadingAnimation.animation.classList.add("hide");
 
                 infobox_karte.viewModel.description = table.outerHTML;
-
-                // // Prüfen, ob bereits entitites der infomarker bestehen und falls ja löschen!
-                // info_id = addMarkerClickInfo(cartesian, info_id);
-
-                // console.log(info_id);
-
-                // infobox_karte.viewModel.showInfo = true;
-                // infobox_karte.viewModel.description = table.outerHTML;
-
-                // // console.log(document.getElementsByClassName("cesium-infoBox-defaultTable"));
-                // infobox_karte.viewModel.closeClicked.addEventListener(() => {
-
-                //     // Prüfen, ob bereits entitites der infomarker bestehen und falls ja löschen!
-                //     closeInfoBox(infobox_karte);
-
-                // });
 
             } else {
 
@@ -3733,32 +3460,10 @@ function get_featureinfo() {
                 infobox_karte.viewModel.description = table.outerHTML;
 
                 Promise.resolve(featuresPromise).then(function(features) {
+
                     // This function is called asynchronously when the list if picked features is available.
-                    // console.log('Number of features: ' + features.length);
-                    // viewer.selectionIndicator.viewModel.showSelection = true;
-                    //viewer.selectionIndicator.viewModel.position = click.position;
-                    //viewer.selectionIndicator.viewModel.animateAppear();
-                    // selection_indicator.viewModel.update();
-                    // console.log(selection_indicator.viewModel.showSelection);
-
-                    // var selection_indicator_dom = document.getElementsByClassName("cesium-selection-wrapper cesium-selection-wrapper-visible")[0];
-
-                    // selection_indicator_dom.style.top = click.position.y + "px";
-                    // selection_indicator_dom.style.left = click.position.x + "px";
-                    // console.log(click.position);
-                    // console.log(selection_indicator_dom);
-                    // console.log(selection_indicator.viewModel.position);
 
                     if (features.length > 0) {
-
-                        // Prüfen, ob bereits entitites der infomarker bestehen und falls ja löschen!
-                        // info_id = addMarkerClickInfo(cartesian, info_id);
-
-                        // infobox_karte.viewModel.showInfo = true;
-
-                        // var table = document.createElement("table");
-                        // //zum schöner machen die Class
-                        // table.className = "cesium-infoBox-defaultTable";
 
                         for (let element of features) {
                             // console.log(element.imageryLayer.imageryProvider._layers);
@@ -3810,98 +3515,30 @@ function get_featureinfo() {
 
                             // infobox_karte.viewModel.description = table.outerHTML;
 
-                            // Abfrage der WMS
-                            // if (typeof element.data.layerName == 'undefined') {
-
-                            // console.log(element);
-
-                            // var count = Object.keys(element.properties).length;
-                            // var keys = Object.keys(element.properties);
-                            // var values = Object.values(element.properties);
-
-                            // for (let i = 0; i < keys.length; i++) {
-                            //     if (keys[i] == "Classify.PixelValue" && (element.imageryLayer.imageryProvider._layers == 14 ||
-                            //             element.imageryLayer.imageryProvider._layers == 4 || element.imageryLayer.imageryProvider._layers == 9)) {
-                            //         keys[i] = "Wasserhöhe in Metern überschwemmungsgefährdete Gebiete";
-                            //     } else if (keys[i] == "Classify.Classvalue") {
-                            //         keys[i] = "Klassenwert";
-                            //     } else if (keys[i] == "Classify.PixelValue" && (element.imageryLayer.imageryProvider._layers == 15 ||
-                            //             element.imageryLayer.imageryProvider._layers == 5 || element.imageryLayer.imageryProvider._layers == 10)) {
-                            //         keys[i] = "Wasserhöhe in Metern überschwemmungsgebiete";
-                            //     }
-                            // }
-
-                            // for (var i = 0; i < count; i++) {
-                            //     propertyName = keys[i];
-                            //     property = values[i];
-                            //     var tr = document.createElement('tr'); //Zeile
-                            //     var th = document.createElement('th'); //Überschriftenzelle center und fett dargestellt
-                            //     var td = document.createElement('td'); //Datenzelle linksbündig und regular
-
-                            //     th.innerHTML = propertyName;
-                            //     td.innerHTML = property;
-
-                            //     tr.appendChild(th);
-                            //     tr.appendChild(td);
-                            //     table.appendChild(tr);
-                            // }
-
-                            // weitere WMS
-                            // ToDO else if für WMS Ohne element.properties
-                            // HTML als String einlesen und Attribute extrahieren
-                            // if (!(typeof element.properties == 'undefined'))
-
-                            // } else if (element.data.geometryType == "esriGeometryPolygon") {
-
-                            //     // Abfrage der ESRI Hintergrundkarte
-
-                            //     // element.data.attributes[0].name = "Wasserhöhe";
-                            //     // console.log(element.data.attributes[0].name = "Wasserhöhe");
-                            //     // infobox.viewModel.description = element.description;
-
-                            //     console.log(element.description);
-
-                            //     var count = Object.keys(element.properties).length;
-                            //     var keys = Object.keys(element.properties);
-                            //     var values = Object.values(element.properties);
-
-                            //     for (var i = 0; i < count; i++) {
-                            //         propertyName = keys[i];
-                            //         property = values[i];
-                            //         var tr = document.createElement('tr'); //Zeile
-                            //         var th = document.createElement('th'); //Überschriftenzelle center und fett dargestellt
-                            //         var td = document.createElement('td'); //Datenzelle linksbündig und regular
-
-                            //         th.innerHTML = propertyName;
-                            //         td.innerHTML = property;
-
-                            //         tr.appendChild(th);
-                            //         tr.appendChild(td);
-                            //         table.appendChild(tr);
-                            //     }
-                            //     // Nur das erste Element aus der langen Liste soll angezeigt werden, daher break nach dem ersten Element
-                            //     break;
-                            // }
-
                         }
 
+                        // when all features are queryed, dont show the loading animation
                         loadingAnimation.row.style.display = "none";
-                        // loadingAnimation.row.classList.add("hide");
+                        // // loadingAnimation.row.classList.add("hide");
                         loadingAnimation.animation.style.display = "none";
-                        // loadingAnimation.animation.classList.add("hide");
+                        // // loadingAnimation.animation.classList.add("hide");
 
                         // Tabellenbeschreibung als HTML
                         infobox_karte.viewModel.description = table.outerHTML;
 
-                        // // console.log(document.getElementsByClassName("cesium-infoBox-defaultTable"));
-                        // infobox_karte.viewModel.closeClicked.addEventListener(() => {
-
-                        //     // Prüfen, ob bereits entitites der infomarker bestehen und falls ja löschen!
-                        //     closeInfoBox(infobox_karte);
-
-                        // });
                     }
+
+                    // when no features are queryed, dont show the loading animation
+                    loadingAnimation.row.style.display = "none";
+                    // // loadingAnimation.row.classList.add("hide");
+                    loadingAnimation.animation.style.display = "none";
+                    // // loadingAnimation.animation.classList.add("hide");
+
+                    // Tabellenbeschreibung als HTML
+                    infobox_karte.viewModel.description = table.outerHTML;
+
                 });
+
             }
 
             // setzen des Tabellennamens
@@ -4039,7 +3676,6 @@ function addMarkerClickInfo(cartesian, info_id) {
         let latitude = Cesium.Math.toDegrees(cartographic.latitude);
         let altitude = cartographic.height;
 
-        // Bild ist von https: //fonts.google.com/icons?icon.query=location
         viewer.entities.add({
             name: "Point info marker",
             position: Cesium.Cartesian3.fromDegrees(longitude, latitude, altitude),

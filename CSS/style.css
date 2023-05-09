@@ -177,7 +177,7 @@ span.title.active {
     border-radius: 50%;
     background-color: #007fff;
     animation: click-animation ease-out;
-    animation-duration: 1s;
+    animation-duration: 0.9s;
     z-index: 9999;
 }
 
