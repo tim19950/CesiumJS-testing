@@ -3157,7 +3157,7 @@ function get_featureinfo() {
             table.className = "cesium-infoBox-defaultTable";
 
             // add Longitude and Latitude once to the table for every click
-            addLongLattoTable(longitude, latitude, table);
+            addLongLattoTable(longitude, latitude, table, click);
 
             let loadingAnimation = loadingInfoTable(table);
 
@@ -3612,7 +3612,7 @@ function getFeaturesEntity(entity, table) {
     return table;
 }
 
-function addLongLattoTable(longitude, latitude, table) {
+function addLongLattoTable(longitude, latitude, table, click) {
 
     if (longitude && latitude) {
         let arr = ["Longitude", longitude.toFixed(5), "Latitude", latitude.toFixed(5)];
@@ -3628,6 +3628,20 @@ function addLongLattoTable(longitude, latitude, table) {
             tr.appendChild(tD2);
             table.appendChild(tr);
         }
+
+    } else {
+
+        // Get the click position in the map
+        var windowPosition = new Cesium.Cartesian2(click.position.x, click.position.y);
+        var clickPosition = viewer.camera.pickEllipsoid(windowPosition, viewer.scene.globe.ellipsoid);
+
+        if (!clickPosition) {
+            // Add row no data selected
+            let noDataRow = table.insertRow(0);
+
+            noDataRow.innerText = "No data here.";
+        }
+
     }
 }
 

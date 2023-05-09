@@ -50,33 +50,6 @@ body {
 }
 
 
-/* Show the button just after he was added to the menu bar */
-
-.dropdown#layermenue_button_toolbar {
-    display: none;
-}
-
-.dropdown.active#layermenue_button_toolbar {
-    display: block;
-}
-
-
-/* Styling of the pictures of layers */
-
-.img_layers {
-    width: auto;
-    height: auto;
-    background-size: 100% 100%;
-    border: solid 1px #444;
-    border-radius: 9px;
-    color: #edffff;
-    margin: 0;
-    padding: 0;
-    cursor: pointer;
-    box-sizing: border-box;
-}
-
-
 /* Style of the container for pics, use of flex for make them next to each other */
 
 
@@ -86,89 +59,6 @@ body {
     justify-content: center;
     align-items: center;
 } */
-
-
-/* style of the whole layermenu */
-
-#layermenue_dropdown {
-    position: absolute;
-    box-sizing: content-box;
-    top: auto;
-    right: 0;
-    left: -2.7rem !important;
-    width: 325px;
-    margin-top: 5px;
-    background-color: rgba(38, 38, 38, 0.75);
-    border: 1px solid #444;
-    padding: 6px;
-    overflow: auto;
-    border-radius: 10px;
-    visibility: hidden;
-    opacity: 0;
-}
-
-
-/* style of the whole layermenu when its shown */
-
-#layermenue_dropdown.show {
-    visibility: visible;
-    opacity: 1;
-    transform: translate3d(-96px, 34px, 0px) !important;
-}
-
-.dropdown-menu.layermenu .section_text {
-    color: white;
-}
-
-span.title {
-    color: white;
-    /* display: block; */
-    margin-top: 10px;
-    margin-left: 5px;
-}
-
-span.title.active {
-    text-decoration-line: underline;
-}
-
-.dropdown-item.layermenu:hover {
-    background-color: transparent;
-}
-
-
-/* style of cotainer for different a tags (layers) */
-
-.section {
-    border: 1px solid black;
-    border-radius: 5px;
-    /* display: flex; */
-}
-
-.section_text {
-    font-size: 1.5rem;
-}
-
-.img_layers:hover {
-    border: 0.1rem solid white;
-    filter: drop-shadow(0 0 0.5rem rgb(255, 255, 255));
-}
-
-.img_layers.active {
-    border: 2px solid greenyellow;
-}
-
-.dropdown-menu.layermenu .img_layers {
-    width: 70px;
-    height: 70px;
-}
-
-#section_4_text {
-    display: none;
-}
-
-#section_4 {
-    display: none;
-}
 
 .click-animation {
     width: 30px;
