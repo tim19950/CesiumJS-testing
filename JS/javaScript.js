@@ -119,7 +119,7 @@ function start() {
     // level-of-detail refinement. Higher values will provide better performance but lower visual quality
     viewer.scene.globe.maximumScreenSpaceError = 2.5;
 
-    // viewer.scene.globe.depthTestAgainstTerrain = true;
+    viewer.scene.globe.depthTestAgainstTerrain = true;
 
     // Willkommensbildschirm
     let modal_welcome = new bootstrap.Modal(document.getElementById("modal_welcome"));
