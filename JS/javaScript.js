@@ -96,8 +96,8 @@ function start() {
     });
 
     viewer.scene.globe.showGroundAtmosphere = true;
-    viewer.scene.globe.lightingFadeOutDistance = Infinity;
-    viewer.scene.globe.lightingFadeInDistance = Infinity;
+    viewer.scene.globe.lightingFadeOutDistance = 2000;
+    viewer.scene.globe.lightingFadeInDistance = 1000;
 
     // add geoloction button
     addGeolocationButton();
