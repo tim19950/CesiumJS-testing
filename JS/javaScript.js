@@ -95,9 +95,8 @@ function start() {
         maximumRenderTimeChange: Infinity
     });
 
-    viewer.scene.globe.showGroundAtmosphere = true;
-    viewer.scene.globe.lightingFadeOutDistance = 2000;
-    viewer.scene.globe.lightingFadeInDistance = 1000;
+    // disable, due to not shown imagerylayers when zoomed out
+    viewer.scene.globe.showGroundAtmosphere = false;
 
     // add geoloction button
     addGeolocationButton();
