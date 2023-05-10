@@ -34,7 +34,9 @@ function start() {
     let esri = new Cesium.ArcGisMapServerImageryProvider({
         url: 'https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer'
     });
-    let esriLayer = new Cesium.ImageryLayer(esri);
+    let esriLayer = new Cesium.ImageryLayer(esri, {
+        rectangle: Cesium.Rectangle.MAX_VALUE
+    });
 
     // Create the OSM imagery provider
     let osmProvider = new Cesium.OpenStreetMapImageryProvider({
@@ -102,7 +104,7 @@ function start() {
     viewer.scene.debugShowFramesPerSecond = true;
 
     //FXAA Kantenglättung
-    viewer.scene.postProcessStages.fxaa.enabled = true;
+    viewer.scene.postProcessStages.fxaa.enabled = false;
     // Ambient Occlusion 
     viewer.scene.postProcessStages.ambientOcclusion.enabled = false;
     viewer.scene.postProcessStages.bloom.enabled = false;
@@ -113,7 +115,7 @@ function start() {
     // level-of-detail refinement. Higher values will provide better performance but lower visual quality
     viewer.scene.globe.maximumScreenSpaceError = 2.5;
 
-    viewer.scene.globe.depthTestAgainstTerrain = true;
+    // viewer.scene.globe.depthTestAgainstTerrain = true;
 
     // Willkommensbildschirm
     let modal_welcome = new bootstrap.Modal(document.getElementById("modal_welcome"));
