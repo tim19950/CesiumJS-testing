@@ -170,6 +170,7 @@ body {
     .language .smallDevices {
         font-size: 1em;
     }
+    /* Bugfixing for not overlowing helptour last infofield */
     html,
     body {
         overflow: visible;
