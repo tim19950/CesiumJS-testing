@@ -97,6 +97,7 @@ function start() {
 
     viewer.scene.globe.showGroundAtmosphere = true;
     viewer.scene.globe.lightingFadeOutDistance = Infinity;
+    viewer.scene.globe.lightingFadeInDistance = Infinity;
 
     // add geoloction button
     addGeolocationButton();
