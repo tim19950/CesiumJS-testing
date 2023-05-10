@@ -163,11 +163,15 @@ body {
         /* For small devices make the infobox more wider */
         width: fit-content !important;
     }
+    /* For small devices make the menu style more readable */
     .dropdown-header {
         font-size: 1em;
     }
     .language .smallDevices {
         font-size: 1em;
+    }
+    body {
+        overflow: auto;
     }
 }
 
