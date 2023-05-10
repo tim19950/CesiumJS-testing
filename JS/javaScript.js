@@ -95,6 +95,8 @@ function start() {
         maximumRenderTimeChange: Infinity
     });
 
+    viewer.scene.globe.showGroundAtmosphere = false;
+
     // add geoloction button
     addGeolocationButton();
     // adding the measure buttons
