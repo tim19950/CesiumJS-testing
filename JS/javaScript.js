@@ -76,6 +76,7 @@ function start() {
         //Setzen einer Atmospähre
         skyAtmosphere: new Cesium.SkyAtmosphere(),
         msaaSamples: 0,
+        // globe: false,
         //Voreingestelltes Terrain (ESRI 3D Gelände) und Oberflächenbilder (OSM)
         // terrainProvider: Cesium.createWorldTerrain(),
         // terrainProvider: new Cesium.VRTheWorldTerrainProvider({
@@ -115,7 +116,7 @@ function start() {
     // level-of-detail refinement. Higher values will provide better performance but lower visual quality
     viewer.scene.globe.maximumScreenSpaceError = 2.5;
 
-    // viewer.scene.globe.depthTestAgainstTerrain = true;
+    viewer.scene.globe.depthTestAgainstTerrain = true;
 
     // Willkommensbildschirm
     let modal_welcome = new bootstrap.Modal(document.getElementById("modal_welcome"));
@@ -418,6 +419,11 @@ function handlingOSMmap(osmLayer) {
 // Define the event listener function
 function cameraChangedListener() {
     console.log('Camera changed!');
+
+    var cameraHeight = 0;
+    var cameraPosition = viewer.camera.positionCartographic;
+    cameraHeight = cameraPosition.height;
+    console.log(cameraHeight / 1000);
 
     //Aufruf der function, die die Geodaten hinzufügt
     fetchURL();
