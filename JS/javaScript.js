@@ -14,7 +14,7 @@ window.addEventListener('load', function() {
     start();
 });
 
-async function start() {
+function start() {
 
     Cesium.Ion.defaultAccessToken =
         "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJlYWE3NThhYi01N2QyLTRlYjgtODVjOC0yNmZmOTVkMjc5NmUiLCJpZCI6MjAzMTcsInNjb3BlcyI6WyJhc3IiLCJnYyJdLCJpYXQiOjE1ODU2NDYwOTh9.15deq-wlgG1etoMnlMVacxOD48gTv1p85401mlsO6P8";
