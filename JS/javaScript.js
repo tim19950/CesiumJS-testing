@@ -119,7 +119,7 @@ function start() {
     // level-of-detail refinement. Higher values will provide better performance but lower visual quality
     viewer.scene.globe.maximumScreenSpaceError = 2.5;
 
-    viewer.scene.globe.depthTestAgainstTerrain = true;
+    // viewer.scene.globe.depthTestAgainstTerrain = true;
 
     // Willkommensbildschirm
     let modal_welcome = new bootstrap.Modal(document.getElementById("modal_welcome"));
@@ -3708,7 +3708,6 @@ function addMarkerClickInfo(cartesian, info_id) {
                 image: "./Icons/info-marker.svg",
                 distanceDisplayCondition: new Cesium.DistanceDisplayCondition(0.0, 2000.0),
                 scaleByDistance: new Cesium.NearFarScalar(0, 1.0, 2000, 0.6),
-
                 // Darstellung auch auf Gebäuden, auf clamptoground kann verzichtet werden
                 // Damit das billboard nicht im boden versinkt, wird pixeloffset verwendet
                 pixelOffset: new Cesium.Cartesian2(0, -20),
