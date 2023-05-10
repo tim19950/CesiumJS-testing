@@ -95,7 +95,8 @@ function start() {
         maximumRenderTimeChange: Infinity
     });
 
-    viewer.scene.globe.showGroundAtmosphere = false;
+    viewer.scene.globe.showGroundAtmosphere = true;
+    viewer.scene.globe.lightingFadeOutDistance = Infinity;
 
     // add geoloction button
     addGeolocationButton();
