@@ -19,16 +19,16 @@ function start() {
     Cesium.Ion.defaultAccessToken =
         "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJlYWE3NThhYi01N2QyLTRlYjgtODVjOC0yNmZmOTVkMjc5NmUiLCJpZCI6MjAzMTcsInNjb3BlcyI6WyJhc3IiLCJnYyJdLCJpYXQiOjE1ODU2NDYwOTh9.15deq-wlgG1etoMnlMVacxOD48gTv1p85401mlsO6P8";
 
-    // Auf NRW zoomen am Start
-    var extent = Cesium.Rectangle.fromDegrees(
-        5.863953,
-        51.042848,
-        9.103,
-        51.857073
-    );
+    // // Auf NRW zoomen am Start
+    // var extent = Cesium.Rectangle.fromDegrees(
+    //     5.863953,
+    //     51.042848,
+    //     9.103,
+    //     51.857073
+    // );
 
-    Cesium.Camera.DEFAULT_VIEW_RECTANGLE = extent;
-    Cesium.Camera.DEFAULT_VIEW_FACTOR = 0;
+    // Cesium.Camera.DEFAULT_VIEW_RECTANGLE = extent;
+    // Cesium.Camera.DEFAULT_VIEW_FACTOR = 0;
 
     // Create ArcGIS Map imagery provider
     let esri = new Cesium.ArcGisMapServerImageryProvider({
