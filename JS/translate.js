@@ -3,8 +3,6 @@ let translator = new Translator({
         // filesLocation: '/json'
 });
 
-let ger, eng, thai;
-
 // This will fetch "/json/de.json" and "/json/en.json"
 translator.fetch(['ger', 'eng', 'thai']).then((languages) => {
 

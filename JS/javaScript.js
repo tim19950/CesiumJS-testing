@@ -28,16 +28,12 @@ async function start() {
     // );
 
     // Cesium.Camera.DEFAULT_VIEW_RECTANGLE = extent;
-    // Cesium.Camera.DEFAULT_VIEW_FACTOR = 0;
+    Cesium.Camera.DEFAULT_VIEW_FACTOR = 0;
 
     // Create ArcGIS Map imagery provider
-    // let esri = new Cesium.ArcGisMapServerImageryProvider({
-    //     url: 'https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer'
-    // });
-
-    const esri = await Cesium.ArcGisMapServerImageryProvider.fromUrl(
-        "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer"
-    );
+    let esri = new Cesium.ArcGisMapServerImageryProvider({
+        url: 'https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer'
+    });
     let esriLayer = new Cesium.ImageryLayer(esri);
 
     // Create the OSM imagery provider
@@ -55,7 +51,7 @@ async function start() {
     // });
 
     // create world terrain from cesium
-    let worldTerrain = await Cesium.createWorldImageryAsync();
+    let worldTerrain = Cesium.createWorldTerrain();
 
     // let VRWorldTerrainProvider = await Cesium.VRTheWorldTerrainProvider.fromUrl(
     //     "http://www.vr-theworld.com/vr-theworld/tiles1.0.0/73/"
@@ -88,7 +84,7 @@ async function start() {
         // terrainProvider: new Cesium.ArcGISTiledElevationTerrainProvider({
         //     url: 'https://elevation3d.arcgis.com/arcgis/rest/services/WorldElevation3D/Terrain3D/ImageServer'
         // }),
-        baseLayer: osmProvider,
+        imageryProvider: osmProvider,
         // Der Request Render Mode sorgt dafür, dass im idle nur bei bestimmten Situationen neu gerendert wird was im Bild ist, 
         // was die CPU Last reduziert
         requestRenderMode: true,
