@@ -1,6 +1,6 @@
 let translator = new Translator({
     filesLocation: '/CesiumJS-testing/json'
-        // filesLocation: '/json'
+        //filesLocation: '/json'
 });
 
 // This will fetch "/json/de.json" and "/json/en.json"
@@ -32,6 +32,9 @@ export function translateButtonTitle(language, button) {
         },
         geolocateButton: {
             title: "Positionsbestimmung"
+        },
+        ExternenDatenLöschen: {
+            title: "Alle externen Layer löschen"
         },
         layerMenuButton: {
             title: "Layermenü"
@@ -66,6 +69,9 @@ export function translateButtonTitle(language, button) {
         geolocateButton: {
             title: "Geolocate yourself"
         },
+        ExternenDatenLöschen: {
+            title: "Delete all external layers"
+        },
         layerMenuButton: {
             title: "Layermenu"
         },
@@ -98,6 +104,9 @@ export function translateButtonTitle(language, button) {
         },
         geolocateButton: {
             title: "ระบุตําแหน่งทางภูมิศาสตร์ด้วยตัวคุณเอง"
+        },
+        ExternenDatenLöschen: {
+            title: "ลบเลเยอร์ภายนอกทั้งหมด"
         },
         layerMenuButton: {
             title: "เมนูเลเยอร์"
@@ -154,9 +163,61 @@ export function translateButtonTitle(language, button) {
             case "fullscreen":
                 button.title = __('vollbildButton.title', language);
                 break;
+            case "layer_delete_button":
+                button.title = __('ExternenDatenLöschen.title', language);
+                break;
         }
     }
 }
+
+export function translateToastHeight(toastBody, height) {
+
+    let translator = new Translator();
+
+    translator.add("ger", {
+        toastMessageheight: {
+            textContent: "Die ellipsoidische Höhe (WGS84) des Punktes beträgt: " + height + " meter."
+        }
+    });
+
+    translator.add("eng", {
+        toastMessageheight: {
+            textContent: "The ellipsoidal height (WGS84) of the point is: " + height + " meters."
+        }
+    });
+
+    translator.add("thai", {
+        toastMessageheight: {
+            textContent: "ความสูงบนวงแหวนโลก (WGS84) ของจุดนี้คือ: " + height + " เมตร"
+        }
+    });
+
+    // Get all img tags
+    const imagTags = document.querySelectorAll('img.eng, img.thai, img.ger');
+
+    // Loop through the img tags
+    for (const imgTag of imagTags) {
+        // Get the language class of the img tag
+        const lang = imgTag.classList[0];
+
+        // Check if the img tag has the "active-flag" class which id added when clicked before
+        if (imgTag.classList.contains('active-flag')) {
+            // Do something with the img tag based on its language class
+            updateToastText(lang);
+        }
+    }
+
+    function updateToastText(language) {
+        if (toastBody) {
+            switch (toastBody.id) {
+                case "toastBody":
+                    toastBody.textContent = __('toastMessageheight.textContent', language);
+                    break;
+            }
+        }
+    }
+}
+
 
 export function translateToast(toastBody, distance, total_distance) {
 
@@ -226,9 +287,10 @@ export function translateToast(toastBody, distance, total_distance) {
         if (toastBody) {
             switch (toastBody.id) {
                 case "toastBody":
-
-                    if (distance) {
+                    if (distance !== 0) {
+                        console.log("Fds");
                         if (distance > 1000 && total_distance > 1000) {
+                            console.log("b");
                             // Wenn die Distanz und total distance größer als 1000 Meter ist, umrechnen in Kilometer
                             toastBody.innerText = __('toastMessagedistanceOver1000andTotalDistanceOver1000.innerText', language);
                             break;
@@ -240,14 +302,13 @@ export function translateToast(toastBody, distance, total_distance) {
                             break;
                         }
                     } else {
+                        console.log("a");
                         toastBody.textContent = __('toastMessage.textContent', language);
                         break;
                     }
-
             }
         }
     }
-
 }
 
 export function translateInfoTable(inputString) {
@@ -282,15 +343,6 @@ export function translate(modalHeader, modalBody, errorMessage, alert, button, h
         buttonOK: {
             innerText: "Okay, fortfahren"
         },
-        measureHeightButton: {
-            title: "Höhen messen"
-        },
-        measureDistanceButton: {
-            title: "Strecken messen"
-        },
-        geolocateButton: {
-            title: "Positionsbestimmung"
-        },
         modalHeaderTerrain: {
             innerText: "Information"
         },
@@ -301,7 +353,7 @@ export function translate(modalHeader, modalBody, errorMessage, alert, button, h
             innerText: "Wenn die Gebäude auf dem Gelände dargestellt werden, wird eine höhere Rechnerleistung benötigt."
         },
         modalBodyDeleteData: {
-            innerText: "Möchten Sie wirklich alle externen Geodaten aus der Szene entfernen?"
+            innerText: "Möchten Sie wirklich alle externen Geodaten aus der Szene und dem Layermenü entfernen?"
         },
         modalBodyWrongFormat: {
             innerText: "Die Daten, welche Sie hinzufügen möchten, sind keine GeoJSON Dateien. Bitte laden Sie nur GeoJSON."
@@ -330,6 +382,9 @@ export function translate(modalHeader, modalBody, errorMessage, alert, button, h
         geoJSONAddnoFile: {
             innerText: "Wählen Sie erst eine Datei aus"
         },
+        geoJSONAddExists: {
+            innerText: "Eine oder meherer ausgewählte Dateien existieren bereits im Menü."
+        },
         alertWMSNoURL: {
             innerHTML: "<strong>Achtung!</strong>Geben Sie erst eine URL des WMS an!"
         },
@@ -348,6 +403,9 @@ export function translate(modalHeader, modalBody, errorMessage, alert, button, h
         alertNoWMSSelected: {
             innerHTML: "<strong>Achtung!</strong>Bitte zuerst den WMS auswählen und dann auf 'Zum Menü hinzufügen' klicken."
         },
+        alertWMSExistMenu: {
+            innerHTML: "<strong>Achtung!</strong>Der ausgewählte WMS ist bereits in dem Layermenu vorhaden."
+        },
         sucessWMSQuery: {
             innerHTML: "Die Abfrage der Layer des WMS war erfolgreich."
         },
@@ -360,15 +418,6 @@ export function translate(modalHeader, modalBody, errorMessage, alert, button, h
         buttonOK: {
             innerText: "Okay, continue"
         },
-        measureHeightButton: {
-            title: "Measure heights"
-        },
-        measureDistanceButton: {
-            title: "Measure distance"
-        },
-        geolocateButton: {
-            title: "Geolocate yourself"
-        },
         modalHeaderTerrain: {
             innerText: "Information"
         },
@@ -379,7 +428,7 @@ export function translate(modalHeader, modalBody, errorMessage, alert, button, h
             innerText: "When the buildings are displayed on the terrain, a higher computer performance is required."
         },
         modalBodyDeleteData: {
-            innerText: "Are you sure you want to remove all external geospatial data from the scene?"
+            innerText: "Do you really want to remove all external geodata from the scene and the layer menu?"
         },
         modalBodyWrongFormat: {
             innerText: "The data you want to add are not GeoJSON files. Please only add GeoJSON files."
@@ -408,6 +457,9 @@ export function translate(modalHeader, modalBody, errorMessage, alert, button, h
         geoJSONAddnoFile: {
             innerText: "Select a file first"
         },
+        geoJSONAddExists: {
+            innerText: "One or more selected files already exist in the menu."
+        },
         alertWMSNoURL: {
             innerHTML: "<strong>Caution!</strong>First enter a URL of the WMS!"
         },
@@ -426,6 +478,9 @@ export function translate(modalHeader, modalBody, errorMessage, alert, button, h
         alertNoWMSSelected: {
             innerHTML: "<strong>Caution!</strong>Please select the WMS first and then click on 'Add to menu'."
         },
+        alertWMSExistMenu: {
+            innerHTML: "<strong>Attention!</strong> The selected WMS is already present in the layer menu."
+        },
         sucessWMSQuery: {
             innerHTML: "The query of the layers of the WMS was successful."
         },
@@ -438,15 +493,6 @@ export function translate(modalHeader, modalBody, errorMessage, alert, button, h
         buttonOK: {
             innerText: "เอาล่ะดําเนินการต่อ"
         },
-        measureHeightButton: {
-            title: "วัดความสูง"
-        },
-        measureDistanceButton: {
-            title: "วัดระยะทาง"
-        },
-        geolocateButton: {
-            title: "ระบุตําแหน่งทางภูมิศาสตร์ด้วยตัวคุณเอง"
-        },
         modalHeaderTerrain: {
             innerText: "ข้อมูล"
         },
@@ -457,7 +503,7 @@ export function translate(modalHeader, modalBody, errorMessage, alert, button, h
             innerText: "เมื่ออาคารแสดงบนภูมิประเทศจําเป็นต้องมีประสิทธิภาพของคอมพิวเตอร์ที่สูงขึ้น"
         },
         modalBodyDeleteData: {
-            innerText: "คุณแน่ใจหรือไม่ว่าต้องการลบข้อมูลเชิงพื้นที่ภายนอกทั้งหมดออกจากฉาก"
+            innerText: "คุณต้องการลบข้อมูลเชิงพื้นที่ภายนอกทั้งหมดออกจากฉากและเมนูเลเยอร์จริงหรือไม่?"
         },
         modalBodyWrongFormat: {
             innerText: "ข้อมูลที่คุณต้องการเพิ่มไม่ใช่ไฟล์ GeoJSON โปรดเพิ่มไฟล์ GeoJSON เท่านั้น"
@@ -486,6 +532,9 @@ export function translate(modalHeader, modalBody, errorMessage, alert, button, h
         geoJSONAddnoFile: {
             innerText: "เลือกไฟล์ก่อน"
         },
+        geoJSONAddExists: {
+            innerText: "ไฟล์ที่เลือกหนึ่งหรือมากกว่านั้นมีอยู่แล้วในเมนู"
+        },
         alertWMSNoURL: {
             innerHTML: "<strong>ความระมัดระวัง!</strong> ก่อนอื่นให้ป้อน URL ของ WMS!"
         },
@@ -503,6 +552,9 @@ export function translate(modalHeader, modalBody, errorMessage, alert, button, h
         },
         alertNoWMSSelected: {
             innerHTML: "<strong>ความระมัดระวัง!</strong> โปรดเลือก WMS ก่อนจากนั้นคลิกที่ 'เพิ่มลงในเมนู'"
+        },
+        alertWMSExistMenu: {
+            innerHTML: "<strong>โปรดทราบ!</strong> WMS ที่เลือกมีอยู่แล้วในเมนูเลเยอร์"
         },
         sucessWMSQuery: {
             innerHTML: "แบบสอบถามของเลเยอร์ของ WMS ประสบความสําเร็จ."
@@ -599,8 +651,11 @@ export function translate(modalHeader, modalBody, errorMessage, alert, button, h
 
         if (alert) {
             switch (alert.id) {
-                case "alert1":
+                case "noGeoJSON":
                     alert.innerText = __('geoJSONAddnoFile.innerText', language);
+                    break;
+                case "GeoJSONExistsAlready":
+                    alert.innerText = __('geoJSONAddExists.innerText', language);
                     break;
                 case "noWMSURL":
                     alert.innerHTML = __('alertWMSNoURL.innerHTML', language);
@@ -619,6 +674,9 @@ export function translate(modalHeader, modalBody, errorMessage, alert, button, h
                     break;
                 case "noWMSQueryed":
                     alert.innerHTML = __('alertNoWMSQueryed.innerHTML', language);
+                    break;
+                case "WMSExistsMenu":
+                    alert.innerHTML = __('alertWMSExistMenu.innerHTML', language);
                     break;
                 case "success":
                     alert.innerHTML = __('sucessWMSQuery.innerHTML', language);

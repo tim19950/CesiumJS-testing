@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <image xlink:href="https://www.downloadclipart.net/svg/4007-marker-svg.svg" x="15" y="-10" width="50" height="50">
+    <animate attributeName="y" values="-10;20;30" dur="1s" repeatCount="indefinite"/>
+  </image>
+</svg>
