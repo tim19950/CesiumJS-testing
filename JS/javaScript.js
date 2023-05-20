@@ -2248,7 +2248,7 @@ function add_external_service() {
           
             // Fetch the data using the Fetch API
             fetch(value_url_wms + "?REQUEST=GetCapabilities&SERVICE=WMS", {
-                mode: 'cors',
+                mode: 'no-cors',
                 headers: {
                     'Access-Control-Allow-Origin': 'https://tim19950.github.io' // Replace with your actual domain
                 }
