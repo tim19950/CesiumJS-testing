@@ -19,10 +19,10 @@
     <link rel="stylesheet" type="text/css" href="./CSS/styleModalWelcome.css"></link>
     <link rel="stylesheet" type="text/css" href="./CSS/stylesSwitchLanguage.css"></link>
 
-    <link href="https://cesium.com/downloads/cesiumjs/releases/1.105.1/Build/Cesium/Widgets/widgets.css" rel="stylesheet">
+    <link href="https://cesium.com/downloads/cesiumjs/releases/1.105/Build/Cesium/Widgets/widgets.css" rel="stylesheet">
 
     <!-- Include the CesiumJS JavaScript and other JS Bibs -->
-    <script src="https://cesium.com/downloads/cesiumjs/releases/1.105.1/Build/Cesium/Cesium.js"></script>
+    <script src="https://cesium.com/downloads/cesiumjs/releases/1.105/Build/Cesium/Cesium.js"></script>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
@@ -462,7 +462,7 @@
                         <div data-i18n="modal.div.wms.body">Geben Sie hier den WMS Dienst an.</div>
                         <div class="mb-3">
                             <label data-i18n="modal.label.wms.title" for="wms-text" class="col-form-label">WMS URL</label>
-                            <textarea data-i18n="modal.label.wms.data-content modal.label.wms.placeholder" data-i18n-attr="data-content placeholder" data-toggle="popover" data-placement="right" data-content="URL des Web Mapping Services" class="form-control" id="wms-text" placeholder="WMS URL hier eingeben... In der Form: https://sgx.geodatenzentrum.de/wms_starkregen"></textarea>
+                            <textarea data-i18n="modal.label.wms.data-content modal.label.wms.placeholder" data-i18n-attr="title placeholder" title="URL des Web Mapping Services" class="form-control" id="wms-text" placeholder="WMS URL hier eingeben... In der Form: https://sgx.geodatenzentrum.de/wms_starkregen"></textarea>
                             <div class="d-flex align-items-center">
                                 <div class="spinner-border spinner-border-sm hide" role="status" aria-hidden="true"></div>
                                 <strong data-i18n="modal.strong.wms.title" class="loadWMS hide">Layer werden geladen...</strong>
@@ -470,7 +470,7 @@
                         </div>
                         <div class="mb-3" id="wms_list" style="display:none">
                             <label data-i18n="modal.label.wms.title2" for="exampleDataList" class="form-label">WMS Layer auswählen</label>
-                            <input data-i18n="modal.label.wms.data-content2 modal.label.wms.placeholder2" data-i18n-attr="data-content placeholder" data-toggle="popover" data-placement="right" data-content="Layer des Web Mapping Services" class="form-control" list="datalistOptions"
+                            <input data-i18n="modal.label.wms.data-content2 modal.label.wms.placeholder2" data-i18n-attr="title placeholder" title="Layer des Web Mapping Services" class="form-control" list="datalistOptions"
                                 id="exampleDataList" placeholder="Layer suchen...">
                             <datalist id="datalistOptions">
                             </datalist>

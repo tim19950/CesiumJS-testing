@@ -1,6 +1,6 @@
 let translator = new Translator({
     filesLocation: '/CesiumJS-testing/json'
-        //filesLocation: '/json'
+        // filesLocation: '/json'
 });
 
 // This will fetch "/json/de.json" and "/json/en.json"

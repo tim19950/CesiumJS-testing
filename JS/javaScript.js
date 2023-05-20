@@ -176,205 +176,187 @@ function start() {
     // viewer.scene.postRender.addEventListener(updateBuildingsview);
 }
 
+/*
+    Function: addCreditsIcons
+    Description: Adds credits with tooltips, images, and links to be displayed onscreen.
+    Input Parameters: None
+    Returns: None
+*/
 function addCreditsIcons() {
-    // Add a credit with a tooltip, image and link to display onscreen
+    // Create a credit for Icons8 Icons and add it to the credit display
     let creditIcons8 = new Cesium.Credit(`<a href="http://icons8.com/icons" target="_blank">Icons8 Icons</a>`);
     viewer.creditDisplay.addStaticCredit(creditIcons8);
 
+    // Create a credit for Fontawesome Icons and add it to the credit display
     let creditFontAwesome = new Cesium.Credit(`<a href="https://fontawesome.com/" target="_blank">Fontawesome Icons</a>`);
     viewer.creditDisplay.addStaticCredit(creditFontAwesome);
 }
 
+/*
+    Function: addGeolocationButton
+    Description: Adds a geolocation button to the toolbar.
+    Input Parameters: None
+    Returns: None
+*/
 function addGeolocationButton() {
-
     const modeButton = document.getElementsByClassName("cesium-button cesium-toolbar-button cesium-home-button")[0];
 
-    let geolocation_button = document.createElement("button");
-    geolocation_button.setAttribute("class", "cesium-button cesium-toolbar-button");
-    geolocation_button.setAttribute("id", "geolocate_button_toolbar");
-    geolocation_button.setAttribute("type", "button");
-    geolocation_button.setAttribute("title", "Positionsbestimmung");
+    // Create a geolocation button element
+    let geolocationButton = document.createElement("button");
+    geolocationButton.setAttribute("class", "cesium-button cesium-toolbar-button");
+    geolocationButton.setAttribute("id", "geolocate_button_toolbar");
+    geolocationButton.setAttribute("type", "button");
+    geolocationButton.setAttribute("title", "Positionsbestimmung");
 
-    geolocation_button.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="27" height="28"><!--! Font Awesome Pro 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M256 0c17.7 0 32 14.3 32 32V66.7C368.4 80.1 431.9 143.6 445.3 224H480c17.7 0 32 14.3 32 32s-14.3 32-32 32H445.3C431.9 368.4 368.4 431.9 288 445.3V480c0 17.7-14.3 32-32 32s-32-14.3-32-32V445.3C143.6 431.9 80.1 368.4 66.7 288H32c-17.7 0-32-14.3-32-32s14.3-32 32-32H66.7C80.1 143.6 143.6 80.1 224 66.7V32c0-17.7 14.3-32 32-32zM128 256a128 128 0 1 0 256 0 128 128 0 1 0 -256 0zm128-80a80 80 0 1 1 0 160 80 80 0 1 1 0-160z"/></svg>';
+    // Set the inner HTML of the geolocation button with an SVG icon
+    geolocationButton.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="27" height="28"><!--! Font Awesome Pro 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M256 0c17.7 0 32 14.3 32 32V66.7C368.4 80.1 431.9 143.6 445.3 224H480c17.7 0 32 14.3 32 32s-14.3 32-32 32H445.3C431.9 368.4 368.4 431.9 288 445.3V480c0 17.7-14.3 32-32 32s-32-14.3-32-32V445.3C143.6 431.9 80.1 368.4 66.7 288H32c-17.7 0-32-14.3-32-32s14.3-32 32-32H66.7C80.1 143.6 143.6 80.1 224 66.7V32c0-17.7 14.3-32 32-32zM128 256a128 128 0 1 0 256 0 128 128 0 1 0 -256 0zm128-80a80 80 0 1 1 0 160 80 80 0 1 1 0-160z"/></svg>';
 
-    modeButton.before(geolocation_button);
-
-    // toolbar.insertBefore(geolocation_button, modeButton);
+    // Insert the geolocation button before the modeButton in the toolbar
+    modeButton.before(geolocationButton);
 }
 
+/*
+    Function: addMeasureButtons
+    Description: Adds measure buttons (height and distance) to the toolbar.
+    Input Parameters: None
+    Returns: None
+*/
 function addMeasureButtons() {
-
     const geolocateButton = document.getElementById("geolocate_button_toolbar");
 
-    let measure_height_button = document.createElement("button");
-    measure_height_button.setAttribute("class", "cesium-button cesium-toolbar-button d-none d-lg-block");
-    measure_height_button.setAttribute("id", "measure_height_button_toolbar");
-    measure_height_button.setAttribute("type", "button");
-    measure_height_button.setAttribute("title", "Höhen messen");
+    // Create a measure height button element
+    let measureHeightButton = document.createElement("button");
+    measureHeightButton.setAttribute("class", "cesium-button cesium-toolbar-button d-none d-lg-block");
+    measureHeightButton.setAttribute("id", "measure_height_button_toolbar");
+    measureHeightButton.setAttribute("type", "button");
+    measureHeightButton.setAttribute("title", "Höhen messen");
 
-    measure_height_button.innerHTML = '<img src="./Icons/height-marker-white-96.svg" width="30" height="31"><a href="http://icons8.com/icons"</a></img>';
+    // Set the inner HTML of the measure height button with an image
+    measureHeightButton.innerHTML = '<img src="./Icons/height-marker-white-96.svg" width="30" height="31"><a href="http://icons8.com/icons"</a></img>';
 
-    // add measure height button after the geolocate button
-    geolocateButton.after(measure_height_button);
-    // toolbar.insertBefore(measure_height_button, modeButton);
+    // Insert the measure height button after the geolocate button in the toolbar
+    geolocateButton.after(measureHeightButton);
 
-    let measure_distance_button = document.createElement("button");
-    measure_distance_button.setAttribute("class", "cesium-button cesium-toolbar-button d-none d-lg-block");
-    measure_distance_button.setAttribute("id", "measure_distance_button_toolbar");
-    measure_distance_button.setAttribute("type", "button");
-    measure_distance_button.setAttribute("title", "Strecken messen");
+    // Create a measure distance button element
+    let measureDistanceButton = document.createElement("button");
+    measureDistanceButton.setAttribute("class", "cesium-button cesium-toolbar-button d-none d-lg-block");
+    measureDistanceButton.setAttribute("id", "measure_distance_button_toolbar");
+    measureDistanceButton.setAttribute("type", "button");
+    measureDistanceButton.setAttribute("title", "Strecken messen");
 
-    measure_distance_button.innerHTML = '<img src="./Icons/measure-line-white-outline.svg" width="30" height="32"><a href="http://icons8.com/icons"</a></img>';
+    // Set the inner HTML of the measure distance button with an image
+    measureDistanceButton.innerHTML = '<img src="./Icons/measure-line-white-outline.svg" width="30" height="32"><a href="http://icons8.com/icons"</a></img>';
 
-    // measure_distance_button.innerHTML = '<i class="fa-solid fa-ruler-horizontal fa-xl" style="color: #ffffff;"></i>';
-    // add measure distance button after the measure_height_button
-    measure_height_button.after(measure_distance_button);
-
+    // Insert the measure distance button after the measure_height_button in the toolbar
+    measureHeightButton.after(measureDistanceButton);
 }
 
-function translateButtonTitles() {
 
-    // set IDs of elements that dont have an id yet
+/*
+    Function: translateButtonTitles
+    Description: Translates the titles of buttons based on the selected language.
+    Input Parameters: None
+    Returns: None
+*/
+function translateButtonTitles() {
+    // Set IDs of elements that don't have an ID yet
     document.querySelector('[title="3D"]').id = "3D";
     document.querySelector('[title="2D"]').id = "2D";
     document.querySelector('[title="Columbus View"]').id = "Columbus-view";
 
-    // Get all img tags
+    // Get all img tags with specific classes
     const imgTags = document.querySelectorAll('img.eng, img.thai, img.ger');
-    // safe IDs in array
+    // Store button IDs in an array
     const buttonIds = ['3D', '2D', 'layer_delete_button', 'Columbus-view', 'measure_height_button_toolbar', 'measure_distance_button_toolbar', 'geolocate_button_toolbar', 'menu_btn', 'homebutton', 'help_button', 'fullscreen'];
 
-    // loop through the img tags
+    // Loop through the img tags
     for (let imgTag of imgTags) {
-        // when each imgTag got clicked
+        // Add click event listener to each img tag
         imgTag.onclick = function() {
             const lang = imgTag.classList[0];
-            // use forEach loop to iterate over buttonarray to use function translateButtonTitle only once
+            // Use forEach loop to iterate over buttonIds array and translate button titles
             buttonIds.forEach(id => translateButtonTitle(lang, document.getElementById(id)));
         };
     }
 }
 
+/*
+    Function: handlingImagery
+    Description: Handles the imagery layers, including the removal of event listeners and the handling of OSM and ESRI layers.
+    Input Parameters:
+        - osmLayer: Cesium.ImageryLayer
+        - esriLayer: Cesium.ImageryLayer
+    Returns: None
+*/
 function handlingImagery(osmLayer, esriLayer) {
-
     let layerESRIImg = document.getElementById("layer_img_2");
-    // remove eventlistener, terrain can not be deactivated
+    // remove the eventlistener for toggle the active Layers state
     layerESRIImg.removeEventListener("click", toggleActiveImgItem);
     handlingESRIMap(esriLayer);
 
-    // EllisiodTerrainImg.addEventListener("click", ChangeTerrainEllipsoidWGS84);
-
     let layerOSMImg = document.getElementById("layer_img_1");
-
-    // remove eventlistener, layerOSM can not be deactivated
+    // remove the eventlistener for toggle the active Layers state
     layerOSMImg.removeEventListener("click", toggleActiveImgItem);
     handlingOSMmap(osmLayer);
-    // layerVRWorldTerrainImg.addEventListener("click", ChangeTerrainVRWorld);
 }
 
-
+/*
+    Function: handlingESRIMap
+    Description: Handles the ESRI map layer, including the addition/removal of the layer and updating the active state.
+    Input Parameters:
+        - esriLayer: Cesium.ImageryLayer object representing the ESRI layer
+    Returns: None
+*/
 function handlingESRIMap(esriLayer) {
-
-    // // Möglichkeit zwei, ich erstelle über eine schleife eventlistener aller layer (die schon existieren)
-    // // wird nur mit dom obersver bei dem dynamischen wms layern funktionieren wahrscheinlich
-    // if (!viewer.imageryLayers.contains(OSMImageryLayer)) {
-    //     viewer.imageryLayers.add(OSMImageryLayer);
-    //     console.log("initial");
-    // } else {
-    //     viewer.imageryLayers.remove(OSMImageryLayer, false);
-    //     console.log("remove");
-    // }
-
     let layerESRIImg = document.getElementById("layer_img_2");
     let layerOSMImg = document.getElementById("layer_img_1");
 
     layerESRIImg.addEventListener("click", function(event) {
-
         if (!event.target.classList.contains('active')) {
-
-            console.log(event.target.classList);
-
             event.target.classList.add("active");
             event.target.parentElement.children[1].classList.add("active");
 
-            // viewer.imageryProvider = esriLayer.imageryProvider;
+            // Remove existing layers and add ESRI layer at position 0
             viewer.imageryLayers.remove(viewer.imageryLayers.get(0), false);
             viewer.imageryLayers.add(esriLayer, 0);
-            console.log(viewer.imageryLayers);
+
+            // Remove active state from OSM layer
             layerOSMImg.classList.remove("active");
             layerOSMImg.parentElement.children[1].classList.remove("active");
-
         }
-
-        // if (event.target.classList.contains('active') && !viewer.imageryLayers.contains(esriLayer)) {
-        //     if (typeof document.getElementById("section_4")) {
-        //         viewer.imageryLayers.add(esriLayer);
-        //         viewer.imageryLayers.lower(esriLayer);
-        //     } else
-        //         viewer.imageryLayers.add(esriLayer);
-        //     console.log("initial added ESRI imagery");
-        // } else {
-        //     // load OSM imagery when clicked
-        //     // console.log(event.target.parentElement.getAttribute('id'));
-        //     // loadOSMMap(osmLayer, event.target.getAttribute('class'));
-        //     console.log("ESRI contains already. The ESRI layer gets deleted.");
-        //     // console.log(ESRIBaseLayer.imageryProvider.credit.html);
-        //     viewer.imageryLayers.remove(esriLayer, false);
-        // }
     });
-
-    // console.log(viewer.imageryLayers);
 }
 
+/*
+    Function: handlingOSMmap
+    Description: Handles the OSM map layer, including the addition/removal of the layer and updating the active state.
+    Input Parameters:
+        - osmLayer: Cesium.ImageryLayer
+    Returns: None
+*/
 function handlingOSMmap(osmLayer) {
-
     let layerOSMImg = document.getElementById("layer_img_1");
-
     let layerESRIImg = document.getElementById("layer_img_2");
 
     layerOSMImg.addEventListener("click", function(event) {
-
         console.log(event.target.classList);
 
         if (!event.target.classList.contains('active')) {
-
+            // Add active state to clicked element
             event.target.classList.add("active");
             event.target.parentElement.children[1].classList.add("active");
 
+            // Remove existing layers and add OSM layer at position 0
             viewer.imageryLayers.remove(viewer.imageryLayers.get(0), false);
             viewer.imageryLayers.add(osmLayer, 0);
-            console.log(viewer.imageryLayers);
-            // viewer.imageryLayers.add(osmLayer, 0);
+
+            // Remove active state from ESRI layer
             layerESRIImg.classList.remove("active");
             layerESRIImg.parentElement.children[1].classList.remove("active");
-
         }
-
-        // // Three cases if clicked
-        // // First, check if not active and the baselayer has the credit, then remove the base layer (Layer on pos 0 in list)
-        // if (!event.target.classList.contains('active') && !viewer.imageryLayers.contains(osmLayer)) {
-        //     console.log("OSM baselayer contains already. The osm layer gets deleted.");
-        //     console.log(viewer.imageryLayers);
-        //     console.log(viewer.imageryLayers.get(0).imageryProvider.credit.html);
-        //     if (viewer.imageryLayers.get(0).isBaseLayer() && viewer.imageryLayers.get(0).imageryProvider.credit.html === "MapQuest, Open Street Map and contributors, CC-BY-SA") {
-        //         viewer.imageryLayers.remove(viewer.imageryLayers.get(0), false);
-        //     }
-        //     // var osmBaseLayer = viewer.imageryLayers.get(0);
-        //     // viewer.imageryLayers.remove(osmBaseLayer, false);
-        //     // Secondly, if the layer already was added in the past via the variable osmLayer, then remove
-        // } else if (!event.target.classList.contains('active') && viewer.imageryLayers.contains(osmLayer)) {
-        //     // remove OSM imagery when clicked
-        //     console.log("OSM layer contains already. The osm layer gets deleted.");
-        //     viewer.imageryLayers.remove(osmLayer, false);
-        //     // if either of the two cases is true, add the osmLayer
-        // } else {
-        //     viewer.imageryLayers.add(osmLayer, 0);
-        //     console.log("added osm layer");
-
-        // }
     });
-
 }
+
 
 // function updateBuildingsview() {
 
@@ -421,22 +403,26 @@ function handlingOSMmap(osmLayer) {
 //     }
 // }
 
-// Define the event listener function
+/*
+    Function: cameraChangedListener
+    Description: Event listener function triggered when the camera changes. It retrieves the camera height and calls the fetchURL function.
+    Input Parameters: None
+    Returns: None
+*/
 function cameraChangedListener() {
     console.log('Camera changed!');
 
-    var cameraHeight = 0;
-    var cameraPosition = viewer.camera.positionCartographic;
-    cameraHeight = cameraPosition.height;
-    console.log(cameraHeight / 1000);
-
-    //Aufruf der function, die die Geodaten hinzufügt
+    // Call the fetchURL function to add geodata
     fetchURL();
-
 }
 
+/*
+    Function: handlingOSMBuildings
+    Description: Handles the OSMBuildings layer, including toggling the layer visibility and displaying a modal if certain conditions are met.
+    Input Parameters: None
+    Returns: None
+*/
 function handlingOSMBuildings() {
-
     let layerOSMBuildingsimg = document.getElementById("layer_img_3");
 
     layerOSMBuildingsimg.addEventListener("click", function(event) {
@@ -444,10 +430,9 @@ function handlingOSMBuildings() {
         console.log(event.target.classList);
 
         if (event.target.classList.contains('active')) {
-
             let VRWorldTerrainImg = document.getElementById("layer_img_5");
             if (VRWorldTerrainImg.classList.contains('active')) {
-
+                // Display a modal with inforamtion that the buildings use much ressource with Terrain(RAM etc.)
                 let modal = new bootstrap.Modal(document.querySelectorAll("[id^='modal_osm_buildings_clamping']")[0]);
                 let modalHeader = document.getElementById("exampleModalLabel");
                 let modalBody = document.getElementById("modal_body_osm_buildings_clamping");
@@ -456,128 +441,99 @@ function handlingOSMBuildings() {
                 document.querySelectorAll("[id^='modal_osm_buildings_clamping']")[0].id = newID;
                 // modalBody.innerText = "Für die Aktiverung des Geländes mit eingeschalteten Gebäuden werden aus Performancegründen keine Gebäude auf dem Gelände dargestellt. Daher werden die Gebäude nur auf dem WGS84 Ellipsiod dargestellt und visualiert.";
 
+                // translate the modal
                 translate(modalHeader, modalBody, undefined, undefined, buttonOK);
 
                 modal.show();
-
             } else {
-
                 console.log("ShowBuildings");
-
                 ShowBuildings();
-
             }
-
         } else {
-
             console.log("DontShowBuildings");
-
             DontShowBuildings();
-
-            // clearInterval(interval_buildings);
-            // // alle intervalle instanzen auf null setzen
-            // interval_buildings = null;
-            // while (interval_buildings !== null) {
-            //     interval_buildings = null;
-            // }
-
+            
         }
     });
 }
 
+/*
+    Function: DontShowBuildings
+    Description: Removes the buildings data sources from the viewer, clears related arrays, and removes the cameraChangedListener.
+    Input Parameters: None
+    Returns: None
+*/
 function DontShowBuildings() {
-
     viewer.camera.changed.removeEventListener(cameraChangedListener);
 
     for (let i = 0; i < viewer.dataSources.length; i++) {
-
         let datasource = viewer.dataSources.get(i);
-        // console.log(datasource);
-
         if (datasource.name && datasource.name.startsWith("Buildings") && datasource.show === true) {
-
-            // datasource.show = false;
             for (let datasource of globalArray) {
                 viewer.dataSources.remove(datasource);
             }
-            // console.log(viewer.dataSources.remove(datasource));
             globalArray = [];
             cartesian_array = [];
-
         }
     }
-    // Explicitly render a new frame
     viewer.scene.requestRender();
-
-    // remove cameraChangedListener
     console.log('Camera listener removed!');
 }
 
+/*
+    Function: ShowBuildings
+    Description: Displays the buildings data sources on the viewer and adds the cameraChangedListener.
+    Input Parameters: None
+    Returns: None
+*/
 function ShowBuildings() {
-
-    // for (let i = 0; i < viewer.dataSources.length; i++) {
-
-    //     var datasource = viewer.dataSources.get(i);
-    //     if (viewer.dataSources.get(i).name && viewer.dataSources.get(i).name.startsWith("Buildings") && viewer.dataSources.get(i).show === false) {
-
-    //         datasource.show = true;
-    //     }
-    // }
-
-    // Explicitly render a new frame
     viewer.scene.requestRender();
-
-    // if (!interval_buildings)
-    //     interval_buildings = setInterval(fetchURL, 1000);
-
     viewer.camera.percentageChanged = 1;
-    // Add the event listener
     viewer.camera.changed.addEventListener(cameraChangedListener);
-
     console.log("Buildings einschalten");
 }
 
+/*
+    Function: toggleActiveImgItem
+    Description: Toggles the active state of the image and span elements.
+    Input Parameters:
+        - event: Event object
+    Returns: None
+*/
 function toggleActiveImgItem(event) {
-    // Image und span tags auf active setzen und attribut listener hinzufügen, damit nicht mehrfach hinzugefügt wird
     var imgItem = event.target;
     imgItem.classList.toggle("active");
     imgItem.parentElement.children[1].classList.toggle("active");
-    // console.log(event.target.parentElement.getAttribute('id'));
-    // let id = event.target.parentElement.getAttribute('id');
-    // load esri imagery when clicked
-    // loadArcGisMapServerImageryProvider(esriLayer, id);
 }
 
-
+/*
+    Function: markActiveSelectedLayers
+    Description: Marks the selected layers as active to provide visual feedback to the user.
+    Input Parameters: None
+    Returns: None
+*/
 function markActiveSelectedLayers() {
-
-    // damit die Layer grün werden bei betätigung um den nutzer über den Zusatand zu informieren, werden in der Karte angezeigt
     var imgItems = document.getElementsByClassName("img_layers");
 
-    // set imgitems active when clicked
     for (const imgItem of imgItems) {
-        // console.log(layerItem);
-        // check if listener already defined
         if (!imgItem.getAttribute('listener')) {
-
             imgItem.setAttribute('listener', 'true');
             imgItem.parentElement.children[1].setAttribute('listener', 'true');
-
             imgItem.addEventListener("click", toggleActiveImgItem);
         }
     }
-
 }
 
+/*
+    Function: StopCloseMenu
+    Description: Prevents the layer menu from closing when items are clicked.
+    Input Parameters: None
+    Returns: None
+*/
 function StopCloseMenu() {
-    // Das Layermenü soll bei auswahl nicht ausgeblendet werden
     let layerItems = document.querySelectorAll("[class^='dropdown-item layermenu']");
 
-    //let layerItems = document.getElementsByClassName("dropdown-item layermenu");
-    //let detailslayerItems = document.getElementsByClassName("WMSLegend-details");
-
     for (const layerItem of layerItems) {
-        // console.log(layerItem);
         if (!layerItem.getAttribute('listenerStopPropagation')) {
             layerItem.setAttribute('listenerStopPropagation', 'true');
 
@@ -587,39 +543,41 @@ function StopCloseMenu() {
             });
         }
     }
-
 }
 
+/*
+    Function: LayerMenu
+    Description: Handles the layer menu functionality, including toggling the menu visibility and marking selected layers.
+    Input Parameters: None
+    Returns: None
+*/
 function LayerMenu() {
-
     const modeButton = document.getElementsByClassName("cesium-button cesium-toolbar-button cesium-home-button")[0];
-
     const layer_menue_btn = document.getElementById("layermenue_button_toolbar");
 
     modeButton.before(layer_menue_btn);
-    // layer_menue_btn.insertBefore(modeButton);
-    // toggle class CSS active when clicked to show menu
     layer_menue_btn.classList.toggle("active");
 
     // mark the active selected layers in the menu
     markActiveSelectedLayers();
     // Stop close the menu when clicked
     StopCloseMenu();
-
 }
 
+/*
+    Function: ChangeTerrainEllipsoidWGS84
+    Description: Handles the terrain change to WGS84 ellipsoid, including updating the active state and switching terrain providers.
+    Input Parameters:
+        - event: Event object
+        - EllipsoidTerrainProvider: Cesium.EllipsoidTerrainProvider
+    Returns: None
+*/
 function ChangeTerrainEllipsoidWGS84(event, EllipsoidTerrainProvider) {
-
     let layerVRWorldTerrainimg = document.getElementById("layer_img_5");
     let layerOSMBuildingsimg = document.getElementById("layer_img_3");
 
-    console.log(event.target.classList);
-
     if (!event.target.classList.contains('active')) {
-
         if (layerOSMBuildingsimg.classList.contains('active')) {
-            console.log("remove buildings");
-            // remove buildings and fetch new one, better then reprojection
             DontShowBuildings();
             ShowBuildings();
         }
@@ -628,33 +586,33 @@ function ChangeTerrainEllipsoidWGS84(event, EllipsoidTerrainProvider) {
         event.target.parentElement.children[1].classList.add("active");
 
         viewer.terrainProvider = EllipsoidTerrainProvider;
+
         layerVRWorldTerrainimg.classList.remove("active");
         layerVRWorldTerrainimg.parentElement.children[1].classList.remove("active");
     }
 }
 
+/*
+    Function: ChangeTerrainVRWorld
+    Description: Handles the terrain change to VR-TheWorld, including updating the active state and displaying a modal if buildings are active.
+    Input Parameters:
+        - event: Event object
+        - worldTerrain: Cesium.CesiumTerrainProvider
+    Returns: None
+*/
 function ChangeTerrainVRWorld(event, worldTerrain) {
-
     let EllisiodTerrainImg = document.getElementById("layer_img_4");
 
-    console.log(event.target.classList);
-
     if (!event.target.classList.contains('active')) {
-
         let layerOSMBuildingsimg = document.getElementById("layer_img_3");
-        if (layerOSMBuildingsimg.classList.contains('active')) {
 
+        if (layerOSMBuildingsimg.classList.contains('active')) {
             let modal = new bootstrap.Modal(document.querySelectorAll("[id^='modal_osm_buildings_clamping']")[0]);
             let modalHeader = document.getElementById("exampleModalLabel");
             let modalBody = document.getElementById("modal_body_osm_buildings_clamping");
             let buttonOK = document.getElementById("ok_button_osm_buildings_terrain");
             let newID = "modal_osm_buildings_clamping_2";
             document.querySelectorAll("[id^='modal_osm_buildings_clamping']")[0].id = newID;
-            console.log(document.getElementById("modal_osm_buildings_clamping_2").id);
-            // buttonOK.innerText = "Okay, fortfahren";
-            // modalHeader.innerText = "Information";
-            // modalBody.innerText = "Wenn die Gebäude auf dem Gelände dargestellt werden, wird eine höhere Rechnerleistung benötigt.";
-            // modalBody.innerText = "Aus Performancegründen werden keine Gebäude auf dem VR-TheWorld Gelände dargestellt. Daher werden die Gebäude nur auf dem WGS84 Ellipsiod dargestellt und visualiert.";
 
             translate(modalHeader, modalBody, undefined, undefined, buttonOK);
 
@@ -667,12 +625,19 @@ function ChangeTerrainVRWorld(event, worldTerrain) {
         viewer.terrainProvider = worldTerrain;
         EllisiodTerrainImg.classList.remove("active");
         EllisiodTerrainImg.parentElement.children[1].classList.remove("active");
-
     }
 }
 
-function handlingTerrain(worldTerrain, EllipsoidTerrainProvider) {
 
+/*
+    Function: handlingTerrain
+    Description: Handles the terrain change functionality, including adding event listeners for terrain options.
+    Input Parameters:
+        - worldTerrain: Cesium.CesiumTerrainProvider
+        - EllipsoidTerrainProvider: Cesium.EllipsoidTerrainProvider
+    Returns: None
+*/
+function handlingTerrain(worldTerrain, EllipsoidTerrainProvider) {
     check_cesium_terrain_buildings(worldTerrain, EllipsoidTerrainProvider);
 
     let EllisiodTerrainImg = document.getElementById("layer_img_4");
@@ -690,32 +655,29 @@ function handlingTerrain(worldTerrain, EllipsoidTerrainProvider) {
     layerVRWorldTerrainImg.addEventListener("click", function(event) {
         ChangeTerrainVRWorld(event, worldTerrain);
     });
-
 }
 
+/*
+    Function: remove_external_layers
+    Description: Handles the removal of external layers, including imagery layers and GeoJSON data sources.
+    Input Parameters: None
+    Returns: None
+*/
 function remove_external_layers() {
-
     document.getElementById("layer_delete_button").addEventListener('click', () => {
-
         let my_modal = new bootstrap.Modal(document.getElementById("modal_delete_all_data"));
         let modalbody = document.getElementById("modal_body_delete_all_data");
-        // body.innerText = "Möchten Sie wirklich alle externen Geodaten aus der Szene entfernen?";
-
         translate(undefined, modalbody, undefined, undefined);
-
         my_modal.show();
     });
 
     document.getElementById("ok_button_delete_all_data").addEventListener('click', () => {
-
         const section4 = document.getElementById("section_4");
 
         // This function removes an imagery layer from the Cesium viewer given a layer name
         function deleteImageryLayer(layer) {
             for (let i = 0; i < viewer.imageryLayers.length; i++) {
-                // Check if the name of the current layer in the loop matches the given layer name
                 if (viewer.imageryLayers.get(i).imageryProvider._layers === layer) {
-                    // If there is a match, remove the layer and log a message
                     viewer.imageryLayers.remove(viewer.imageryLayers.get(i));
                     console.log("Deleted imagery layer:", layer);
                 }
@@ -725,88 +687,61 @@ function remove_external_layers() {
         // This function removes a GeoJSON data source from the Cesium viewer given a data source name
         function deleteGeoJSONdataSource(name) {
             for (let i = 0; i < viewer.dataSources.length; i++) {
-                // Check if the name of the current data source in the loop matches the given name
                 if (viewer.dataSources.get(i).name === name) {
-                    // If there is a match, remove the data source and log a message
                     viewer.dataSources.remove(viewer.dataSources.get(i), false);
                     console.log("Deleted GeoJSON dataSource:", name);
-                    // Reset the globalList array
+                    // Delete global list for GeoJSON
                     globalList = [];
                 }
             }
         }
 
-        // This loop removes all child elements from the section4 element
         while (section4.firstChild) {
             const child = section4.firstChild;
             if (child.dataset) {
-                // If the child element has a dataset attribute
                 if (child.dataset.layerswms) {
-                    // If the dataset attribute is 'layerswms', call deleteImageryLayer with the corresponding layer name
                     deleteImageryLayer(child.dataset.layerswms);
                 } else if (child.dataset.filelayergeojson) {
-                    // If the dataset attribute is 'filelayergeojson', call deleteGeoJSONdataSource with the corresponding data source name
                     deleteGeoJSONdataSource(child.dataset.filelayergeojson);
                 }
             }
-            // Remove the child element from the DOM
             section4.removeChild(child);
-            // Explicitly render a new frame in the viewer
             viewer.scene.requestRender();
         }
 
         if (document.getElementById("layer_delete_button")) {
-            // wenn die Layer entfernt wurden soll der Button wieder entfernt werden
             let layer_del = document.getElementById("layer_delete_button");
             layer_del.remove();
         }
 
         section4.style.display = "none";
-
         let section4Text = document.getElementById("section_4_text");
         section4Text.style.display = "none";
-
     });
-
 }
 
-
+/*
+    Function: createLayerdeleteExternalData
+    Description: Creates a button to delete external data layers
+    Input Parameters: None
+    Returns: None
+*/
 function createLayerdeleteExternalData() {
-
     let LayerMenuToolbar = document.getElementById("layermenue_button_toolbar");
 
     if (!document.getElementById("layer_delete_button")) {
-
         var layer_delete_button = document.createElement("button");
         layer_delete_button.setAttribute("class", "btn btn-outline-secondary cesium-toolbar-button cesium-button");
         layer_delete_button.setAttribute("id", "layer_delete_button");
         layer_delete_button.setAttribute("type", "button");
         layer_delete_button.setAttribute("title", "Alle externen Layer löschen");
-
         layer_delete_button.innerHTML = '<div style="text-align:center;" style="width: 20px; height: 20px"><svg xmlns="http://www.w3.org/2000/svg" viewBox="-70 -50 600 600"><!--! Font Awesome Pro 6.2.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. --><path d="M135.2 17.7C140.6 6.8 151.7 0 163.8 0H284.2c12.1 0 23.2 6.8 28.6 17.7L320 32h96c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 96 0 81.7 0 64S14.3 32 32 32h96l7.2-14.3zM32 128H416V448c0 35.3-28.7 64-64 64H96c-35.3 0-64-28.7-64-64V128zm96 64c-8.8 0-16 7.2-16 16V432c0 8.8 7.2 16 16 16s16-7.2 16-16V208c0-8.8-7.2-16-16-16zm96 0c-8.8 0-16 7.2-16 16V432c0 8.8 7.2 16 16 16s16-7.2 16-16V208c0-8.8-7.2-16-16-16zm96 0c-8.8 0-16 7.2-16 16V432c0 8.8 7.2 16 16 16s16-7.2 16-16V208c0-8.8-7.2-16-16-16z"/></svg></div>';
-
-        // toolbar.insertBefore(layer_delete_button, layerpicker);
-
         LayerMenuToolbar.before(layer_delete_button);
     }
 
-    // clearInterval(interval_delete_layer);
-    // // alle intervalle instanzen auf null setzen
-    // interval_delete_layer = null;
-    // while (interval_delete_layer !== null) {
-    //     interval_delete_layer = null;
-    // }
-
-    // function with listeners to for the modal
     remove_external_layers();
-
-    // wenn die Layer entfernt wurden soll der Button wieder entfernt werden
-    // layer_delete_button.remove();
-
-    // ein neues Intervall wird gestartet
-    // interval_delete_layer = setInterval(create_layerdelete, 500);
-
 }
+
 
 function ausgabe() {
     console.log("Gelände geändert");
@@ -1188,7 +1123,7 @@ function fetchURL() {
 
                         //  Extrude the polygon based on the Hoehe and clamp on Ground
                         //  height - damit die gebäude im gelände nicht schweben
-                        entity.polygon.height = -1;
+                        entity.polygon.height = -5;
 
                         entity.polygon.heightReference = Cesium.HeightReference.RELATIVE_TO_GROUND;
                         entity.polygon.extrudedHeight = entity.properties.height;
@@ -1203,7 +1138,6 @@ function fetchURL() {
                         const entity = entities[i];
                         // only set height property
                         entity.polygon.extrudedHeight = entity.properties.height;
-
                     }
                 }
 
@@ -1606,6 +1540,7 @@ function choose_geocode() {
 async function checkForTerrainAndCalcCartesian(cartesian, longitude, latitude) {
 
     let VRWorldTerrainImg = document.getElementById("layer_img_5");
+
     if (VRWorldTerrainImg.classList.contains('active')) {
         // calulate height of entity postion first
         let cartographic = Cesium.Cartographic.fromCartesian(cartesian);
@@ -1621,6 +1556,9 @@ async function checkForTerrainAndCalcCartesian(cartesian, longitude, latitude) {
         });
 
     }
+
+    console.log(cartesian);
+
     return cartesian;
 }
 
@@ -2033,27 +1971,11 @@ function addLayerGeoJson(nameGeoJSon, ID, file) {
 
     markActiveSelectedLayers();
     StopCloseMenu();
-
-    return ID;
-}
-
-function popover() {
-
-    $('#wms-text').popover({
-        trigger: 'hover'
-    });
-
-    $('#exampleDataList').popover({
-        trigger: 'hover'
-    });
 }
 
 function handleExternalServices(node, value_name_wms, value_url_wms) {
 
     let imageryLayer;
-
-    console.log(value_url_wms);
-    console.log(value_name_wms);
 
     // Create WMSImageryProvider
     let wms_provider = new Cesium.WebMapServiceImageryProvider({
@@ -2078,14 +2000,19 @@ function handleExternalServices(node, value_name_wms, value_url_wms) {
             // When the node has the active class, the referencing wms_prover for the node gets added
             if (event.target.classList.contains('active')) {
 
-                imageryLayer = viewer.imageryLayers.addImageryProvider(wms_provider);
+                imageryLayer = new Cesium.ImageryLayer(wms_provider, {
+                    alpha: 0.6
+                });
+                viewer.imageryLayers.add(imageryLayer);
+
+                // imageryLayer = viewer.imageryLayers.addImageryProvider(wms_provider);
 
                 // viewer.imageryLayers.add(esriLayer);
-                console.log("initial added ESRI imagery");
+                console.log("initial added WMS");
             } else {
                 // when the node dont has activ class the wms gets removed
                 viewer.imageryLayers.remove(imageryLayer);
-                console.log("ESRI contains already. The ESRI layer gets deleted.");
+                console.log("WMS contains already. The WMS layer gets deleted.");
             }
         });
     }
@@ -2146,7 +2073,8 @@ function handleExternalGeodata(node) {
             reader.addEventListener('load', (event) => {
 
                 let promise = Cesium.GeoJsonDataSource.load(JSON.parse(event.target.result), {
-                    clampToGround: true
+                    clampToGround: true,
+                    markerSymbol: '?'
                 });
 
                 promise
@@ -2157,7 +2085,6 @@ function handleExternalGeodata(node) {
                         geoJSONdataSource = dataSource;
 
                         viewer.dataSources.add(dataSource);
-                        console.log(viewer.dataSources);
 
                         // // Explicitly render a new frame
                         // viewer.scene.requestRender();
@@ -2278,7 +2205,7 @@ function add_external_service() {
 
         // wenn das Feld ausgewählt, Feld leeren
         document.getElementById("exampleDataList").value = "";
-        popover();
+        // popover();
 
         // Initial Alertmeldungen und sucessmeldung nicht sichtbar stellen des WMS modals
         for (let alert of alerts) {
@@ -2286,17 +2213,6 @@ function add_external_service() {
         }
 
     });
-
-    // document.getElementById("wms-text").addEventListener('input', () => {
-
-    //     let option_list_wms = document.getElementById("datalistOptions");
-    //     // // Gesamte Liste leeren 
-    //     // while (option_list_wms.firstChild) {
-    //     //     option_list_wms.removeChild(option_list_wms.lastChild);
-    //     // }
-    //     // option_list_wms.innerHTML = "";
-
-    // });
 
     document.getElementById("anfrage_button_wms").addEventListener('click', () => {
         // var value_name_wms = document.getElementById("wms-name").value;
@@ -2396,7 +2312,7 @@ function add_external_service() {
                                         layerAbstract = textContent;
                                         break;
                                     case "Style":
-                                        const xlingAttribut = child.lastElementChild.lastElementChild.getAttribute("xlink:href");
+                                        const xlingAttribut = child.querySelector("OnlineResource").getAttribute("xlink:href");
                                         if (xlingAttribut) {
                                             layerLegendURL = xlingAttribut;
                                         }
@@ -2409,10 +2325,31 @@ function add_external_service() {
                             if (hasLayerName && hasTitle && hasBoundingBox) {
                                 let option = document.createElement("option");
                                 // console.log(child);
+                                if(layerTitle){
                                 option.value = layerTitle;
+                                } else {
+                                    console.log(element_layer.querySelector("Name"));
+                                    // if the title element is empty for the layer, then use the Name as title of the layer tag 
+                                    const NameElement = element_layer.querySelector("Name");
+
+                                    if (NameElement) {
+                                        option.value = NameElement.textContent;
+                                    }
+                                }
                                 option.setAttribute("data-LayersWms", layerName);
                                 option.setAttribute("data-LayersWmsAbstract", layerAbstract);
-                                option.setAttribute("data-LayersWmsLengendURL", layerLegendURL);
+
+                                // Check if the href doesn't start with "http://" or "https://"
+                                // then it must be a relative link
+                                if (!layerLegendURL.startsWith("http://") && !layerLegendURL.startsWith("https://")) {
+                                    // Add your desired string in front of the href
+                                    // const queryString = layerLegendURL.split('?')[1];
+                                    // console.log(queryString);
+                                    layerLegendURL = value_url_wms + "?" + layerLegendURL;
+                                    console.log(layerLegendURL);
+                                }
+                                
+                                option.setAttribute("data-LayersWmsLengendURL",layerLegendURL);
                                 document.getElementById("datalistOptions").appendChild(option);
                             }
 
@@ -3525,18 +3462,26 @@ function get_featureinfo() {
                             entity.id.includes("searchadress_point_") || entity.id.includes("point_info_marker")) {
 
                             if (entity.position) {
+                                // Code to execute if the entity position is defined to place marker on entity 
                                 let positionEntity = entity.position.getValue(Cesium.JulianDate.now());
                                 // console.log(positionEntity);
                                 info_id = addMarkerClickInfo(positionEntity, info_id);
-                                // replace the generated long and lat fo revery click with the coords from the clicked entity
+                                // set long and lat and other attrbibutes for clicked entity with an position
                                 table = getFeaturesEntity(entity, table);
                             } else {
+                                // for lines or polygons etc.
                                 table = getFeaturesEntity(entity, table);
                             }
 
                             infobox_karte.viewModel.description = table.outerHTML;
 
                         } else {
+                            
+                            if (entity.position) {
+                                // Code to execute if the entity position is defined to place marker on entity 
+                                let positionEntity = entity.position.getValue(Cesium.JulianDate.now());
+                                info_id = addMarkerClickInfo(positionEntity, info_id);
+                              }
 
                             // OSM Builings are entitites
                             // input string
