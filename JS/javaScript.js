@@ -2250,7 +2250,7 @@ function add_external_service() {
             fetch(value_url_wms + "?REQUEST=GetCapabilities&SERVICE=WMS", {
                 mode: 'cors',
                 headers: {
-                    'Access-Control-Allow-Origin': 'https://tim19950.github.io/CesiumJS-testing/' // Replace with your actual domain
+                    'Access-Control-Allow-Origin': 'https://tim19950.github.io' // Replace with your actual domain
                 }
             }).then(response => {
                     if (!response.ok) {
