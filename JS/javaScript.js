@@ -2245,249 +2245,152 @@ function add_external_service() {
             while (datalist_options.firstChild) {
                 datalist_options.removeChild(datalist_options.lastChild);
             }
-          
-            // Fetch the data using the Fetch API
-            fetch(value_url_wms + "?REQUEST=GetCapabilities&SERVICE=WMS", {
-                mode: 'no-cors',
-                headers: {
-                    'Access-Control-Allow-Origin': 'https://tim19950.github.io' // Replace with your actual domain
-                }
-            }).then(response => {
-                    if (!response.ok) {
-                        throw new Error("Error in the request");
-                    }
-                    return response.text();
-                })
-                .then(xmlText => {
-                    const parser = new DOMParser();
-                    const xmlDoc = parser.parseFromString(xmlText, "text/xml");
 
-                    let layers = xmlDoc.getElementsByTagName("Layer");
-                    for (let layer of layers) {
-                        let hasLayerName = false;
-                        let hasTitle = false;
-                        let hasBoundingBox = false;
-                        let layerTitle, layerName, layerAbstract, layerLegendURL;
+            let xhttp = new XMLHttpRequest();
 
-                        for (let child of layer.children) {
-                            const { nodeName, textContent } = child;
-                            switch (nodeName) {
-                                case "Name":
-                                    hasLayerName = true;
-                                    layerName = textContent;
-                                    break;
-                                case "Title":
-                                    hasTitle = true;
-                                    layerTitle = textContent;
-                                    break;
-                                case "BoundingBox":
-                                    hasBoundingBox = true;
-                                    break;
-                                case "Abstract":
-                                    layerAbstract = textContent;
-                                    break;
-                                case "Style":
-                                    const xlinkHref = child.querySelector("OnlineResource").getAttribute("xlink:href");
-                                    if (xlinkHref) {
-                                        layerLegendURL = xlinkHref;
-                                    }
-                                    break;
-                            }
-                        }
+            // anhängen der requestparameter des WMS GetCapabilities requestes
+            xhttp.open("GET", value_url_wms + "?REQUEST=GetCapabilities&SERVICE=WMS");
+            xhttp.send();
 
-                        if (hasLayerName && hasTitle && hasBoundingBox) {
-                            let option = document.createElement("option");
-                            if (layerTitle) {
-                                option.value = layerTitle;
-                            } else {
-                                const nameElement = layer.querySelector("Name");
-                                if (nameElement) {
-                                    option.value = nameElement.textContent;
+            xhttp.onload = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    // Typical action to be performed when the document is ready:
+                    let response_text = xhttp.responseXML;
+
+                    console.log(response_text);
+
+                    if (response_text) {
+
+                        htmlcollection_layer = response_text.getElementsByTagName("Layer");
+
+                        console.log(htmlcollection_layer);
+
+                        for (let element_layer of htmlcollection_layer) {
+
+                            let hasLayerName = false;
+                            let hasTitle = false;
+                            let hasBoundingBox = false;
+                            let layerTitle, layerName, layerAbstract, layerLegendURL;
+
+                            for (let child of element_layer.children) {
+                                const { nodeName, textContent } = child;
+                                switch (nodeName) {
+                                    case "Name":
+                                        hasLayerName = true;
+                                        layerName = textContent;
+                                        break;
+                                    case "Title":
+                                        hasTitle = true;
+                                        layerTitle = textContent;
+                                        break;
+                                    case "BoundingBox":
+                                        hasBoundingBox = true;
+                                        break;
+                                    case "Abstract":
+                                        layerAbstract = textContent;
+                                        break;
+                                    case "Style":
+                                        const xlingAttribut = child.querySelector("OnlineResource").getAttribute("xlink:href");
+                                        if (xlingAttribut) {
+                                            layerLegendURL = xlingAttribut;
+                                        }
+                                        break;
                                 }
                             }
-                            option.setAttribute("data-LayersWms", layerName);
-                            option.setAttribute("data-LayersWmsAbstract", layerAbstract);
 
-                            if (!layerLegendURL.startsWith("http://") && !layerLegendURL.startsWith("https://")) {
-                                layerLegendURL = value_url_wms + "?" + layerLegendURL;
-                            }
-                            option.setAttribute("data-LayersWmsLengendURL", layerLegendURL);
+                            // if the layer tag in the xml has a layername an title tag and an boundingbox
+                            // then add an option element to the list of options
+                            if (hasLayerName && hasTitle && hasBoundingBox) {
+                                let option = document.createElement("option");
+                                // console.log(child);
+                                if(layerTitle){
+                                option.value = layerTitle;
+                                } else {
+                                    console.log(element_layer.querySelector("Name"));
+                                    // if the title element is empty for the layer, then use the Name as title of the layer tag 
+                                    const NameElement = element_layer.querySelector("Name");
 
-                            document.getElementById("datalistOptions").appendChild(option);
-                        }
-                    }
+                                    if (NameElement) {
+                                        option.value = NameElement.textContent;
+                                    }
+                                }
+                                option.setAttribute("data-LayersWms", layerName);
+                                option.setAttribute("data-LayersWmsAbstract", layerAbstract);
 
-                    // Hide alerts and show success message
-                    for (let alert of alerts) {
-                        alert.style.display = "none";
-                    }
-                    success.style.display = "";
-                    translate(undefined, undefined, undefined, success, undefined);
-                })
-                .catch(error => {
-                    console.error(error);
-
-                    // Hide alerts and show error message
-                    for (let alert of alerts) {
-                        alert.style.display = "none";
-                    }
-                    errorRequest.style.display = "";
-                    translate(undefined, undefined, undefined, errorRequest, undefined);
-                })
-                .finally(() => {
-                    // Stop the loading animation
-                    stopLoadingAnimationWMS();
-                });
-
-
-            // let xhttp = new XMLHttpRequest();
-
-            // // anhängen der requestparameter des WMS GetCapabilities requestes
-            // xhttp.open("GET", value_url_wms + "?REQUEST=GetCapabilities&SERVICE=WMS");
-            // xhttp.send();
-
-            // xhttp.onload = function() {
-            //     if (this.readyState == 4 && this.status == 200) {
-            //         // Typical action to be performed when the document is ready:
-            //         // console.log(xhttp.responseText);
-            //         let response_text = xhttp.responseXML;
-
-            //         console.log(response_text);
-            //         // xmlDoc.getElementsByTagName("title")[0].childNodes[0].nodeValue;
-            //         // console.log(response_text.getElementsByTagName("Layer"));
-
-            //         if (response_text) {
-
-            //             htmlcollection_layer = response_text.getElementsByTagName("Layer");
-
-            //             console.log(htmlcollection_layer);
-
-            //             for (let element_layer of htmlcollection_layer) {
-
-            //                 let hasLayerName = false;
-            //                 let hasTitle = false;
-            //                 let hasBoundingBox = false;
-            //                 let layerTitle, layerName, layerAbstract, layerLegendURL;
-
-            //                 for (let child of element_layer.children) {
-            //                     const { nodeName, textContent } = child;
-            //                     switch (nodeName) {
-            //                         case "Name":
-            //                             hasLayerName = true;
-            //                             layerName = textContent;
-            //                             break;
-            //                         case "Title":
-            //                             hasTitle = true;
-            //                             layerTitle = textContent;
-            //                             break;
-            //                         case "BoundingBox":
-            //                             hasBoundingBox = true;
-            //                             break;
-            //                         case "Abstract":
-            //                             layerAbstract = textContent;
-            //                             break;
-            //                         case "Style":
-            //                             const xlingAttribut = child.querySelector("OnlineResource").getAttribute("xlink:href");
-            //                             if (xlingAttribut) {
-            //                                 layerLegendURL = xlingAttribut;
-            //                             }
-            //                             break;
-            //                     }
-            //                 }
-
-            //                 // if the layer tag in the xml has a layername an title tag and an boundingbox
-            //                 // then add an option element to the list of options
-            //                 if (hasLayerName && hasTitle && hasBoundingBox) {
-            //                     let option = document.createElement("option");
-            //                     // console.log(child);
-            //                     if(layerTitle){
-            //                     option.value = layerTitle;
-            //                     } else {
-            //                         console.log(element_layer.querySelector("Name"));
-            //                         // if the title element is empty for the layer, then use the Name as title of the layer tag 
-            //                         const NameElement = element_layer.querySelector("Name");
-
-            //                         if (NameElement) {
-            //                             option.value = NameElement.textContent;
-            //                         }
-            //                     }
-            //                     option.setAttribute("data-LayersWms", layerName);
-            //                     option.setAttribute("data-LayersWmsAbstract", layerAbstract);
-
-            //                     // Check if the href doesn't start with "http://" or "https://"
-            //                     // then it must be a relative link
-            //                     if (!layerLegendURL.startsWith("http://") && !layerLegendURL.startsWith("https://")) {
-            //                         // Add your desired string in front of the href
-            //                         // const queryString = layerLegendURL.split('?')[1];
-            //                         // console.log(queryString);
-            //                         layerLegendURL = value_url_wms + "?" + layerLegendURL;
-            //                         console.log(layerLegendURL);
-            //                     }
+                                // Check if the href doesn't start with "http://" or "https://"
+                                // then it must be a relative link
+                                if (!layerLegendURL.startsWith("http://") && !layerLegendURL.startsWith("https://")) {
+                                    // Add your desired string in front of the href
+                                    // const queryString = layerLegendURL.split('?')[1];
+                                    // console.log(queryString);
+                                    layerLegendURL = value_url_wms + "?" + layerLegendURL;
+                                    console.log(layerLegendURL);
+                                }
                                 
-            //                     option.setAttribute("data-LayersWmsLengendURL",layerLegendURL);
-            //                     document.getElementById("datalistOptions").appendChild(option);
-            //                 }
+                                option.setAttribute("data-LayersWmsLengendURL",layerLegendURL);
+                                document.getElementById("datalistOptions").appendChild(option);
+                            }
 
-            //             }
+                        }
 
-            //             // Alertmeldungen und sucessmeldung nicht sichtbar stellen des WMS modals
-            //             for (let alert of alerts) {
-            //                 alert.style.display = "none";
-            //             }
+                        // Alertmeldungen und sucessmeldung nicht sichtbar stellen des WMS modals
+                        for (let alert of alerts) {
+                            alert.style.display = "none";
+                        }
 
-            //             success.style.display = "";
-            //             // success.innerHTML = "Die Abfrage der Layer des WMS war erfolgreich.";
-            //             translate(undefined, undefined, undefined, success, undefined);
+                        success.style.display = "";
+                        // success.innerHTML = "Die Abfrage der Layer des WMS war erfolgreich.";
+                        translate(undefined, undefined, undefined, success, undefined);
 
-            //         } else {
+                    } else {
 
-            //             // Alertmeldungen und sucessmeldung nicht sichtbar stellen des WMS modals
-            //             for (let alert of alerts) {
-            //                 alert.style.display = "none";
-            //             }
+                        // Alertmeldungen und sucessmeldung nicht sichtbar stellen des WMS modals
+                        for (let alert of alerts) {
+                            alert.style.display = "none";
+                        }
 
-            //             noWMSURLreco.style.display = "";
-            //             // noWMSURLreco.innerHTML = "<strong>Achtung!</strong>Keine URL erkannt, bitte nochmal versuchen.";
-            //             translate(undefined, undefined, undefined, noWMSURLreco, undefined);
+                        noWMSURLreco.style.display = "";
+                        // noWMSURLreco.innerHTML = "<strong>Achtung!</strong>Keine URL erkannt, bitte nochmal versuchen.";
+                        translate(undefined, undefined, undefined, noWMSURLreco, undefined);
 
-            //         }
+                    }
 
-            //     } else {
-            //         console.log(this.status);
-            //         // alert("Fehler in dem Request, bitte nochmal versuchen");
+                } else {
+                    console.log(this.status);
+                    // alert("Fehler in dem Request, bitte nochmal versuchen");
 
-            //         // Alertmeldungen und sucessmeldung nicht sichtbar stellen des WMS modals
-            //         for (let alert of alerts) {
-            //             alert.style.display = "none";
-            //         }
+                    // Alertmeldungen und sucessmeldung nicht sichtbar stellen des WMS modals
+                    for (let alert of alerts) {
+                        alert.style.display = "none";
+                    }
 
-            //         errorRequest.style.display = "";
-            //         // errorRequest.innerHTML = "<strong>Achtung!</strong>Fehler in dem Request, bitte nochmal versuchen.";
-            //         translate(undefined, undefined, undefined, errorRequest, undefined);
+                    errorRequest.style.display = "";
+                    // errorRequest.innerHTML = "<strong>Achtung!</strong>Fehler in dem Request, bitte nochmal versuchen.";
+                    translate(undefined, undefined, undefined, errorRequest, undefined);
 
-            //     }
+                }
 
-            //     // stop the loading animation for all cases onload
-            //     stopLoadingAnimationWMS();
-            // };
-            // // Force the response to be parsed as XML
-            // xhttp.overrideMimeType('text/xml');
+                // stop the loading animation for all cases onload
+                stopLoadingAnimationWMS();
+            };
+            // Force the response to be parsed as XML
+            xhttp.overrideMimeType('text/xml');
 
-            // // Bei Fehler, only triggers if the request couldn't be made at all
-            // xhttp.onerror = function() {
+            // Bei Fehler, only triggers if the request couldn't be made at all
+            xhttp.onerror = function() {
 
-            //     // Alertmeldungen und sucessmeldung nicht sichtbar stellen des WMS modals
-            //     for (let alert of alerts) {
-            //         alert.style.display = "none";
-            //     }
+                // Alertmeldungen und sucessmeldung nicht sichtbar stellen des WMS modals
+                for (let alert of alerts) {
+                    alert.style.display = "none";
+                }
 
-            //     noRequestSend.style.display = "";
-            //     // noRequestSend.innerHTML = "<strong>Achtung!</strong> Request konnte nicht abgesetzt werden, bitte nochmal versuchen.";
+                noRequestSend.style.display = "";
+                // noRequestSend.innerHTML = "<strong>Achtung!</strong> Request konnte nicht abgesetzt werden, bitte nochmal versuchen.";
 
-            //     translate(undefined, undefined, undefined, noRequestSend, undefined);
-            //     // stop the loading animation for onerror
-            //     stopLoadingAnimationWMS();
-            // };
+                translate(undefined, undefined, undefined, noRequestSend, undefined);
+                // stop the loading animation for onerror
+                stopLoadingAnimationWMS();
+            };
         }
 
     });
