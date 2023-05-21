@@ -21,6 +21,7 @@
     "workbox-webpack-plugin": "^6.5.4"
   },
   "dependencies": {
-    "flatted": "^3.2.7"
+    "flatted": "^3.2.7",
+    "google-translate-api": "^2.3.0"
   }
 }

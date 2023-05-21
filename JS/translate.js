@@ -323,19 +323,62 @@ export function translateInfoTable(inputString) {
 
         // Check if the img tag has the "active-flag" class which id added when clicked before
         if (imgTag.classList.contains('active-flag')) {
+            // get the lang att of the tag
+            let language = imgTag.dataset.lang;
             // Do something with the img tag based on its language class
-            translateInfoTabeFetch(lang);
+            translateInfoTabeFetch(language, inputString);
         }
     }
 
-    async function translateInfoTabeFetch(lang) {
+    function translateInfoTabeFetch(language, inputString) {
+
+        const subscriptionKey = 'b0d258d39a144c728fcf93c30b15ce49';
+        const endpoint = 'https://api.cognitive.microsofttranslator.com';
+        const location = "southeastasia";
+
+        // console.log(inputString);
+
+        const translateText = async () => {
+            const url = `${endpoint}/translate?api-version=3.0&from=en&to=` +language;
+            const body = [{ Text: 'Hello, what is your name?' }];
+
+            try {
+                const response = await fetch(url, {
+                    method: 'POST',
+                    headers: {
+                        'Ocp-Apim-Subscription-Key': subscriptionKey,
+                        'Content-Type': 'application/json; charset=UTF-8',
+                        'Ocp-Apim-Subscription-Region': location,
+                    },
+                    body: JSON.stringify(body),
+                });
+
+                const data = await response.json();
+                const translation = data[0].translations[0].text;
+                console.log(`Translated text: ${translation}`);
+            } catch (error) {
+                console.error('Translation error:', error);
+            }
+        };
+
+        translateText();
+
+
+        // translate('Ik spreek Engels', { to: language }).then(res => {
+        //     console.log(res.text);
+        //     //=> I speak English
+        //     console.log(res.from.language.iso);
+        //     //=> nl
+        // }).catch(err => {
+        //     console.error(err);
+        // });
 
         //TODO implement translation for infotable with API
     }
 }
 
 // function to translate according to the dynamic events in JS happening
-export function translate(modalHeader, modalBody, errorMessage, alert, button, handler, label) {
+export function translateModal(modalHeader, modalBody, errorMessage, alert, button, handler, label) {
 
     let translator = new Translator();
 

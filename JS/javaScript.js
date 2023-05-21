@@ -1,7 +1,7 @@
 import { loadAnimationGeoJSON, stopLoadAnimationGeoJSON, startLoadingAnimationWMS, stopLoadingAnimationWMS, loadingInfoTable } from './loadAnimations.js';
 import { updateCesiumContainerHeight, updateMaxHeightLayerMenu } from './responsiveDesign.js';
 import { toggleLanguage, deleteLanguageSwitchModal } from './languageSwitch.js';
-import { translate, translateButtonTitle, translateInfoTable, translateToast, translateToastHeight } from './translate.js';
+import { translateModal, translateButtonTitle, translateInfoTable, translateToast, translateToastHeight } from './translate.js';
 import { tour_steps_ger, tour_steps_eng, tour_steps_th, buttonTextGer, buttonTextEng, buttonTextThai } from './toursteps.js';
 
 
@@ -49,7 +49,7 @@ function start() {
 
     // // Create VR World terrain provider
     // let VRWorldTerrainProvider = new Cesium.VRTheWorldTerrainProvider({
-    //     url: 'http://www.vr-theworld.com/vr-theworld/tiles1.0.0/73/'
+    //     url: 'http://www.vr-theworld.com/vr-theworld/tiles/1.0.0/73/'
     // });
 
     // create world terrain from cesium
@@ -442,7 +442,7 @@ function handlingOSMBuildings() {
                 // modalBody.innerText = "Für die Aktiverung des Geländes mit eingeschalteten Gebäuden werden aus Performancegründen keine Gebäude auf dem Gelände dargestellt. Daher werden die Gebäude nur auf dem WGS84 Ellipsiod dargestellt und visualiert.";
 
                 // translate the modal
-                translate(modalHeader, modalBody, undefined, undefined, buttonOK);
+                translateModal(modalHeader, modalBody, undefined, undefined, buttonOK);
 
                 modal.show();
             } else {
@@ -614,7 +614,7 @@ function ChangeTerrainVRWorld(event, worldTerrain) {
             let newID = "modal_osm_buildings_clamping_2";
             document.querySelectorAll("[id^='modal_osm_buildings_clamping']")[0].id = newID;
 
-            translate(modalHeader, modalBody, undefined, undefined, buttonOK);
+            translateModal(modalHeader, modalBody, undefined, undefined, buttonOK);
 
             modal.show();
         }
@@ -667,7 +667,7 @@ function remove_external_layers() {
     document.getElementById("layer_delete_button").addEventListener('click', () => {
         let my_modal = new bootstrap.Modal(document.getElementById("modal_delete_all_data"));
         let modalbody = document.getElementById("modal_body_delete_all_data");
-        translate(undefined, modalbody, undefined, undefined);
+        translateModal(undefined, modalbody, undefined, undefined);
         my_modal.show();
     });
 
@@ -1254,7 +1254,7 @@ function geolocate() {
 
             // div_body.innerText = "Die Abfrage der Geolocation ist in diesem Browser nicht unterstützt.";
 
-            translate(undefined, div_body, undefined, undefined);
+            translateModal(undefined, div_body, undefined, undefined);
 
             modal.show();
         }
@@ -1659,7 +1659,7 @@ function add_external_geodata() {
         // document.getElementsByClassName("custom-file-label")[0].innerText = "Keine Datei...";
         let label = document.getElementsByClassName("custom-file-label")[0];
 
-        translate(undefined, undefined, undefined, undefined, undefined, undefined, label);
+        translateModal(undefined, undefined, undefined, undefined, undefined, undefined, label);
 
         // Set title of input element to nothing and the selected files
         document.getElementById("fileInput").title = "";
@@ -1687,7 +1687,7 @@ function add_external_geodata() {
         if (fileInput.files.length === 0) {
             alertnoGeoJSON.style.display = "";
             // alert.innertext = "Wählen Sie erst eine Datei aus";
-            translate(undefined, undefined, undefined, alertnoGeoJSON, undefined, undefined);
+            translateModal(undefined, undefined, undefined, alertnoGeoJSON, undefined, undefined);
 
         } else {
 
@@ -1746,7 +1746,7 @@ function add_external_geodata() {
                 let modalBody = document.getElementById("modalBody");
                 // modalBody.innerText = " Die Daten, welche Sie hinzufügen möchten, sind keine GeoJSON Dateien. Bitte laden Sie nur GeoJSON.";
 
-                translate(modalHeader, modalBody, undefined, undefined);
+                translateModal(modalHeader, modalBody, undefined, undefined);
 
                 modal.show();
 
@@ -1776,7 +1776,7 @@ function add_external_geodata() {
 
                         // modalBody.innerText = " Das GeoJSON, welches Sie hinzufügen wollen, besitzt Fehler: " + innertext;
 
-                        translate(modalHeader, modalBody, innertext);
+                        translateModal(modalHeader, modalBody, innertext);
 
                         my_modal.show();
                         // stopLoadAnimationGeoJSON();
@@ -1877,7 +1877,7 @@ function checkForDublicateGeoJSonMenu(fileInput, alertGeoJSONExistsAlready, addG
             if (layerFile === file.name) {
                 console.log(`The dataset attribute filelayergeojson of layer ${i + 1} matches file ${j + 1} in the fileInput`);
                 alertGeoJSONExistsAlready.style.display = "";
-                translate(undefined, undefined, undefined, alertGeoJSONExistsAlready, undefined, undefined);
+                translateModal(undefined, undefined, undefined, alertGeoJSONExistsAlready, undefined, undefined);
                 // console.log("file.name === file.name");
                 addGeojsonBtn.setAttribute("data-dismiss", "");
                 boolTest = true;
@@ -1961,7 +1961,7 @@ function addLayerGeoJson(nameGeoJSon, ID, file) {
     let modalBody = document.getElementById("modalBody");
     // modalBody.innerText = "Ihre GeoJSON daten sind dem Menü als Layer hinzugefügt worden.";
 
-    translate(modalHeader, modalBody, null, undefined, null);
+    translateModal(modalHeader, modalBody, null, undefined, null);
 
     // only show one modal at a time
     if (!document.getElementById("modal").classList.contains("show")) {
@@ -1981,6 +1981,7 @@ function handleExternalServices(node, value_name_wms, value_url_wms) {
     let wms_provider = new Cesium.WebMapServiceImageryProvider({
         url: value_url_wms,
         layers: value_name_wms,
+        credit: "WMS Data provided by " + node.dataset.contactorganisation.toString(),
         parameters: {
             format: 'image/png',
             transparent: true
@@ -2166,7 +2167,7 @@ function MutationObserverDOM() {
 
 function add_external_service() {
 
-    let htmlcollection_layer;
+    let htmlcollection_layer, contactOrganisation;
     let ID, value_url_wms;
 
     let alerts = document.getElementsByClassName("alert");
@@ -2228,7 +2229,7 @@ function add_external_service() {
             noWMSURL.style.display = "";
             // alert.innerHTML = "<strong>Achtung!</strong>Geben Sie erst eine URL des WMS an!";
 
-            translate(undefined, undefined, undefined, noWMSURL, undefined);
+            translateModal(undefined, undefined, undefined, noWMSURL, undefined);
 
         } else {
 
@@ -2260,6 +2261,8 @@ function add_external_service() {
                     console.log(response_text);
 
                     if (response_text) {
+
+                        contactOrganisation = response_text.querySelector("ContactOrganization").textContent;
 
                         htmlcollection_layer = response_text.getElementsByTagName("Layer");
 
@@ -2326,7 +2329,6 @@ function add_external_service() {
                                     layerLegendURL = value_url_wms + "?" + layerLegendURL;
                                     console.log(layerLegendURL);
                                 }
-                                
                                 option.setAttribute("data-LayersWmsLengendURL",layerLegendURL);
                                 document.getElementById("datalistOptions").appendChild(option);
                             }
@@ -2340,7 +2342,7 @@ function add_external_service() {
 
                         success.style.display = "";
                         // success.innerHTML = "Die Abfrage der Layer des WMS war erfolgreich.";
-                        translate(undefined, undefined, undefined, success, undefined);
+                        translateModal(undefined, undefined, undefined, success, undefined);
 
                     } else {
 
@@ -2351,7 +2353,7 @@ function add_external_service() {
 
                         noWMSURLreco.style.display = "";
                         // noWMSURLreco.innerHTML = "<strong>Achtung!</strong>Keine URL erkannt, bitte nochmal versuchen.";
-                        translate(undefined, undefined, undefined, noWMSURLreco, undefined);
+                        translateModal(undefined, undefined, undefined, noWMSURLreco, undefined);
 
                     }
 
@@ -2366,7 +2368,7 @@ function add_external_service() {
 
                     errorRequest.style.display = "";
                     // errorRequest.innerHTML = "<strong>Achtung!</strong>Fehler in dem Request, bitte nochmal versuchen.";
-                    translate(undefined, undefined, undefined, errorRequest, undefined);
+                    translateModal(undefined, undefined, undefined, errorRequest, undefined);
 
                 }
 
@@ -2387,7 +2389,7 @@ function add_external_service() {
                 noRequestSend.style.display = "";
                 // noRequestSend.innerHTML = "<strong>Achtung!</strong> Request konnte nicht abgesetzt werden, bitte nochmal versuchen.";
 
-                translate(undefined, undefined, undefined, noRequestSend, undefined);
+                translateModal(undefined, undefined, undefined, noRequestSend, undefined);
                 // stop the loading animation for onerror
                 stopLoadingAnimationWMS();
             };
@@ -2418,7 +2420,7 @@ function add_external_service() {
             noWMSQueryed.style.display = "";
             // noWMSQueryed.innerHTML = "<strong>Achtung!</strong>Bitte zuerst den WMS anfragen und dann auf 'Zum Menü hinzufügen' klicken.";
 
-            translate(undefined, undefined, undefined, noWMSQueryed, undefined);
+            translateModal(undefined, undefined, undefined, noWMSQueryed, undefined);
 
             // when layer not selected
         } else if (layer_title.length === 0) {
@@ -2437,7 +2439,7 @@ function add_external_service() {
             noWMSSelected.style.display = "";
             // noWMSSelected.innerHTML = "<strong>Achtung!</strong>Bitte zuerst den WMS auswählen und dann auf 'Zum Menü hinzufügen' klicken.";
             // success.style.display = "none";
-            translate(undefined, undefined, undefined, noWMSSelected, undefined);
+            translateModal(undefined, undefined, undefined, noWMSSelected, undefined);
 
         } else {
 
@@ -2481,7 +2483,7 @@ function add_external_service() {
                 // when the layer was added, close modal
                 okbtn.setAttribute("data-dismiss", "modal");
 
-                addWMSLayer(value_name_wms, value_url_wms, layer_title, ID, abstractWMS, wmsLegendURL);
+                addWMSLayer(value_name_wms, value_url_wms, layer_title, ID, abstractWMS, wmsLegendURL, contactOrganisation);
             }
             // when the layer was added, close modal
             // okbtn.setAttribute("data-dismiss", "modal");
@@ -2507,7 +2509,7 @@ function checkForDublicateWMSLayer(WMSTitle, alertWMSexists, okButtom) {
         if (layertitle === WMSTitle) {
 
             alertWMSexists.style.display = "";
-            translate(undefined, undefined, undefined, alertWMSexists, undefined, undefined);
+            translateModal(undefined, undefined, undefined, alertWMSexists, undefined, undefined);
             console.log("WMS vorhaden in menu");
             okButtom.setAttribute("data-dismiss", "");
             boolTest = true;
@@ -2577,7 +2579,7 @@ function fetchWMSLegend(wmslegendURL, layerTitleWMS) {
 
 }
 
-function addWMSLayer(value_name_wms, value_url_wms, layer_title, ID, abstract, wmslegendURL) {
+function addWMSLayer(value_name_wms, value_url_wms, layer_title, ID, abstract, wmslegendURL, contactOrganisation) {
 
     let section_4 = document.getElementById("section_4");
     section_4.style.display = "block";
@@ -2609,6 +2611,7 @@ function addWMSLayer(value_name_wms, value_url_wms, layer_title, ID, abstract, w
     newLink.setAttribute("data-urlWms", value_url_wms);
     newLink.setAttribute("data-LayersWms", value_name_wms);
     newLink.setAttribute("data-layerTitle", layer_title);
+    newLink.setAttribute("data-contactOrganisation", contactOrganisation);
     // Create the <img> and <span> tags to go inside the <a> tag
     const newImg = document.createElement("img");
     newImg.className = "img_layers";
@@ -2643,6 +2646,8 @@ function addWMSLayer(value_name_wms, value_url_wms, layer_title, ID, abstract, w
     // Add the new <a> tag to the <div> element with ID "section_4"
     section_4.appendChild(newLink);
 
+    addCreditWMS(contactOrganisation);
+
     fetchWMSLegend(wmslegendURL, layer_title);
 
     // const layermenu = document.getElementById("layermenue_dropdown");
@@ -2650,6 +2655,12 @@ function addWMSLayer(value_name_wms, value_url_wms, layer_title, ID, abstract, w
     // layermenu.appendChild(newDIVSection);
     markActiveSelectedLayers();
     StopCloseMenu();
+}
+
+function addCreditWMS(ContactOrganization){
+
+
+
 }
 
 function handleKeyPress(event) {
@@ -2737,14 +2748,14 @@ function measureFunctions() {
                 // modalHeader.innerText = "Achtung";
                 // div_body.innerText = "Es können nicht beide Messfunktionen gleichzeitig verwendet werden, schalten Sie eine aus!";
 
-                translate(modalHeader, div_body, undefined, undefined, undefined, handler_distance);
+                translateModal(modalHeader, div_body, undefined, undefined, undefined, handler_distance);
 
             } else {
 
                 // modalHeader.innerText = "Information";
                 // div_body.innerText = "Sie können mit der linken Maustaste Punkte auf der Karte setzen. Mit einem Klick der rechten Maustaste in der Karte löschen Sie alle gezeichneten Höhenpunkte aus der Karte.";
 
-                translate(modalHeader, div_body, undefined, undefined, undefined);
+                translateModal(modalHeader, div_body, undefined, undefined, undefined);
             }
 
             modal_height.show();
@@ -2904,7 +2915,7 @@ function measureFunctions() {
                 // modalHeader.innerText = "Achtung";
                 // div_body.innerText = "Es können nicht beide Messfunktionen gleichzeitig verwendet werden, schalten Sie eine aus!";
 
-                translate(modalHeader, div_body, undefined, undefined, undefined, handler_height);
+                translateModal(modalHeader, div_body, undefined, undefined, undefined, handler_height);
 
             } else {
 
@@ -2912,7 +2923,7 @@ function measureFunctions() {
                 // div_body.innerText = "Sie können mit der linken Maustaste Punkte auf der Karte setzen. Mit einem Klick der rechten " +
                 //     "Maustaste in der Karte können sie die Messung beenden. Mit der 'Esc' Taste löschen Sie alle Punkte";
 
-                translate(modalHeader, div_body, undefined, undefined, undefined);
+                translateModal(modalHeader, div_body, undefined, undefined, undefined);
             }
 
             modal_distance.show();
@@ -3348,8 +3359,10 @@ function get_featureinfo() {
 
             // Prüfen, ob bereits entitites der infomarker bestehen und falls ja löschen!
             // Add marker for better UX
-            if (cartesian)
-                info_id = addMarkerClickInfo(cartesian, info_id);
+            if (cartesian){
+                let object = addMarkerClickInfo(cartesian, info_id);
+                info_id = object.infoID;
+            }
 
             // add Longitude and Latitude once to the table for every click
             await addLongLattoTable(cartesian, table, click);
@@ -3442,8 +3455,9 @@ function get_featureinfo() {
                             if (entity.position) {
                                 // Code to execute if the entity position is defined to place marker on entity 
                                 let positionEntity = entity.position.getValue(Cesium.JulianDate.now());
-                                // console.log(positionEntity);
-                                info_id = addMarkerClickInfo(positionEntity, info_id);
+                               
+                                let object = addMarkerClickInfo(positionEntity, info_id);
+                                info_id = object.infoID;
                                 // set long and lat and other attrbibutes for clicked entity with an position
                                 table = getFeaturesEntity(entity, table);
                             } else {
@@ -3456,9 +3470,16 @@ function get_featureinfo() {
                         } else {
                             
                             if (entity.position) {
-                                // Code to execute if the entity position is defined to place marker on entity 
+                                // Code to execute if the entity position is defined to place marker at entity
+                                // only if entity point or someting with an position 
                                 let positionEntity = entity.position.getValue(Cesium.JulianDate.now());
-                                info_id = addMarkerClickInfo(positionEntity, info_id);
+                                let object = addMarkerClickInfo(positionEntity, info_id);
+                                info_id = object.infoID;
+
+                                let createdEntity = object.Entity;
+                                // set the billboard marker on top of the entity object
+                                createdEntity.billboard.pixelOffset = new Cesium.Cartesian2(0, -64);
+
                               }
 
                             // OSM Builings are entitites
@@ -3623,6 +3644,8 @@ function get_featureinfo() {
                                 // input string
                                 let inputString = element.description;
 
+                                // translateInfoTable(inputString);
+
                                 // Convert string to HTML document object
                                 let parser = new DOMParser();
                                 let doc = parser.parseFromString(inputString, 'text/html');
@@ -3672,6 +3695,8 @@ function get_featureinfo() {
                         loadingAnimation.animation.style.display = "none";
                         // // loadingAnimation.animation.classList.add("hide");
 
+                        // translateInfoTable(table.outerHTML);
+
                         // Tabellenbeschreibung als HTML
                         infobox_karte.viewModel.description = table.outerHTML;
 
@@ -3710,7 +3735,7 @@ function getFeaturesEntity(entity, table) {
         let altitudeString = Math.round(altitude).toString();
 
         // safe values from point in array
-        let arr = ["Longitude", longitude.toFixed(5) + " °", "Latitude", latitude.toFixed(5) + " °", "Altitude (WGS84)", altitudeString + " meter", "Objekt", entity.name, "Beschreibung", entity.description];
+        let arr = ["Longitude", longitude.toFixed(5) + " °", "Latitude", latitude.toFixed(5) + " °", "Altitude (WGS84)", altitudeString + " meter", "Object", entity.name, "Description", entity.description];
         let counter = 1;
 
         for (let i = 0; i < arr.length; i += 2) {
@@ -3884,5 +3909,5 @@ function addMarkerClickInfo(cartesian, info_id) {
     // Explicitly render a new frame für info marker
     viewer.scene.requestRender();
 
-    return info_id;
+    return {infoID: info_id, Entity: entity};
 }

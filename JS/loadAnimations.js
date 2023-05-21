@@ -1,4 +1,4 @@
-import { translate } from './translate.js';
+import { translateModal } from './translate.js';
 
 export function loadAnimationGeoJSON() {
 
@@ -18,7 +18,7 @@ export function loadAnimationGeoJSON() {
 
     // modalBody.children[0].textContent = "Ihre Daten werden nun von der Anwendung geladen und gerendert. Bitte warten Sie einen Augenblick.";
 
-    translate(undefined, modalBody, undefined, undefined);
+    translateModal(undefined, modalBody, undefined, undefined);
 
     // loaderanimation.classList.remove("hide"); // fügen Sie eine zusätzliche Klasse hinzu, um den Loader auszublenden
 
