@@ -1,6 +1,6 @@
 let translator = new Translator({
-    filesLocation: '/CesiumJS-testing/json'
-        // filesLocation: '/json'
+    // filesLocation: '/CesiumJS-testing/json'
+        filesLocation: '/json'
 });
 
 // This will fetch "/json/de.json" and "/json/en.json"
@@ -324,7 +324,8 @@ export function translateInfoTable(inputString) {
         // Check if the img tag has the "active-flag" class which id added when clicked before
         if (imgTag.classList.contains('active-flag')) {
             // get the lang att of the tag
-            let language = imgTag.dataset.lang;
+            // use extra attribute for translation
+            // let language = imgTag.dataset.lang;
             // Do something with the img tag based on its language class
             translateInfoTabeFetch(language, inputString);
         }
