@@ -4,8 +4,10 @@ import { toggleLanguage, deleteLanguageSwitchModal } from './languageSwitch.js';
 import { translateModal, translateButtonTitle, translateInfoTable, translateToast, translateToastHeight } from './translate.js';
 import { tour_steps_ger, tour_steps_eng, tour_steps_th, buttonTextGer, buttonTextEng, buttonTextThai } from './toursteps.js';
 
+import Map from './Map.js';
+import OsmBuildings from './OsmBuildings.js';
 
-let viewer;
+export let viewer;
 let handler_karte_click;
 
 let globalList = [];
@@ -34,7 +36,7 @@ function start() {
     let esri = new Cesium.ArcGisMapServerImageryProvider({
         url: 'https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer'
     });
-    let esriLayer = new Cesium.ImageryLayer(esri, {
+    let ImageryLayerEsri = new Cesium.ImageryLayer(esri, {
         rectangle: Cesium.Rectangle.MAX_VALUE
     });
 
@@ -45,7 +47,7 @@ function start() {
     });
 
     // Create a CesiumJS imagery layer using the OSM provider
-    let osmLayer = new Cesium.ImageryLayer(osmProvider);
+    let ImageryLayerOSM = new Cesium.ImageryLayer(osmProvider);
 
     // // Create VR World terrain provider
     // let VRWorldTerrainProvider = new Cesium.VRTheWorldTerrainProvider({
@@ -156,7 +158,17 @@ function start() {
     // interval_delete_layer = setInterval(createLayerdeleteExternalData, 500);
     // handlingOSMmap(osmLayer, esriLayer);
     // handlingESRIMap(esriLayer, osmLayer);
-    handlingImagery(osmLayer, esriLayer);
+    
+    // Usage example
+    // const esriLayer = new EsriLayer();
+    // esriLayer.handlingEsriLayer(ImageryLayerEsri);
+    const map = new Map();
+    map.handlingImagery(ImageryLayerOSM, ImageryLayerEsri);
+    const OsmBuildingsObject = new OsmBuildings();
+    OsmBuildingsObject.handlingOSMBuildings();
+    
+    
+    // handlingImagery(osmLayer, esriLayer);
     handlingOSMBuildings();
     handlingTerrain(worldTerrain, EllipsoidTerrainProvider);
 
@@ -500,7 +512,7 @@ function ShowBuildings() {
         - event: Event object
     Returns: None
 */
-function toggleActiveImgItem(event) {
+export function toggleActiveImgItem(event) {
     var imgItem = event.target;
     imgItem.classList.toggle("active");
     imgItem.parentElement.children[1].classList.toggle("active");
@@ -989,14 +1001,6 @@ function fetchURL() {
 
     let webmercatortiling = new Cesium.WebMercatorTilingScheme();
 
-    // for (let element_byclass of document.getElementsByClassName("cesium-baseLayerPicker-itemLabel")) {
-    //     if (element_byclass.innerHTML == "OSM Gebäude 3D") {
-    //         html_element = element_byclass;
-    //         element_byclass.style = "color: rgb(0, 255, 106);"
-    //         active_osm = true;
-    //     }
-    // }
-
     // Höhe abfragen
     let height = viewer.camera.positionCartographic.height * (0.001).toFixed(1);
     // Kachelschema erzeugen für Level 15 aus der Position der Kamera
@@ -1006,8 +1010,6 @@ function fetchURL() {
         15,
         cartesian
     );
-
-    // console.log("Kachelposition: : " + tilexy);
 
     // Erst ab einer Entfernung von kleiner als 4 km soll das Fetchen der OSM Gebäudedaten erfolgen
     // Reduziert die Abfragen
