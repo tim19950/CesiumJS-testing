@@ -1,48 +1,11 @@
-import { translateModal } from "./translate.js";
 import { viewer } from './javaScript.js';
 
-let cartesian_array = [];
+let cartesianArray = [];
 let globalArray = [];
 
 export default class OsmBuildings {
-
-    handlingOSMBuildings() {
-        let layerOSMBuildingsimg = document.getElementById("layer_img_3");
-
-        // Arrow functions inherit the this value from their surrounding scope.
-        // which automatically binds the class context to this
-        // so call this.ShowBuildings();
-        
-        layerOSMBuildingsimg.addEventListener("click", (event) => {
-
-            console.log(event.target.classList);
-
-            if (event.target.classList.contains('active')) {
-                let VRWorldTerrainImg = document.getElementById("layer_img_5");
-                if (VRWorldTerrainImg.classList.contains('active')) {
-                    // Display a modal with inforamtion that the buildings use much ressource with Terrain(RAM etc.)
-                    let modal = new bootstrap.Modal(document.querySelectorAll("[id^='modal_osm_buildings_clamping']")[0]);
-                    let modalHeader = document.getElementById("exampleModalLabel");
-                    let modalBody = document.getElementById("modal_body_osm_buildings_clamping");
-                    let buttonOK = document.getElementById("ok_button_osm_buildings_terrain");
-                    let newID = "modal_osm_buildings_clamping";
-                    document.querySelectorAll("[id^='modal_osm_buildings_clamping']")[0].id = newID;
-                    // modalBody.innerText = "Für die Aktiverung des Geländes mit eingeschalteten Gebäuden werden aus Performancegründen keine Gebäude auf dem Gelände dargestellt. Daher werden die Gebäude nur auf dem WGS84 Ellipsiod dargestellt und visualiert.";
-
-                    // translate the modal
-                    translateModal(modalHeader, modalBody, undefined, undefined, buttonOK);
-
-                    modal.show();
-                } else {
-                    console.log("ShowBuildings");
-                    this.ShowBuildings();
-                }
-            } else {
-                console.log("DontShowBuildings");
-                this.DontShowBuildings();
-
-            }
-        });
+    constructor() {
+        this.boundCameraChangedListener = null;
     }
 
     /*
@@ -52,7 +15,9 @@ export default class OsmBuildings {
         Returns: None
     */
     DontShowBuildings() {
-        viewer.camera.changed.removeEventListener(() => this.cameraChangedListener());
+        // viewer.camera.changed.removeEventListener(() => this.cameraChangedListener());
+        viewer.camera.changed.removeEventListener(this.boundCameraChangedListener);
+        console.log(viewer.camera.changed);
 
         for (let i = 0; i < viewer.dataSources.length; i++) {
             let datasource = viewer.dataSources.get(i);
@@ -61,7 +26,7 @@ export default class OsmBuildings {
                     viewer.dataSources.remove(datasource);
                 }
                 globalArray = [];
-                cartesian_array = [];
+                cartesianArray = [];
             }
         }
         viewer.scene.requestRender();
@@ -77,12 +42,18 @@ export default class OsmBuildings {
     ShowBuildings() {
         viewer.scene.requestRender();
         viewer.camera.percentageChanged = 1;
-        viewer.camera.changed.addEventListener(() => this.cameraChangedListener());
+        // viewer.camera.changed.addEventListener(() => this.cameraChangedListener());
+        // make sure the functions reference can be found via object
+        this.boundCameraChangedListener = () => {
+            this.cameraChangedListener();
+        };
+        viewer.camera.changed.addEventListener(this.boundCameraChangedListener);
+        console.log(viewer.camera.changed);
         console.log("Buildings einschalten");
     }
 
     cameraChangedListener() {
-        // console.log('Camera changed!');
+        console.log('Camera changed!');
 
         // Call the fetchURL function to add geodata
         this.fetchURL();
@@ -131,8 +102,8 @@ export default class OsmBuildings {
             });
 
             // Initiales Fetchen der Daten
-            if (cartesian_array.length == 0) {
-                cartesian_array.push(tilexy);
+            if (cartesianArray.length == 0) {
+                cartesianArray.push(tilexy);
 
                 promise_geojson = Cesium.GeoJsonDataSource.load(resource_json, {
                     // TODO, funktioniert bisher nicht!!!
@@ -145,7 +116,7 @@ export default class OsmBuildings {
 
                 // Anfrageoptimierung, da bisherige angefragte Kacheln nicht erneut angefragt werden
             } else {
-                for (const element of cartesian_array) {
+                for (const element of cartesianArray) {
                     // console.log("Arrayelemente: " + cartesian_array);
                     // console.log("Tileelement: " + tilexy);
                     // console.log("element.equals(tilexy): " + element.equals(tilexy));
@@ -162,7 +133,7 @@ export default class OsmBuildings {
 
                 if (vergleich == false) {
                     console.log("Neue Kacheln werden gefetcht");
-                    cartesian_array.push(tilexy);
+                    cartesianArray.push(tilexy);
                     promise_geojson = Cesium.GeoJsonDataSource.load(resource_json, {
                         // TODO, funktioniert bisher nicht!!!
                         // clampToGround: true,
@@ -183,7 +154,7 @@ export default class OsmBuildings {
             }
             // console.log(viewer.dataSources.remove(datasource));
             globalArray = [];
-            cartesian_array = [];
+            cartesianArray = [];
 
         }
 
@@ -224,18 +195,18 @@ export default class OsmBuildings {
                             const entity = entities[i];
 
                             // cesiumJS algorithmus
-                            // entity.polygon.height = entity.properties.height;
-                            // entity.polygon.heightReference = Cesium.HeightReference.RELATIVE_TO_GROUND;
-                            // entity.polygon.extrudedHeight = 0.0;
-                            // entity.polygon.extrudedHeightReference = Cesium.HeightReference.CLAMP_TO_GROUND;
+                            entity.polygon.height = entity.properties.height;
+                            entity.polygon.heightReference = Cesium.HeightReference.RELATIVE_TO_GROUND;
+                            entity.polygon.extrudedHeight = 0.0;
+                            entity.polygon.extrudedHeightReference = Cesium.HeightReference.CLAMP_TO_GROUND;
 
                             //  Extrude the polygon based on the height attribute
                             //  height - damit die gebäude im gelände nicht schweben
-                            entity.polygon.height = -5;
+                            // entity.polygon.height = -5;
 
-                            entity.polygon.heightReference = Cesium.HeightReference.RELATIVE_TO_GROUND;
-                            entity.polygon.extrudedHeight = entity.properties.height;
-                            entity.polygon.extrudedHeightReference = Cesium.HeightReference.RELATIVE_TO_GROUND;
+                            // entity.polygon.heightReference = Cesium.HeightReference.RELATIVE_TO_GROUND;
+                            // entity.polygon.extrudedHeight = entity.properties.height;
+                            // entity.polygon.extrudedHeightReference = Cesium.HeightReference.RELATIVE_TO_GROUND;
 
                             // entity.polygon.distanceDisplayCondition = new Cesium.DistanceDisplayCondition(50.0, 3500.0);
                         }

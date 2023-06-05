@@ -1,3 +1,4 @@
+
 let translator = new Translator({
     filesLocation: '/CesiumJS-testing/json'
         // filesLocation: '/json'
@@ -6,7 +7,6 @@ let translator = new Translator({
 // This will fetch "/json/de.json" and "/json/en.json"
 translator.fetch(['ger', 'eng', 'thai']).then((languages) => {
 
-    // console.log(languages);
     // You now have both languages available to you
     // translator.translatePageTo('de');
 });
@@ -288,9 +288,9 @@ export function translateToast(toastBody, distance, total_distance) {
             switch (toastBody.id) {
                 case "toastBody":
                     if (distance !== 0) {
-                        console.log("Fds");
+                        
                         if (distance > 1000 && total_distance > 1000) {
-                            console.log("b");
+                     
                             // Wenn die Distanz und total distance größer als 1000 Meter ist, umrechnen in Kilometer
                             toastBody.innerText = __('toastMessagedistanceOver1000andTotalDistanceOver1000.innerText', language);
                             break;
@@ -302,7 +302,7 @@ export function translateToast(toastBody, distance, total_distance) {
                             break;
                         }
                     } else {
-                        console.log("a");
+                       
                         toastBody.textContent = __('toastMessage.textContent', language);
                         break;
                     }
@@ -311,72 +311,187 @@ export function translateToast(toastBody, distance, total_distance) {
     }
 }
 
-export function translateInfoTable(inputString) {
+export async function translateExternalLayer(layerName, abstract){
 
     // Get all img tags
-    const imagTags = document.querySelectorAll('img.eng, img.thai, img.ger');
+    const imgTags = document.querySelectorAll('img.eng, img.thai, img.ger');
 
     // Loop through the img tags
-    for (const imgTag of imagTags) {
+    for (const imgTag of imgTags) {
         // Get the language class of the img tag
-        const lang = imgTag.classList[0];
+        // const lang = imgTag.classList[0];
 
         // Check if the img tag has the "active-flag" class which id added when clicked before
         if (imgTag.classList.contains('active-flag')) {
             // get the lang att of the tag
             // use extra attribute for translation
-            // let language = imgTag.dataset.lang;
+            let language = imgTag.dataset.languagegoogle;
             // Do something with the img tag based on its language class
-            translateInfoTabeFetch(language, inputString);
+            // console.log(inputString);
+
+            // Modify the text content (example: add "Modified " prefix)
+            await translateText(language, inputString).then(function (newText) {
+                array = newText.split(', ');
+            });
         }
     }
 
-    function translateInfoTabeFetch(language, inputString) {
+}
 
-        const subscriptionKey = 'b0d258d39a144c728fcf93c30b15ce49';
-        const endpoint = 'https://api.cognitive.microsofttranslator.com';
-        const location = "southeastasia";
+export async function translateArrayInput(inputString){
 
-        // console.log(inputString);
+    let array;
 
-        const translateText = async () => {
-            const url = `${endpoint}/translate?api-version=3.0&from=en&to=` +language;
-            const body = [{ Text: 'Hello, what is your name?' }];
+    // Get all img tags
+    const imgTags = document.querySelectorAll('img.eng, img.thai, img.ger');
 
-            try {
-                const response = await fetch(url, {
-                    method: 'POST',
-                    headers: {
-                        'Ocp-Apim-Subscription-Key': subscriptionKey,
-                        'Content-Type': 'application/json; charset=UTF-8',
-                        'Ocp-Apim-Subscription-Region': location,
-                    },
-                    body: JSON.stringify(body),
+    // Loop through the img tags
+    for (const imgTag of imgTags) {
+        // Get the language class of the img tag
+        // const lang = imgTag.classList[0];
+
+        // Check if the img tag has the "active-flag" class which id added when clicked before
+        if (imgTag.classList.contains('active-flag')) {
+            // get the lang att of the tag
+            // use extra attribute for translation
+            let language = imgTag.dataset.languagegoogle;
+            // Do something with the img tag based on its language class
+            // console.log(inputString);
+            
+            // Modify the text content (example: add "Modified " prefix)
+            await translateText(language, inputString).then(function (newText) {
+                array = newText.split(', ');
+            });
+        }
+    }
+
+    return array;
+}
+
+export function translateInfoTableTitle(){
+
+    // Get all img tags
+    const imgTags = document.querySelectorAll('img.eng, img.thai, img.ger');
+
+    // Loop through the img tags
+    for (const imgTag of imgTags) {
+        // Get the language class of the img tag
+        // const lang = imgTag.classList[0];
+
+        // Check if the img tag has the "active-flag" class which id added when clicked before
+        if (imgTag.classList.contains('active-flag')) {
+            // get the lang att of the tag
+            // use extra attribute for translation
+            let language = imgTag.dataset.languagegoogle;
+            // Do something with the img tag based on its language class
+            if (language === "de") {
+                return "Abfrageergebnisse"
+            } else if (language === "en") {
+                return "Query results"
+            } else {
+                return "ผลลัพธ์คิวรี"
+            }
+        }
+    }
+   
+}
+
+export async function translateInfoTable(inputStringTable) {
+
+    let modifiedHTML;
+
+    // Get all img tags
+    const imgTags = document.querySelectorAll('img.eng, img.thai, img.ger');
+
+    // Loop through the img tags
+    for (const imgTag of imgTags) {
+        // Get the language class of the img tag
+        // const lang = imgTag.classList[0];
+
+        // Check if the img tag has the "active-flag" class which id added when clicked before
+        if (imgTag.classList.contains('active-flag')) {
+            // get the lang att of the tag
+            // use extra attribute for translation
+            let language = imgTag.dataset.languagegoogle;
+            // Do something with the img tag based on its language class
+            await translateInfoTabelFetch(language, inputStringTable);
+            // titleInfoTable = translateInfoTableTitle(language);
+            break;
+        }
+    }
+
+    async function translateInfoTabelFetch(language, inputstring) {
+
+        // Create a temporary element to hold the HTML string
+        let tempElement = document.createElement('div');
+        tempElement.innerHTML = inputstring;
+
+        // Get all the <tr> elements within the table
+        let trElements = tempElement.getElementsByTagName('tr');
+
+        // Iterate over each <tr> element
+        for (var i = 0; i < trElements.length; i++) {
+            let tr = trElements[i];
+
+            // Get all the <td> elements within the current <tr>
+            let tdElements = tr.getElementsByTagName('td');
+
+            // Iterate over each <td> element
+            for (var j = 0; j < tdElements.length; j++) {
+                let td = tdElements[j]; // Use 'let' instead of 'var'
+
+                // Extract the original text content of each <td>
+                let originalText = td.textContent.trim();
+
+                // Modify the text content (example: add "Modified " prefix)
+                await translateText(language, originalText).then(function(newText){
+                    // console.log(newText);
+                    // Replace the text content of the <td> with the modified text
+                    // console.log(newText);
+                    td.textContent = newText;
                 });
 
-                const data = await response.json();
-                const translation = data[0].translations[0].text;
-                console.log(`Translated text: ${translation}`);
-            } catch (error) {
-                console.error('Translation error:', error);
             }
-        };
+        }
 
-        translateText();
+        // Get the modified HTML content
+        modifiedHTML = tempElement.innerHTML;
 
-
-        // translate('Ik spreek Engels', { to: language }).then(res => {
-        //     console.log(res.text);
-        //     //=> I speak English
-        //     console.log(res.from.language.iso);
-        //     //=> nl
-        // }).catch(err => {
-        //     console.error(err);
-        // });
-
-        //TODO implement translation for infotable with API
+        // translateText();
     }
+
+    return modifiedHTML;
 }
+
+async function translateText(language, inputstring) {
+
+    const subscriptionKey = 'b0d258d39a144c728fcf93c30b15ce49';
+    const endpoint = 'https://api.cognitive.microsofttranslator.com';
+    const location = "southeastasia";
+
+    const url = `${endpoint}/translate?api-version=3.0&to=` + language;
+    const body = [{ Text: inputstring }];
+    let translation;
+
+    try {
+        const response = await fetch(url, {
+            method: 'POST',
+            headers: {
+                'Ocp-Apim-Subscription-Key': subscriptionKey,
+                'Content-Type': 'application/json; charset=UTF-8',
+                'Ocp-Apim-Subscription-Region': location,
+            },
+            body: JSON.stringify(body),
+        });
+
+        const data = await response.json();
+        translation = data[0].translations[0].text;
+
+    } catch (error) {
+        console.error('Translation error:', error);
+    }
+    return translation;
+};
 
 // function to translate according to the dynamic events in JS happening
 export function translateModal(modalHeader, modalBody, errorMessage, alert, button, handler, label) {
