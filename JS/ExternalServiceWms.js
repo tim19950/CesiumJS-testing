@@ -432,7 +432,8 @@ export default class ExternalServiceWms {
         // Create the <img> and <span> tags to go inside the <a> tag
         let newImg = document.createElement("img");
         newImg.className = "img_layers";
-        newImg.src = "https://tim19950.github.io/CesiumJS-testing//Icons/WMS.png";
+        newImg.setAttribute("src", "https://tim19950.github.io/CesiumJS-testing/Icons/WMS.png")
+        // newImg.src = "https://tim19950.github.io/CesiumJS-testing//Icons/WMS.png";
 
         const newSpan = document.createElement("span");
         newSpan.className = "title";

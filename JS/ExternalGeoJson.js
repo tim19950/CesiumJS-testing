@@ -262,7 +262,7 @@ export default class ExternalGeoJson {
 
         // Create the <img> and <span> tags to go inside the <a> tag
         const newImg = document.createElement("img");
-        newImg.className = "img_layers";
+        newImg.className = "img_layers"; 
         newImg.setAttribute("src", "https://tim19950.github.io/CesiumJS-testing/Icons/GeoJSON.png")
         // newImg.src = "https://tim19950.github.io/CesiumJS-testing/Icons/GeoJSON.png";
 
