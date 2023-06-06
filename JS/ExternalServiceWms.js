@@ -566,10 +566,11 @@ export default class ExternalServiceWms {
                         let resultarr = array.join(', ');
 
                         translateArrayInput(resultarr).then(function (arrayText) {
-                            array = arrayText;
+                            // array = arrayText;
+                            // set the textContent
+                            LayerSlider.textContent = arrayText[0];
                         });
-                        // set the textContent
-                        LayerSlider.textContent = array[0];
+                       
                     });
 
                     // imageryLayer = viewer.imageryLayers.addImageryProvider(wms_provider);
