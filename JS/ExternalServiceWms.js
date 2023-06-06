@@ -423,15 +423,16 @@ export default class ExternalServiceWms {
 
         // Set the attributes for the new <a> tag
         newLink.className = "dropdown-item layermenu";
+        newLink.classList.add("slider-link");
         newLink.title = abstract;
         newLink.setAttribute("data-urlWms", value_url_wms);
         newLink.setAttribute("data-LayersWms", value_name_wms);
         newLink.setAttribute("data-layerTitle", layer_title);
         newLink.setAttribute("data-contactOrganisation", contactOrganisation);
         // Create the <img> and <span> tags to go inside the <a> tag
-        const newImg = document.createElement("img");
+        let newImg = document.createElement("img");
         newImg.className = "img_layers";
-        newImg.src = "https://tim19950.github.io/CesiumJS-testing/Icons/WMS.png";
+        newImg.src = "/CesiumJS-testing/Icons/WMS.png";
 
         const newSpan = document.createElement("span");
         newSpan.className = "title";
@@ -457,36 +458,28 @@ export default class ExternalServiceWms {
         // Add the <img> and <span> tags to the <a> tag
         newLink.appendChild(newImg);
         newLink.appendChild(newSpan);
-
-        // newDIVSection.appendChild(newLink);
-        // Add the new <a> tag to the <div> element with ID "section_4"
-        section_4.appendChild(newLink);
+       
+        // Create a label element
+        const opacityLabelSlider = document.createElement("label");
+        opacityLabelSlider.className = "slider-label";
+        opacityLabelSlider.htmlFor = "sliderWMSLayer";
+        // opacityLabelSlider.textContent = "Sichtbarkeit: " + opacitySlider.value * 100 + "%";
 
         // Create the opacity slider
         const opacitySlider = document.createElement("input");
-        opacitySlider.className = "dropdown-item layermenu slider";
+        opacitySlider.className = "wms-slider";
         opacitySlider.id = "sliderLayer " + ID;
         opacitySlider.name = "sliderWMSLayer";
         opacitySlider.type = "range";
         opacitySlider.min = 0;
         opacitySlider.max = 1;
-        opacitySlider.step = 0.1;
+        opacitySlider.step = 0.01;
         opacitySlider.value = 0.7; // Initial opacity value
 
         // Set initial opacity value
         newLink.setAttribute("data-opacityLayer", opacitySlider.value);
 
-        // Add the opacity slider to the <a> tag
-        newLink.appendChild(opacitySlider);
-
-        // Create a label element
-        const opacityLabelSlider = document.createElement("label");
-        opacityLabelSlider.className = "dropdown-item layermenu slider label";
-        // opacityLabelSlider.textContent = "Sichtbarkeit: " + opacitySlider.value * 100 + "%";
-        let textLabel = "Sichtbarkeit: " + opacitySlider.value * 100 + "%";
-
-        // Add the label after the slider
-        newLink.appendChild(opacityLabelSlider);
+        let textLabel = "Sichtbarkeit: " + (opacitySlider.value * 100).toFixed(0) + "%";
 
         // translate legendstrings first word
         // second word title layer already translated
@@ -501,6 +494,15 @@ export default class ExternalServiceWms {
 
         opacityLabelSlider.textContent = array[1];
 
+        // Add the label before the slider
+        newLink.appendChild(opacityLabelSlider);
+
+        // Add the opacity slider to the <a> tag
+        newLink.appendChild(opacitySlider);
+
+        // Add the new <a> tag to the <div> element with ID "section_4"
+        section_4.appendChild(newLink);
+
         this.fetchWMSLegend(wmslegendURL, LegendString);
 
         // const layermenu = document.getElementById("layermenue_dropdown");
@@ -512,7 +514,7 @@ export default class ExternalServiceWms {
 
     handleExternalServices(node, value_name_wms, value_url_wms) {
 
-        let imageryLayer;
+        let imageryLayer, opacitySlider, LayerSlider;
 
         // Create WMSImageryProvider
         let wms_provider = new Cesium.WebMapServiceImageryProvider({
@@ -538,32 +540,34 @@ export default class ExternalServiceWms {
                 // When the node has the active class, the referencing wms_prover for the node gets added
                 if (event.target.classList.contains('active')) {
 
-                    // console.log(node.children);
-
                     imageryLayer = new Cesium.ImageryLayer(wms_provider, {
                         alpha: node.dataset.opacitylayer
                     });
                     viewer.imageryLayers.add(imageryLayer);
 
-                    const opacitySlider = node.children.namedItem("sliderWMSLayer");
+                    opacitySlider = node.children.namedItem("sliderWMSLayer");
 
-                    const LayerSlider = node.children[3];
+                    opacitySlider.classList.add("show");
+
+                    LayerSlider = node.children[2];
+
+                    LayerSlider.classList.add("show");
                     
                     // Add an event listener to handle changes in the slider value
-                    opacitySlider.addEventListener("input", async function () {
+                    opacitySlider.addEventListener("input", function () {
                         // set opacity of layer
                         imageryLayer.alpha = opacitySlider.value;
                         // set opacity of the data attribute to load layer with that value when clicked again
                         node.setAttribute("data-opacityLayer", opacitySlider.value);
                         // explicitly render a new frame
                         viewer.scene.requestRender();
-                        let array = ["Sichtbarkeit " + opacitySlider.value * 100 + "%"];
+                        let array = ["Sichtbarkeit: " + (opacitySlider.value * 100).toFixed(0) + "%"];
                         let resultarr = array.join(', ');
 
-                        await translateArrayInput(resultarr).then(function (arrayText) {
+                        translateArrayInput(resultarr).then(function (arrayText) {
                             array = arrayText;
                         });
-
+                        // set the textContent
                         LayerSlider.textContent = array[0];
                     });
 
@@ -574,6 +578,9 @@ export default class ExternalServiceWms {
                     // when the node dont has activ class the wms gets removed
                     viewer.imageryLayers.remove(imageryLayer);
                     console.log("WMS contains already. The WMS layer gets deleted.");
+
+                    opacitySlider.classList.remove("show");
+                    LayerSlider.classList.remove("show");
                 }
             });
         }

@@ -27,7 +27,6 @@
 }
 }
 
-
 /* Show the button just after he was added to the menu bar */
 
 .dropdown#layermenue_button_toolbar {
@@ -37,7 +36,6 @@
 .dropdown.active#layermenue_button_toolbar {
     display: block;
 }
-
 
 /* Styling of the pictures of layers */
 
@@ -127,7 +125,9 @@ details.dropdown-item.layermenu.WMSLegend-details {
     color: white;
     position: relative !important;
     width: auto;
+    max-width: 340px;
     margin-bottom: 5px;
+    margin-top: 10px;
 }
 
 details.dropdown-item.layermenu.WMSLegend-details:hover {
@@ -146,10 +146,10 @@ details.dropdown-item.layermenu.WMSLegend-details[open] {
     top: 100%;
     left: 3%;
     z-index: 1;
-    width: 80%;
+    width: auto;
     background-color: #fff;
     box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
-    padding: 10px;
+    padding-left: 10px;
 }
 
 
@@ -163,15 +163,32 @@ img.WMSLegend-img {
 
 /* Style layeropacity switcher */
 
-.dropdown-item.layermenu.slider{
+.wms-slider{
     width: auto;
     position: relative;
-    top: 0.5rem;
+    display: none;
+    top: -1.9rem;
+    left: 8.6rem;
+    cursor: grab;
 }
 
-.dropdown-item.layermenu.slider.label{
+.wms-slider:active{
+    cursor: grabbing;
+}
+
+.slider-label{
     background: transparent;
     color: #ffffff;
+    margin-top: 10px;
     position: relative;
-    left: -25px;
+    display: none;
+}
+
+.wms-slider.show{
+    display: block;
+    margin-bottom: -2rem;
+}
+
+.slider-label.show{
+    display: grid;
 }

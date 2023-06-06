@@ -202,7 +202,7 @@ function start() {
 */
 function addCreditsIcons() {
     // Create a credit for Icons8 Icons and add it to the credit display
-    let creditIcons8 = new Cesium.Credit(`<a href="http://icons8.com/icons" target="_blank">Icons8 Icons</a>`);
+    let creditIcons8 = new Cesium.Credit(`<a target="_blank" href="https://icons8.com/icon/w_qRMJOKoZGs/globe-showing-europe-africa"></a> Icons by <a target="_blank" href="https://icons8.com">Icons8</a>`);
     viewer.creditDisplay.addStaticCredit(creditIcons8);
 
     // Create a credit for Fontawesome Icons and add it to the credit display
