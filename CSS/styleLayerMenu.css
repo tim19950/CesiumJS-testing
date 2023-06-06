@@ -6,7 +6,7 @@
     top: auto;
     right: 0;
     left: -6rem !important;
-    width: 23.8rem;
+    width: 24rem;
     max-width: 400px;
     margin-top: 5px;
     background-color: rgba(38, 38, 38, 0.75);
@@ -125,9 +125,9 @@ details.dropdown-item.layermenu.WMSLegend-details {
     color: white;
     position: relative !important;
     width: auto;
-    max-width: 340px;
+    max-width: 350px;
     margin-bottom: 5px;
-    margin-top: 10px;
+    white-space: break-spaces;
 }
 
 details.dropdown-item.layermenu.WMSLegend-details:hover {
@@ -163,12 +163,12 @@ img.WMSLegend-img {
 
 /* Style layeropacity switcher */
 
+.slider-container {
+    display: flex !important;
+}
+
 .wms-slider{
-    width: auto;
-    position: relative;
     display: none;
-    top: -1.9rem;
-    left: 8.6rem;
     cursor: grab;
 }
 
@@ -179,16 +179,16 @@ img.WMSLegend-img {
 .slider-label{
     background: transparent;
     color: #ffffff;
-    margin-top: 10px;
-    position: relative;
     display: none;
 }
 
 .wms-slider.show{
-    display: block;
-    margin-bottom: -2rem;
+    width: auto;
+    display: flex;
 }
 
 .slider-label.show{
-    display: grid;
+    display: flex;
+    margin-right: 0.5rem;
+    margin-top: 10px;
 }

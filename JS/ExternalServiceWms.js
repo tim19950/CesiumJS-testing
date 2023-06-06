@@ -423,7 +423,6 @@ export default class ExternalServiceWms {
 
         // Set the attributes for the new <a> tag
         newLink.className = "dropdown-item layermenu";
-        newLink.classList.add("slider-link");
         newLink.title = abstract;
         newLink.setAttribute("data-urlWms", value_url_wms);
         newLink.setAttribute("data-LayersWms", value_name_wms);
@@ -459,6 +458,9 @@ export default class ExternalServiceWms {
         // Add the <img> and <span> tags to the <a> tag
         newLink.appendChild(newImg);
         newLink.appendChild(newSpan);
+
+        let container = document.createElement("div");
+        container.classList.add("slider-container");
        
         // Create a label element
         const opacityLabelSlider = document.createElement("label");
@@ -469,7 +471,7 @@ export default class ExternalServiceWms {
         // Create the opacity slider
         const opacitySlider = document.createElement("input");
         opacitySlider.className = "wms-slider";
-        opacitySlider.id = "sliderLayer " + ID;
+        opacitySlider.id = "sliderLayer" + ID;
         opacitySlider.name = "sliderWMSLayer";
         opacitySlider.type = "range";
         opacitySlider.min = 0;
@@ -496,10 +498,12 @@ export default class ExternalServiceWms {
         opacityLabelSlider.textContent = array[1];
 
         // Add the label before the slider
-        newLink.appendChild(opacityLabelSlider);
+        container.appendChild(opacityLabelSlider);
 
         // Add the opacity slider to the <a> tag
-        newLink.appendChild(opacitySlider);
+        container.appendChild(opacitySlider);
+
+        newLink.appendChild(container);
 
         // Add the new <a> tag to the <div> element with ID "section_4"
         section_4.appendChild(newLink);
@@ -515,7 +519,7 @@ export default class ExternalServiceWms {
 
     handleExternalServices(node, value_name_wms, value_url_wms) {
 
-        let imageryLayer, opacitySlider, LayerSlider;
+        let imageryLayer, opacitySlider, SliderLabel;
 
         // Create WMSImageryProvider
         let wms_provider = new Cesium.WebMapServiceImageryProvider({
@@ -546,13 +550,13 @@ export default class ExternalServiceWms {
                     });
                     viewer.imageryLayers.add(imageryLayer);
 
-                    opacitySlider = node.children.namedItem("sliderWMSLayer");
+                    opacitySlider = node.children[2].children.namedItem("sliderWMSLayer");
 
                     opacitySlider.classList.add("show");
 
-                    LayerSlider = node.children[2];
+                    SliderLabel = node.children[2].children[0];
 
-                    LayerSlider.classList.add("show");
+                    SliderLabel.classList.add("show");
                     
                     // Add an event listener to handle changes in the slider value
                     opacitySlider.addEventListener("input", function () {
@@ -562,13 +566,13 @@ export default class ExternalServiceWms {
                         node.setAttribute("data-opacityLayer", opacitySlider.value);
                         // explicitly render a new frame
                         viewer.scene.requestRender();
-                        let array = ["Sichtbarkeit: " + (opacitySlider.value * 100).toFixed(0) + "%"];
+                        let array = ["Sichtbarkeit: "];
                         let resultarr = array.join(', ');
 
                         translateArrayInput(resultarr).then(function (arrayText) {
                             // array = arrayText;
                             // set the textContent
-                            LayerSlider.textContent = arrayText[0];
+                            SliderLabel.textContent = arrayText[0] + (opacitySlider.value * 100).toFixed(0) + "%";
                         });
                        
                     });
@@ -582,7 +586,7 @@ export default class ExternalServiceWms {
                     console.log("WMS contains already. The WMS layer gets deleted.");
 
                     opacitySlider.classList.remove("show");
-                    LayerSlider.classList.remove("show");
+                    SliderLabel.classList.remove("show");
                 }
             });
         }
