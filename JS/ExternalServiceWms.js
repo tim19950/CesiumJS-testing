@@ -107,13 +107,16 @@ export default class ExternalServiceWms {
 
                             console.log(htmlcollection_layer);
 
+                            // iterate over the layer tags
                             for (let element_layer of htmlcollection_layer) {
 
                                 let hasLayerName = false;
                                 let hasTitle = false;
                                 let hasBoundingBox = false;
-                                let layerTitle, layerName, layerAbstract, layerLegendURL;
-
+                                let layerTitle, layerName, layerAbstract, layerLegendURL, layerBoudingBox;
+                                
+                                // iterate over the children from every layer tag
+                                // set the title, name etc. for every layer later to the options list
                                 for (let child of element_layer.children) {
                                     const { nodeName, textContent } = child;
                                     switch (nodeName) {
@@ -125,8 +128,9 @@ export default class ExternalServiceWms {
                                             hasTitle = true;
                                             layerTitle = textContent;
                                             break;
-                                        case "BoundingBox":
+                                        case "EX_GeographicBoundingBox":
                                             hasBoundingBox = true;
+                                            layerBoudingBox = textContent;
                                             break;
                                         case "Abstract":
                                             layerAbstract = textContent;
@@ -156,8 +160,10 @@ export default class ExternalServiceWms {
                                             option.value = NameElement.textContent;
                                         }
                                     }
+                                    // set dataset attributes for eyers layer in the list
                                     option.setAttribute("data-LayersWms", layerName);
                                     option.setAttribute("data-LayersWmsAbstract", layerAbstract);
+                                    option.setAttribute("data-LayersWmsGeographicBoundingBox", layerBoudingBox);
 
                                     // Check if the href doesn't start with "http://" or "https://"
                                     // then it must be a relative link
@@ -240,7 +246,7 @@ export default class ExternalServiceWms {
             let layer_title = document.getElementById("exampleDataList").value;
             console.log(layer_title);
 
-            let value_name_wms, abstractWMS, wmsLegendURL;
+            let value_name_wms, abstractWMS, wmsLegendURL, wmsLayerBoundingBox;
             let okbtn = document.getElementById("ok_button_wms");
 
             // when no layer in the collection and try add layer to menu
@@ -294,6 +300,7 @@ export default class ExternalServiceWms {
                         value_name_wms = option.dataset.layerswms;
                         abstractWMS = option.dataset.layerswmsabstract;
                         wmsLegendURL = option.dataset.layerswmslengendurl;
+                        wmsLayerBoundingBox = option.dataset.layerswmsgeographicboundingbox;
                     }
                 }
 
@@ -305,7 +312,7 @@ export default class ExternalServiceWms {
                     // when the layer was added, close modal
                     okbtn.setAttribute("data-dismiss", "modal");
 
-                    this.addWMSLayer(value_name_wms, value_url_wms, layer_title, abstractWMS, wmsLegendURL, contactOrganisation);
+                    this.addWMSLayer(value_name_wms, value_url_wms, layer_title, abstractWMS, wmsLegendURL, contactOrganisation, wmsLayerBoundingBox);
                 }
                 // when the layer was added, close modal
                 // okbtn.setAttribute("data-dismiss", "modal");
@@ -398,7 +405,7 @@ export default class ExternalServiceWms {
         // displayImage();
     }
 
-    async addWMSLayer(value_name_wms, value_url_wms, layer_title, abstract, wmslegendURL, contactOrganisation) {
+    async addWMSLayer(value_name_wms, value_url_wms, layer_title, abstract, wmslegendURL, contactOrganisation, boundingbox) {
 
         let section_4 = document.getElementById("section_4");
         section_4.style.display = "block";
@@ -428,6 +435,7 @@ export default class ExternalServiceWms {
         newLink.setAttribute("data-LayersWms", value_name_wms);
         newLink.setAttribute("data-layerTitle", layer_title);
         newLink.setAttribute("data-contactOrganisation", contactOrganisation);
+        newLink.setAttribute("data-Boundingbox", boundingbox);
         // Create the <img> and <span> tags to go inside the <a> tag
         let newImg = document.createElement("img");
         newImg.className = "img_layers";
@@ -545,10 +553,25 @@ export default class ExternalServiceWms {
                 // When the node has the active class, the referencing wms_prover for the node gets added
                 if (event.target.classList.contains('active')) {
 
+                    // create coordinates from string
+                    let coordinates = node.dataset.boundingbox.trim().split('\n').map(parseFloat);
+
+                    // Create the rectangle
+                    const rectangle = Cesium.Rectangle.fromDegrees(
+                        coordinates[0], // west
+                        coordinates[2], // south
+                        coordinates[1], // east
+                        coordinates[3]  // north
+                    );
+
                     imageryLayer = new Cesium.ImageryLayer(wms_provider, {
                         alpha: node.dataset.opacitylayer
                     });
                     viewer.imageryLayers.add(imageryLayer);
+
+                    viewer.camera.flyTo({
+                        destination: rectangle
+                    });
 
                     opacitySlider = node.children[2].children.namedItem("sliderWMSLayer");
 
