@@ -370,7 +370,7 @@ export default class Map {
                     viewer.entities.remove(entity);
                 }
 
-                console.log(elementClicked.getAttribute('data-name'));
+                // console.log(elementClicked.getAttribute('data-name'));
 
                 if (elementClicked.getAttribute('data-name')) {
 
@@ -1244,7 +1244,7 @@ export default class Map {
             altitudeString = Math.round(altitude).toString();
 
             // safe values from point in array
-            let arr = ["Longitude in degree", longitude.toFixed(5) + " °", "Latitude in degree", latitude.toFixed(5) + " °", "Altitude (WGS84) in meter", altitudeString + " meter", "Object", entity.name, "Description", entity.description];
+            let arr = ["Longitude in degree", longitude.toFixed(5) + " °", "Latitude in degree", latitude.toFixed(5) + " °", "Altitude (WGS84) in meter", altitudeString + " meter", "Description", entity.description];
             let counter = 1;
 
             let result = arr.join(', ');
@@ -1274,7 +1274,7 @@ export default class Map {
             let arr = ["Longitude", "undefined from polyline" + " °", "Latitude", "undefined from polyline" + " °", "Altitude (WGS84)", altitudeString + " meter", "Object", entity.name, "Description", entity.description];
             let counter = 1;
 
-            console.log(arr);
+            // console.log(entity.name);
 
             let result = arr.join(', ');
 
