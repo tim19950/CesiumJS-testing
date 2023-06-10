@@ -203,7 +203,7 @@ export default class Map {
             let locationEntity = viewer.entities.add({
                 name: "My Location",
                 position: cartesian_three,
-                description: "An marker with my current location.",
+                description: "An marker with my current location",
                 billboard: {
                     image: "./Icons/user-location.svg",
                     scale: 0.5,
@@ -1235,6 +1235,8 @@ export default class Map {
 
         let posEntity, cartographic, longitude, latitude, altitude, altitudeString;
 
+        console.log(entity.description);
+
         if (entity.position) {
             posEntity = entity.position.getValue(Cesium.JulianDate.now());
             cartographic = Cesium.Cartographic.fromCartesian(posEntity);
@@ -1271,38 +1273,33 @@ export default class Map {
             }
         } else {
 
-            let arr = ["Longitude", "undefined from polyline" + " °", "Latitude", "undefined from polyline" + " °", "Altitude (WGS84)", altitudeString + " meter", "Object", entity.name, "Description", entity.description];
+            let arr2 = ["Object", entity.name, "Description", entity.description];
             let counter = 1;
 
             // console.log(entity.name);
 
-            let result = arr.join(', ');
+            let result = arr2.join(', ');
 
             // setzen des Tabellennamens
             infoboxKarte.viewModel.titleText = translateInfoTableTitle();
 
             await translateArrayInput(result).then(function (arrayText) {
-                arr = arrayText;
+                arr2 = arrayText;
             });
 
-            for (let i = 0; i < arr.length; i += 2) {
+            for (let i = 0; i < arr2.length; i += 2) {
                 let tr = document.createElement('tr'); //Zeile
                 let tD = document.createElement('td');
                 let tD2 = document.createElement('td');
-                tD.innerHTML = arr[i];
-                tD2.innerHTML = arr[i + 1];
+                tD.innerHTML = arr2[i];
+                tD2.innerHTML = arr2[i + 1];
 
                 tr.appendChild(tD);
                 tr.appendChild(tD2);
                 table.appendChild(tr);
-                table.replaceChild(tr, table.children[counter++]);
+                // table.replaceChild(tr, table.children[counter++]);
                 // console.log(table.children[counter++]);
             }
-
-            // tr.appendChild(tD);
-            // tr.appendChild(tD2);
-            // table.appendChild(tr);
-            // table.replaceChild(tr, table.children[3]);
         }
 
         return table;
