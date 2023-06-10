@@ -360,6 +360,7 @@ export async function translateArrayInput(inputString){
             
             // Modify the text content (example: add "Modified " prefix)
             await translateText(language, inputString).then(function (newText) {
+                console.log(newText);
                 array = newText.split(', ');
             });
         }
