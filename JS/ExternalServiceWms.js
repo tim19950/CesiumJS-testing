@@ -66,9 +66,9 @@ export default class ExternalServiceWms {
                 }
 
                 noWMSURL.style.display = "";
-                // alert.innerHTML = "<strong>Achtung!</strong>Geben Sie erst eine URL des WMS an!";
+                noWMSURL.innerHTML = "<strong>Achtung!</strong>Geben Sie erst eine URL des WMS an!";
 
-                translateModal(undefined, undefined, undefined, noWMSURL, undefined);
+                // translateModal(undefined, undefined, undefined, noWMSURL, undefined);
 
             } else {
 
@@ -186,8 +186,8 @@ export default class ExternalServiceWms {
                             }
 
                             success.style.display = "";
-                            // success.innerHTML = "Die Abfrage der Layer des WMS war erfolgreich.";
-                            translateModal(undefined, undefined, undefined, success, undefined);
+                            success.innerHTML = "Die Abfrage der Layer des WMS war erfolgreich.";
+                            // translateModal(undefined, undefined, undefined, success, undefined);
 
                         } else {
 
@@ -197,14 +197,13 @@ export default class ExternalServiceWms {
                             }
 
                             noWMSURLreco.style.display = "";
-                            // noWMSURLreco.innerHTML = "<strong>Achtung!</strong>Keine URL erkannt, bitte nochmal versuchen.";
-                            translateModal(undefined, undefined, undefined, noWMSURLreco, undefined);
+                            noWMSURLreco.innerHTML = "<strong>Achtung!</strong>Keine URL erkannt, bitte nochmal versuchen.";
+                            // translateModal(undefined, undefined, undefined, noWMSURLreco, undefined);
 
                         }
 
                     } else {
                         console.log(this.status);
-                        // alert("Fehler in dem Request, bitte nochmal versuchen");
 
                         // Alertmeldungen und sucessmeldung nicht sichtbar stellen des WMS modals
                         for (let alert of alerts) {
@@ -212,8 +211,8 @@ export default class ExternalServiceWms {
                         }
 
                         errorRequest.style.display = "";
-                        // errorRequest.innerHTML = "<strong>Achtung!</strong>Fehler in dem Request, bitte nochmal versuchen.";
-                        translateModal(undefined, undefined, undefined, errorRequest, undefined);
+                        errorRequest.innerHTML = "<strong>Achtung!</strong>Fehler in dem Request, bitte nochmal versuchen.";
+                        // translateModal(undefined, undefined, undefined, errorRequest, undefined);
 
                     }
 
@@ -232,9 +231,9 @@ export default class ExternalServiceWms {
                     }
 
                     noRequestSend.style.display = "";
-                    // noRequestSend.innerHTML = "<strong>Achtung!</strong> Request konnte nicht abgesetzt werden, bitte nochmal versuchen.";
+                    noRequestSend.innerHTML = "<strong>Achtung!</strong> Request konnte nicht abgesetzt werden, bitte nochmal versuchen.";
 
-                    translateModal(undefined, undefined, undefined, noRequestSend, undefined);
+                    // translateModal(undefined, undefined, undefined, noRequestSend, undefined);
                     // stop the loading animation for onerror
                     stopLoadingAnimationWMS();
                 };
@@ -263,9 +262,9 @@ export default class ExternalServiceWms {
                 }
 
                 noWMSQueryed.style.display = "";
-                // noWMSQueryed.innerHTML = "<strong>Achtung!</strong>Bitte zuerst den WMS anfragen und dann auf 'Zum Menü hinzufügen' klicken.";
+                noWMSQueryed.innerHTML = "<strong>Achtung!</strong>Bitte zuerst den WMS anfragen und dann auf 'Zum Menü hinzufügen' klicken.";
 
-                translateModal(undefined, undefined, undefined, noWMSQueryed, undefined);
+                // translateModal(undefined, undefined, undefined, noWMSQueryed, undefined);
 
                 // when layer not selected
             } else if (layer_title.length === 0) {
@@ -282,9 +281,9 @@ export default class ExternalServiceWms {
 
                 // show alert message
                 noWMSSelected.style.display = "";
-                // noWMSSelected.innerHTML = "<strong>Achtung!</strong>Bitte zuerst den WMS auswählen und dann auf 'Zum Menü hinzufügen' klicken.";
+                noWMSSelected.innerHTML = "<strong>Achtung!</strong>Bitte zuerst den WMS auswählen und dann auf 'Zum Menü hinzufügen' klicken.";
                 // success.style.display = "none";
-                translateModal(undefined, undefined, undefined, noWMSSelected, undefined);
+                // translateModal(undefined, undefined, undefined, noWMSSelected, undefined);
 
             } else {
 
@@ -335,7 +334,8 @@ export default class ExternalServiceWms {
             if (layertitle === WMSTitle) {
 
                 alertWMSexists.style.display = "";
-                translateModal(undefined, undefined, undefined, alertWMSexists, undefined, undefined);
+                alertWMSexists.innerHTML = "<strong>Achtung!</strong>Der ausgewählte WMS ist bereits in dem Layermenu vorhaden.";
+                // translateModal(undefined, undefined, undefined, alertWMSexists, undefined, undefined);
                 console.log("WMS vorhaden in menu");
                 okButtom.setAttribute("data-dismiss", "");
                 boolTest = true;
@@ -414,16 +414,16 @@ export default class ExternalServiceWms {
         section4Text.style.display = "inline-block";
 
         // translate the layer title and the abstract for the layermenu depending on the choosen language
-        let arr = [layer_title, abstract];
-        let result = arr.join(', ');
+        // let arr = [layer_title, abstract];
+        // let result = arr.join(', ');
 
-        await translateArrayInput(result).then(function (arrayText) {
-            arr = arrayText;
-        });
+        // await translateArrayInput(result).then(function (arrayText) {
+        //     arr = arrayText;
+        // });
 
-        layer_title = arr[0];
-        console.log(layer_title);
-        abstract = arr[1];
+        // layer_title = arr[0];
+        // console.log(layer_title);
+        // abstract = arr[1];
 
         // Create the new <a> tag element
         const newLink = document.createElement("a");
@@ -494,16 +494,17 @@ export default class ExternalServiceWms {
 
         // translate legendstrings first word
         // second word title layer already translated
-        let array = ["Legende ", textLabel];
-        let resultarr = array.join(', ');
+        // let array = ["Legende ", textLabel];
+        // let resultarr = array.join(', ');
 
-        await translateArrayInput(resultarr).then(function (arrayText) {
-            array = arrayText;
-        });
+        // await translateArrayInput(resultarr).then(function (arrayText) {
+        //     array = arrayText;
+        // });
 
-        let LegendString = array[0] + layer_title;
+        // let LegendString = array[0] + layer_title;
+        let LegendString = "Legende " + layer_title;
 
-        opacityLabelSlider.textContent = array[1];
+        opacityLabelSlider.textContent = textLabel;
 
         // Add the label before the slider
         container.appendChild(opacityLabelSlider);
@@ -589,14 +590,17 @@ export default class ExternalServiceWms {
                         node.setAttribute("data-opacityLayer", opacitySlider.value);
                         // explicitly render a new frame
                         viewer.scene.requestRender();
-                        let array = ["Sichtbarkeit: "];
-                        let resultarr = array.join(', ');
+                        // let array = ["Sichtbarkeit: "];
+                        // let resultarr = array.join(', ');
 
-                        translateArrayInput(resultarr).then(function (arrayText) {
-                            // array = arrayText;
-                            // set the textContent
-                            SliderLabel.textContent = arrayText[0] + (opacitySlider.value * 100).toFixed(0) + "%";
-                        });
+                        // translateArrayInput(resultarr).then(function (arrayText) {
+                        //     // array = arrayText;
+                        //     // set the textContent
+                        //     SliderLabel.textContent = arrayText[0] + (opacitySlider.value * 100).toFixed(0) + "%";
+                        // });
+
+                        // set the textContent
+                        SliderLabel.textContent = "Sichtbarkeit: " + (opacitySlider.value * 100).toFixed(0) + "%";
                        
                     });
 

@@ -183,7 +183,7 @@ function start() {
     // Responsive design to update height when menu folded out on small devices
     updateCesiumContainerHeight();
 
-    toggleLanguage();
+    // toggleLanguage();
     deleteLanguageSwitchModal();
 
     translateButtonTitles();

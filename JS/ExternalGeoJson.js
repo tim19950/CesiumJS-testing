@@ -16,7 +16,7 @@ export default class ExternalGeoJson {
         let fileModal = new bootstrap.Modal(document.getElementById("fileModal"));
         // let modalAddLayermenu = new bootstrap.Modal(document.getElementById("modal"));
 
-        let alertnoGeoJSON = document.getElementById("noGeoJSON");
+        let alertnoGeoJSON = document.getElementById("noGeoJSONSelected");
         let alertGeoJSONExistsAlready = document.getElementById("GeoJSONExistsAlready");
         let addGeojsonBtn = document.getElementById("addGeoJsonMenu");
 
@@ -26,10 +26,10 @@ export default class ExternalGeoJson {
             alertnoGeoJSON.style.display = "none";
             alertGeoJSONExistsAlready.style.display = "none";
 
-            // document.getElementsByClassName("custom-file-label")[0].innerText = "Keine Datei...";
-            let label = document.getElementsByClassName("custom-file-label")[0];
+            document.getElementsByClassName("custom-file-label")[0].innerText = "Keine Datei...";
+            // let label = document.getElementsByClassName("custom-file-label")[0];
 
-            translateModal(undefined, undefined, undefined, undefined, undefined, undefined, label);
+            // translateModal(undefined, undefined, undefined, undefined, undefined, undefined, label);
 
             // Set title of input element to nothing and the selected files
             document.getElementById("fileInput").title = "";
@@ -58,13 +58,15 @@ export default class ExternalGeoJson {
                 alertnoGeoJSON.style.display = "";
                 addGeojsonBtn.setAttribute("data-dismiss", "");
 
-                // alert.innertext = "Wählen Sie erst eine Datei aus";
-                translateModal(undefined, undefined, undefined, alertnoGeoJSON, undefined, undefined);
+                alertnoGeoJSON.innerHTML = "<strong>Achtung!</strong> Wählen Sie erst eine Datei aus";
+                // translateModal(undefined, undefined, undefined, alertnoGeoJSON, undefined, undefined);
 
             } else {
 
                 // Update the original fileList with the updatedFiles array
-                let fileList = await this.translateFileList(fileInput);
+                // let fileList = await this.translateFileList(fileInput);
+
+                let fileList = fileInput.files;
 
                 // check if there are existing GeoJSON Layers compared with the new adding ones
                 let bool = this.checkForDublicateGeoJSonMenu(fileList, alertGeoJSONExistsAlready, addGeojsonBtn, alertnoGeoJSON, fileModal);
@@ -137,14 +139,18 @@ export default class ExternalGeoJson {
             if (file.type && !file.type.startsWith('application/geo')) {
                 console.log('File is not an GeoJSON.', file.type, file);
 
+                // let errorNoGeoJsonalert = document.getElementById("noGeoJSON");
+
+                // errorNoGeoJsonalert.innerHTML = "<strong>Achtung!</strong>Die Daten, welche Sie hinzufügen möchten, sind keine GeoJSON Dateien. Bitte laden Sie nur GeoJSON.";
+
                 let modal = new bootstrap.Modal(document.getElementById("modal"));
                 let modalHeader = document.getElementById("ModalLabel");
-                // modalHeader.innerText = "Achtung";
+                modalHeader.innerText = "Achtung";
 
                 let modalBody = document.getElementById("modalBody");
-                // modalBody.innerText = " Die Daten, welche Sie hinzufügen möchten, sind keine GeoJSON Dateien. Bitte laden Sie nur GeoJSON.";
+                modalBody.innerText = "Die Daten, welche Sie hinzufügen möchten, sind keine GeoJSON Dateien. Bitte laden Sie nur GeoJSON.";
 
-                translateModal(modalHeader, modalBody, undefined, undefined);
+                // translateModal(modalHeader, modalBody, undefined, undefined);
 
                 modal.show();
 
@@ -177,9 +183,9 @@ export default class ExternalGeoJson {
                         innertext = innertext.replace("}]", "");
                         innertext = innertext.replace(/},{/gm, "");
 
-                        // modalBody.innerText = " Das GeoJSON, welches Sie hinzufügen wollen, besitzt Fehler: " + innertext;
+                        modalBody.innerText = "Das GeoJSON, welches Sie hinzufügen wollen, besitzt Fehler: " + innertext;
 
-                        translateModal(modalHeader, modalBody, innertext);
+                        // translateModal(modalHeader, modalBody, innertext);
 
                         my_modal.show();
                         // stopLoadAnimationGeoJSON();
@@ -210,7 +216,8 @@ export default class ExternalGeoJson {
                 if (layerFile === file.name) {
                     console.log(`The dataset attribute filelayergeojson of layer ${i + 1} matches file ${j + 1} in the fileInput`);
                     alertGeoJSONExistsAlready.style.display = "";
-                    translateModal(undefined, undefined, undefined, alertGeoJSONExistsAlready, undefined, undefined);
+                    alertGeoJSONExistsAlready.innerHTML = "<strong>Achtung!</strong> Eine oder meherer ausgewählte Dateien existieren bereits im Menü";
+                    // translateModal(undefined, undefined, undefined, alertGeoJSONExistsAlready, undefined, undefined);
                     // console.log("file.name === file.name");
                     // addGeojsonBtn.setAttribute("data-dismiss", "");
                     // fileModal.show();
@@ -237,24 +244,24 @@ export default class ExternalGeoJson {
         let section4Text = document.getElementById("section_4_text");
         section4Text.style.display = "inline-block";
 
-        let arr = [nameGeoJSon, file.name];
+        // let arr = [nameGeoJSon, file.name];
 
-        let result = arr.join(', ');
+        // let result = arr.join(', ');
 
-        await translateArrayInput(result).then(function (arrayText) {
-            arr = arrayText;
-        });
+        // await translateArrayInput(result).then(function (arrayText) {
+        //     arr = arrayText;
+        // });
 
-        nameGeoJSon = arr[0];
-        let fileName = arr[1];
+        // nameGeoJSon = arr[0];
+        // let fileName = arr[1];
 
         // Create the new <a> tag element
         const newLink = document.createElement("a");
 
         // Set the attributes for the new <a> tag
         newLink.className = "dropdown-item layermenu";
-        newLink.title = fileName;
-        newLink.setAttribute("data-fileLayerGeoJson", fileName);
+        newLink.title = file.name;
+        newLink.setAttribute("data-fileLayerGeoJson", file.name);
 
         // newLink.setAttribute("data-fileGeojson", file);
         newLink.setAttribute("data-LayersGeoJson", nameGeoJSon);
@@ -305,9 +312,9 @@ export default class ExternalGeoJson {
         modalHeader.innerText = "Information";
 
         let modalBody = document.getElementById("modalBody");
-        // modalBody.innerText = "Ihre GeoJSON daten sind dem Menü als Layer hinzugefügt worden.";
+        modalBody.innerText = "Ihre GeoJSON daten sind dem Menü als Layer hinzugefügt worden.";
 
-        translateModal(modalHeader, modalBody, null, undefined, null);
+        // translateModal(modalHeader, modalBody, null, undefined, null);
 
         // only show one modal at a time
         if (!document.getElementById("modal").classList.contains("show")) {
@@ -318,7 +325,7 @@ export default class ExternalGeoJson {
         markActiveSelectedLayers();
         StopCloseMenu();
 
-        return fileName;
+        // return fileName;
     }
 
     handleExternalGeoJson(node) {

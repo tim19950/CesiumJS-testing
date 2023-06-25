@@ -16,9 +16,9 @@ export function loadAnimationGeoJSON() {
 
     alert.style.display = "none";
 
-    // modalBody.children[0].textContent = "Ihre Daten werden nun von der Anwendung geladen und gerendert. Bitte warten Sie einen Augenblick.";
+    modalBody.children[0].textContent = "Ihre Daten werden nun von der Anwendung geladen und gerendert. Bitte warten Sie einen Augenblick.";
 
-    translateModal(undefined, modalBody, undefined, undefined);
+    // translateModal(undefined, modalBody, undefined, undefined);
 
     // loaderanimation.classList.remove("hide"); // fügen Sie eine zusätzliche Klasse hinzu, um den Loader auszublenden
 

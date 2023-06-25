@@ -86,7 +86,8 @@ export default class MutationObserverDom {
         const deleteButtonClickListener = () => {
             let my_modal = new bootstrap.Modal(document.getElementById("modal_delete_all_data"));
             let modalbody = document.getElementById("modal_body_delete_all_data");
-            translateModal(undefined, modalbody, undefined, undefined);
+            modalbody.innerHTML = "Möchten Sie wirklich alle externen Geodaten aus der Szene und dem Layermenü entfernen?";
+            // translateModal(undefined, modalbody, undefined, undefined);
             my_modal.show();
             
         };

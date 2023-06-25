@@ -87,10 +87,10 @@ export default class Map {
                     let buttonOK = document.getElementById("ok_button_osm_buildings_terrain");
                     let newID = "modal_osm_buildings_clamping";
                     document.querySelectorAll("[id^='modal_osm_buildings_clamping']")[0].id = newID;
-                    // modalBody.innerText = "Für die Aktiverung des Geländes mit eingeschalteten Gebäuden werden aus Performancegründen keine Gebäude auf dem Gelände dargestellt. Daher werden die Gebäude nur auf dem WGS84 Ellipsiod dargestellt und visualiert.";
+                    modalBody.innerText = "Für die Aktiverung des Geländes mit eingeschalteten Gebäuden werden aus Performancegründen keine Gebäude auf dem Gelände dargestellt. Daher werden die Gebäude nur auf dem WGS84 Ellipsiod dargestellt und visualiert.";
 
                     // translate the modal
-                    translateModal(modalHeader, modalBody, undefined, undefined, buttonOK);
+                    // translateModal(modalHeader, modalBody, undefined, undefined, buttonOK);
 
                     modal.show();
                 } else {
@@ -124,9 +124,9 @@ export default class Map {
                 let modal = new bootstrap.Modal(document.getElementById("modal"));
                 let div_body = document.getElementById("modalBody");
 
-                // div_body.innerText = "Die Abfrage der Geolocation ist in diesem Browser nicht unterstützt.";
+                div_body.innerText = "Die Abfrage der Geolocation ist in diesem Browser nicht unterstützt.";
 
-                translateModal(undefined, div_body, undefined, undefined);
+                // translateModal(undefined, div_body, undefined, undefined);
 
                 modal.show();
             }
@@ -510,17 +510,17 @@ export default class Map {
 
                 myToast.hide();
 
-                // modalHeader.innerText = "Achtung";
-                // div_body.innerText = "Es können nicht beide Messfunktionen gleichzeitig verwendet werden, schalten Sie eine aus!";
+                modalHeader.innerText = "Achtung";
+                div_body.innerText = "Es können nicht beide Messfunktionen gleichzeitig verwendet werden, schalten Sie eine aus!";
 
-                translateModal(modalHeader, div_body, undefined, undefined, undefined, handlerDistance);
+                // translateModal(modalHeader, div_body, undefined, undefined, undefined, handlerDistance);
 
             } else {
 
-                // modalHeader.innerText = "Information";
-                // div_body.innerText = "Sie können mit der linken Maustaste Punkte auf der Karte setzen. Mit einem Klick der rechten Maustaste in der Karte löschen Sie alle gezeichneten Höhenpunkte aus der Karte.";
+                modalHeader.innerText = "Information";
+                div_body.innerText = "Sie können mit der linken Maustaste Punkte auf der Karte setzen. Mit einem Klick der rechten Maustaste in der Karte löschen Sie alle gezeichneten Höhenpunkte aus der Karte.";
 
-                translateModal(modalHeader, div_body, undefined, undefined, undefined);
+                // translateModal(modalHeader, div_body, undefined, undefined, undefined);
             }
 
             modal_height.show();
@@ -658,18 +658,18 @@ export default class Map {
             console.log("einschalten");
 
             if (handlerHeight) {
-                // modalHeader.innerText = "Achtung";
-                // div_body.innerText = "Es können nicht beide Messfunktionen gleichzeitig verwendet werden, schalten Sie eine aus!";
+                modalHeader.innerText = "Achtung";
+                div_body.innerText = "Es können nicht beide Messfunktionen gleichzeitig verwendet werden, schalten Sie eine aus!";
 
-                translateModal(modalHeader, div_body, undefined, undefined, undefined, handlerHeight);
+                // translateModal(modalHeader, div_body, undefined, undefined, undefined, handlerHeight);
 
             } else {
 
-                // modalHeader.innerText = "Information";
-                // div_body.innerText = "Sie können mit der linken Maustaste Punkte auf der Karte setzen. Mit einem Klick der rechten " +
-                //     "Maustaste in der Karte können sie die Messung beenden. Mit der 'Esc' Taste löschen Sie alle Punkte";
+                modalHeader.innerText = "Information";
+                div_body.innerText = "Sie können mit der linken Maustaste Punkte auf der Karte setzen. Mit einem Klick der rechten " +
+                "Maustaste in der Karte können sie die Messung beenden. Mit der 'Esc' Taste löschen Sie alle Punkte";
 
-                translateModal(modalHeader, div_body, undefined, undefined, undefined);
+                // translateModal(modalHeader, div_body, undefined, undefined, undefined);
             }
 
             modal_distance.show();
@@ -721,9 +721,9 @@ export default class Map {
                                 id: 'distance_marker_' + markerID++
                             });
 
-                            // bodyToast.textContent = "Bitte wählen Sie noch einen Punkt, um die Messung zu starten.";
+                            bodyToast.textContent = "Bitte wählen Sie noch einen Punkt, um die Messung zu starten.";
 
-                            translateToast(bodyToast, 0, 0);
+                            // translateToast(bodyToast, 0, 0);
 
                             // Wählen Sie das <small>-Element aus
                             const toastTime = document.querySelector('#toastTime');
@@ -826,7 +826,9 @@ export default class Map {
 
     setToastHeight(height, bodyToast, toast) {
 
-        translateToastHeight(bodyToast, height);
+        // translateToastHeight(bodyToast, height);
+
+        bodyToast.textContent = "Die ellipsoidische Höhe (WGS84) des Punktes beträgt: " + height + " meter.";
 
         // Call function to set and start the update of the time in the toast
         let startTime = new Date();
@@ -839,16 +841,16 @@ export default class Map {
 
         if (distance > 1000 && total_distance > 1000) {
             // Wenn die Distanz und total distance größer als 1000 Meter ist, umrechnen in Kilometer
-            // bodyToast.innerText = "Distanz: " + (distance / 1000).toFixed(3) + " Kilometer \n Gesamtdistanz des Linienzugs: " + (total_distance / 1000).toFixed(3) + " Kilometer";
-            translateToast(bodyToast, distance, total_distance);
+            bodyToast.innerText = "Distanz: " + (distance / 1000).toFixed(3) + " Kilometer \n Gesamtdistanz des Linienzugs: " + (total_distance / 1000).toFixed(3) + " Kilometer";
+            // translateToast(bodyToast, distance, total_distance);
         } else if (total_distance > 1000) {
             // Wenn die total distance größer als 1000 Meter ist, umrechnen in Kilometer
-            // bodyToast.innerText = "Distanz: " + distance.toFixed(3) + " Meter \n Gesamtdistanz des Linienzugs: " + (total_distance / 1000).toFixed(3) + " Kilometer";
-            translateToast(bodyToast, distance, total_distance);
+            bodyToast.innerText = "Distanz: " + distance.toFixed(3) + " Meter \n Gesamtdistanz des Linienzugs: " + (total_distance / 1000).toFixed(3) + " Kilometer";
+            // translateToast(bodyToast, distance, total_distance);
         } else {
             // Wenn die Distanz kleiner oder gleich 1000 Meter ist, in Metern belassen
-            // bodyToast.innerText = "Distanz: " + distance.toFixed(3) + " Meter \n Gesamtdistanz des Linienzugs: " + total_distance.toFixed(3) + " Meter";
-            translateToast(bodyToast, distance, total_distance);
+            bodyToast.innerText = "Distanz: " + distance.toFixed(3) + " Meter \n Gesamtdistanz des Linienzugs: " + total_distance.toFixed(3) + " Meter";
+            // translateToast(bodyToast, distance, total_distance);
         }
 
         // Call function to set and start the update of the time in the toast
@@ -1065,12 +1067,12 @@ export default class Map {
                                 inputString = inputString.replaceAll('<th>', '<td>');
                                 inputString = inputString.replaceAll('</th>', '</td>');
 
-                                // setzen des Tabellennamens
-                                infobox_karte.viewModel.titleText = translateInfoTableTitle();
+                                // // setzen des Tabellennamens
+                                // infobox_karte.viewModel.titleText = translateInfoTableTitle();
 
-                                await translateInfoTable(inputString).then(function (newinputString) {
-                                    inputString = newinputString; 
-                                });
+                                // await translateInfoTable(inputString).then(function (newinputString) {
+                                //     inputString = newinputString; 
+                                // });
 
                                 // Convert string to HTML document object
                                 let parser = new DOMParser();
@@ -1139,12 +1141,12 @@ export default class Map {
                                     // input string
                                     let inputString = element.description;
 
-                                    // setzen des Tabellennamens
-                                    infobox_karte.viewModel.titleText = translateInfoTableTitle();
+                                    // // setzen des Tabellennamens
+                                    // infobox_karte.viewModel.titleText = translateInfoTableTitle();
 
-                                    await translateInfoTable(inputString).then(function (newinputString) {
-                                        inputString = newinputString;
-                                    });
+                                    // await translateInfoTable(inputString).then(function (newinputString) {
+                                    //     inputString = newinputString;
+                                    // });
 
                                     // console.log(inputString);
 
@@ -1175,12 +1177,12 @@ export default class Map {
                                     // input string
                                     let inputString = element.description;
 
-                                    // setzen des Tabellennamens
-                                    infobox_karte.viewModel.titleText = translateInfoTableTitle();
+                                    // // setzen des Tabellennamens
+                                    // infobox_karte.viewModel.titleText = translateInfoTableTitle();
 
-                                    await translateInfoTable(inputString).then(function (newinputString) {
-                                        inputString = newinputString;
-                                    });
+                                    // await translateInfoTable(inputString).then(function (newinputString) {
+                                    //     inputString = newinputString;
+                                    // });
 
                                     // Convert string to HTML document object
                                     let parser = new DOMParser();
@@ -1246,17 +1248,17 @@ export default class Map {
             altitudeString = Math.round(altitude).toString();
 
             // safe values from point in array
-            let arr = ["Longitude in degree", longitude.toFixed(5) + " °", "Latitude in degree", latitude.toFixed(5) + " °", "Altitude (WGS84) in meter", altitudeString + " meter", "Description", entity.description];
+            let arr = ["Längengrad", longitude.toFixed(5) + " °", "Breitengrad", latitude.toFixed(5) + " °", "Höhe (WGS84)", altitudeString + " meter", "Beschreibung", entity.description];
             let counter = 1;
 
-            let result = arr.join(', ');
+            // let result = arr.join(', ');
 
-            // setzen des Tabellennamens
-            infoboxKarte.viewModel.titleText = translateInfoTableTitle();
+            // // setzen des Tabellennamens
+            // infoboxKarte.viewModel.titleText = translateInfoTableTitle();
 
-            await translateArrayInput(result).then(function (arrayText) {
-                arr = arrayText;
-            });
+            // await translateArrayInput(result).then(function (arrayText) {
+            //     arr = arrayText;
+            // });
 
             for (let i = 0; i < arr.length; i += 2) {
                 let tr = document.createElement('tr'); //Zeile
@@ -1273,19 +1275,19 @@ export default class Map {
             }
         } else {
 
-            let arr2 = ["Object", entity.name, "Description", entity.description];
+            let arr2 = ["Objekt", entity.name, "Beschreibung", entity.description];
             let counter = 1;
 
             // console.log(entity.name);
 
-            let result = arr2.join(', ');
+            // let result = arr2.join(', ');
 
-            // setzen des Tabellennamens
-            infoboxKarte.viewModel.titleText = translateInfoTableTitle();
+            // // setzen des Tabellennamens
+            // infoboxKarte.viewModel.titleText = translateInfoTableTitle();
 
-            await translateArrayInput(result).then(function (arrayText) {
-                arr2 = arrayText;
-            });
+            // await translateArrayInput(result).then(function (arrayText) {
+            //     arr2 = arrayText;
+            // });
 
             for (let i = 0; i < arr2.length; i += 2) {
                 let tr = document.createElement('tr'); //Zeile
@@ -1324,16 +1326,16 @@ export default class Map {
                 altitudeString = Math.round(heightTerrain).toString();
             });
 
-            let arr = ["Longitude in degree", longitude.toFixed(5) + " °", "Latitude in degree", latitude.toFixed(5) + " °", "Altitude (WGS84) in meter", altitudeString + " meter"];
+            let arr = ["Längengrad", longitude.toFixed(5) + " °", "Breitengrad", latitude.toFixed(5) + " °", "Höhe (WGS84)", altitudeString + " meter"];
 
-            let result = arr.join(', ');
+            // let result = arr.join(', ');
 
-            // setzen des Tabellennamens
-            infoboxKarte.viewModel.titleText = translateInfoTableTitle();
+            // // setzen des Tabellennamens
+            // infoboxKarte.viewModel.titleText = translateInfoTableTitle();
 
-            await translateArrayInput(result).then(function (arrayText) {
-                arr = arrayText;
-            });
+            // await translateArrayInput(result).then(function (arrayText) {
+            //     arr = arrayText;
+            // });
 
             for (let i = 0; i < arr.length; i += 2) {
                 let tr = document.createElement('tr'); //Zeile
@@ -1354,16 +1356,18 @@ export default class Map {
             var clickPosition = viewer.camera.pickEllipsoid(windowPosition, viewer.scene.globe.ellipsoid);
 
             // setzen des Tabellennamens
-            infoboxKarte.viewModel.titleText = translateInfoTableTitle();
+            // infoboxKarte.viewModel.titleText = translateInfoTableTitle();
 
             if (!clickPosition) {
                 // Add row no data selected
                 let noDataRow = table.insertRow(0);
 
-                noDataRow.innerText = "No data here.";
+                noDataRow.innerText = "Keine Daten an diesen Punkt.";
             }
 
         }
+
+        infoboxKarte.viewModel.titleText = "Abfrage";
     }
 
     closeInfoBox(infoBox) {
@@ -1416,7 +1420,7 @@ export default class Map {
         let entity = viewer.entities.add({
             name: "Point info marker",
             position: Cesium.Cartesian3.fromDegrees(longitude, latitude, altitude),
-            description: "Infomarker for getting information from the globe",
+            description: "Infomarker um Informationen abzurufen",
             billboard: {
                 image: "./Icons/output-onlinejpgtools.jpg",
                 //uri: "./glb/infopointGLB.glb",

@@ -43,7 +43,8 @@ export default class Terrain {
                 let newID = "modal_osm_buildings_clamping_2";
                 document.querySelectorAll("[id^='modal_osm_buildings_clamping']")[0].id = newID;
 
-                translateModal(modalHeader, modalBody, undefined, undefined, buttonOK);
+                modalBody.innerHTML = "Wenn die Gebäude auf dem Gelände dargestellt werden, wird eine höhere Rechnerleistung benötigt.";
+                // translateModal(modalHeader, modalBody, undefined, undefined, buttonOK);
 
                 modal.show();
             }
