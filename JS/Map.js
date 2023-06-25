@@ -87,7 +87,7 @@ export default class Map {
                     let buttonOK = document.getElementById("ok_button_osm_buildings_terrain");
                     let newID = "modal_osm_buildings_clamping";
                     document.querySelectorAll("[id^='modal_osm_buildings_clamping']")[0].id = newID;
-                    modalBody.innerText = "Für die Aktiverung des Geländes mit eingeschalteten Gebäuden werden aus Performancegründen keine Gebäude auf dem Gelände dargestellt. Daher werden die Gebäude nur auf dem WGS84 Ellipsiod dargestellt und visualiert.";
+                    // modalBody.innerText = "Für die Aktiverung des Geländes mit eingeschalteten Gebäuden werden aus Performancegründen keine Gebäude auf dem Gelände dargestellt. Daher werden die Gebäude nur auf dem WGS84 Ellipsiod dargestellt und visualiert.";
 
                     // translate the modal
                     // translateModal(modalHeader, modalBody, undefined, undefined, buttonOK);
