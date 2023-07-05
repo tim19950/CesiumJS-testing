@@ -89,6 +89,7 @@ export default class Map {
                     document.querySelectorAll("[id^='modal_osm_buildings_clamping']")[0].id = newID;
                     // modalBody.innerText = "Für die Aktiverung des Geländes mit eingeschalteten Gebäuden werden aus Performancegründen keine Gebäude auf dem Gelände dargestellt. Daher werden die Gebäude nur auf dem WGS84 Ellipsiod dargestellt und visualiert.";
 
+                    console.log("a");
                     modalBody.innerHTML = "Wenn die Gebäude auf dem Gelände dargestellt werden, wird eine höhere Rechnerleistung benötigt.";
                     // translate the modal
                     // translateModal(modalHeader, modalBody, undefined, undefined, buttonOK);

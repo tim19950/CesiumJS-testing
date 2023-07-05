@@ -42,7 +42,7 @@ export default class Terrain {
                 let buttonOK = document.getElementById("ok_button_osm_buildings_terrain");
                 let newID = "modal_osm_buildings_clamping_2";
                 document.querySelectorAll("[id^='modal_osm_buildings_clamping']")[0].id = newID;
-
+                
                 modalBody.innerHTML = "Wenn die Gebäude auf dem Gelände dargestellt werden, wird eine höhere Rechnerleistung benötigt.";
                 // translateModal(modalHeader, modalBody, undefined, undefined, buttonOK);
 
