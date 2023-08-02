@@ -1193,10 +1193,13 @@ export default class Map {
 
                                     for (let i = 0; i < tableRows.length; i++) {
                                         if (tableRows[i]) {
-                                            console.log(tableRows[i]);
+                                            // Ändern Sie die Schriftfarbe und den Hintergrund für die Tabellenzeile (tr)
+                                            // falls die hintergrundfarbe gesetzt wurde beim getFeatureInfo, hier entfernen
+                                            tableRows[i].style.backgroundColor = ''; // Setzen Sie hier die gewünschte Hintergrundfarbe ein
                                             table.appendChild(tableRows[i]);
                                         }
                                     }
+                                    // table.className = "cesium-infoBox-defaultTable";
                                 }
 
                                 // translateInfoTable(table.outerHTML, infobox_karte);

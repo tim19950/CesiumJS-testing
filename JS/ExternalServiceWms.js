@@ -6,33 +6,28 @@ export default class ExternalServiceWms {
 
     addExternalServiceWms() {
 
-        let htmlcollection_layer, contactOrganisation;
-        let value_url_wms;
+        let htmlcollectionLayer, contactOrganisation;
+        let valueUrlWms;
 
         let alerts = document.getElementsByClassName("alert");
 
-        let noWMSURL = document.getElementById("noWMSURL");
-        let noWMSURLreco = document.getElementById("noURLRecognised");
-        let errorRequest = document.getElementById("errorRequest");
-        let noRequestSend = document.getElementById("noRequestSend");
-        let noWMSSelected = document.getElementById("noWMSelected");
-        let noWMSQueryed = document.getElementById("noWMSQueryed");
-        let WMSexistsMenu = document.getElementById("WMSExistsMenu");
-        let success = document.getElementById("success");
+        let errorWMSRequest = document.getElementById("WMSError");
+        
+        let successWMSRequest = document.getElementById("success");
 
         let wmsURL = document.getElementById("wms-text");
         // delete url initial one time on onload of website
         wmsURL.value = "";
 
         document.getElementById("external_service").addEventListener('click', () => {
-            var my_modal = new bootstrap.Modal(document.getElementById("modal_load_service"));
-            my_modal.show();
-            let option_list_wms = document.getElementById("datalistOptions");
+            var modalLoadService = new bootstrap.Modal(document.getElementById("modal_load_service"));
+            modalLoadService.show();
+            let optionListWMS = document.getElementById("datalistOptions");
 
             console.log(wmsURL.value);
 
             // check if wms list has children
-            if (option_list_wms.children.length !== 0) {
+            if (optionListWMS.children.length !== 0) {
                 // Show wms list, when it has children
                 document.getElementById("wms_list").style.display = "";
             } else {
@@ -56,17 +51,17 @@ export default class ExternalServiceWms {
 
         document.getElementById("anfrage_button_wms").addEventListener('click', () => {
             // var value_name_wms = document.getElementById("wms-name").value;
-            value_url_wms = document.getElementById("wms-text").value;
+            valueUrlWms = document.getElementById("wms-text").value;
 
-            if (value_url_wms == "") {
+            if (valueUrlWms == "") {
 
                 // Alertmeldungen und sucessmeldung nicht sichtbar stellen des WMS modals
                 for (let alert of alerts) {
                     alert.style.display = "none";
                 }
 
-                noWMSURL.style.display = "";
-                noWMSURL.innerHTML = "<strong>Achtung!</strong>Geben Sie erst eine URL des WMS an!";
+                errorWMSRequest.style.display = "";
+                errorWMSRequest.innerHTML = "<strong>Achtung!</strong>Geben Sie erst eine URL des WMS an!";
 
                 // translateModal(undefined, undefined, undefined, noWMSURL, undefined);
 
@@ -89,7 +84,7 @@ export default class ExternalServiceWms {
                 let xhttp = new XMLHttpRequest();
 
                 // anhängen der requestparameter des WMS GetCapabilities requestes
-                xhttp.open("GET", value_url_wms + "?REQUEST=GetCapabilities&SERVICE=WMS");
+                xhttp.open("GET", valueUrlWms + "?REQUEST=GetCapabilities&SERVICE=WMS");
                 xhttp.send();
 
                 xhttp.onload = function () {
@@ -97,23 +92,45 @@ export default class ExternalServiceWms {
                         // Typical action to be performed when the document is ready:
                         let response_text = xhttp.responseXML;
 
-                        console.log(response_text);
+                        // console.log(response_text);
 
                         if (response_text) {
 
                             contactOrganisation = response_text.querySelector("ContactOrganization").textContent;
 
-                            htmlcollection_layer = response_text.getElementsByTagName("Layer");
+                            htmlcollectionLayer = response_text.getElementsByTagName("Layer");
 
-                            console.log(htmlcollection_layer);
+                            let HTMLCollectionCRS = response_text.getElementsByTagName("CRS");
+
+                            let WMSHasCRSWGS84 = false;
+
+                            // check if there is the CRS84 supported by the WMS, otherwise not working
+                            for (let CRSElement of HTMLCollectionCRS){
+                                if (CRSElement.textContent === "CRS:84"){
+                                    // console.log(CRSElement.textContent);
+                                    WMSHasCRSWGS84 = true;
+                                }
+                            }
+
+                            let parentNodeBoundingBox;
+                            let parentNodehasBoundingBox = false;
 
                             // iterate over the layer tags
-                            for (let element_layer of htmlcollection_layer) {
+                            for (let element_layer of htmlcollectionLayer) {
 
                                 let hasLayerName = false;
                                 let hasTitle = false;
                                 let hasBoundingBox = false;
-                                let layerTitle, layerName, layerAbstract, layerLegendURL, layerBoudingBox;
+                                let layerTitle, layerName, layerAbstract, layerLegendURL, layerBoundingBox;
+
+                                // safe the boundingBox from the parents element
+                                for (let child of element_layer.children) {
+                                    if (child.nodeName === "EX_GeographicBoundingBox" && !parentNodehasBoundingBox) {
+                                        parentNodeBoundingBox = child.children[0].textContent + "\n" + child.children[1].textContent + "\n" + child.children[2].textContent + "\n" + child.children[3].textContent;
+                                        // console.log(parentNodeBoundingBox);
+                                        parentNodehasBoundingBox = true;
+                                    }
+                                }
                                 
                                 // iterate over the children from every layer tag
                                 // set the title, name etc. for every layer later to the options list
@@ -129,8 +146,9 @@ export default class ExternalServiceWms {
                                             layerTitle = textContent;
                                             break;
                                         case "EX_GeographicBoundingBox":
+                                            // layerBoudingBox = textContent;
+                                            layerBoundingBox = child.children[0].textContent + "\n" + child.children[1].textContent + "\n" + child.children[2].textContent + "\n" + child.children[3].textContent;
                                             hasBoundingBox = true;
-                                            layerBoudingBox = textContent;
                                             break;
                                         case "Abstract":
                                             layerAbstract = textContent;
@@ -144,11 +162,15 @@ export default class ExternalServiceWms {
                                     }
                                 }
 
+                                // console.log(layerBoudingBox);
+                                // console.log(hasBoundingBox);
+
                                 // if the layer tag in the xml has a layername an title tag and an boundingbox
                                 // then add an option element to the list of options
-                                if (hasLayerName && hasTitle && hasBoundingBox) {
+                                if (hasLayerName && hasTitle && WMSHasCRSWGS84 && (hasBoundingBox || parentNodehasBoundingBox)) {
+                                    // console.log(layerBoudingBox);
                                     let option = document.createElement("option");
-                                    // console.log(child);
+                                    
                                     if (layerTitle) {
                                         option.value = layerTitle;
                                     } else {
@@ -163,7 +185,12 @@ export default class ExternalServiceWms {
                                     // set dataset attributes for eyers layer in the list
                                     option.setAttribute("data-LayersWms", layerName);
                                     option.setAttribute("data-LayersWmsAbstract", layerAbstract);
-                                    option.setAttribute("data-LayersWmsGeographicBoundingBox", layerBoudingBox);
+                                    // check if layer boundingbox is defined, otherwise use parents one
+                                    if(hasBoundingBox){
+                                        option.setAttribute("data-LayersWmsGeographicBoundingBox", layerBoundingBox);
+                                    } else {
+                                        option.setAttribute("data-LayersWmsGeographicBoundingBox", parentNodeBoundingBox);
+                                    }
 
                                     // Check if the href doesn't start with "http://" or "https://"
                                     // then it must be a relative link
@@ -171,7 +198,7 @@ export default class ExternalServiceWms {
                                         // Add your desired string in front of the href
                                         // const queryString = layerLegendURL.split('?')[1];
                                         // console.log(queryString);
-                                        layerLegendURL = value_url_wms + "?" + layerLegendURL;
+                                        layerLegendURL = valueUrlWms + "?" + layerLegendURL;
                                         console.log(layerLegendURL);
                                     }
                                     option.setAttribute("data-LayersWmsLengendURL", layerLegendURL);
@@ -180,14 +207,26 @@ export default class ExternalServiceWms {
 
                             }
 
-                            // Alertmeldungen und sucessmeldung nicht sichtbar stellen des WMS modals
-                            for (let alert of alerts) {
-                                alert.style.display = "none";
-                            }
+                            // check if the WMS dont has the WGS84, then give an info to user
+                            if (!WMSHasCRSWGS84) {
+                                // Alertmeldungen und sucessmeldung nicht sichtbar stellen des WMS modals
+                                for (let alert of alerts) {
+                                    alert.style.display = "none";
+                                }
 
-                            success.style.display = "";
-                            success.innerHTML = "Die Abfrage der Layer des WMS war erfolgreich.";
+                                errorWMSRequest.style.display = "";
+                                errorWMSRequest.innerHTML = "<strong>Achtung!</strong>Der WMS unterstützt kein WGS84, daher kann dieser nicht visualisiert werden.";
+                            } else {
+
+                                // Alertmeldungen und sucessmeldung nicht sichtbar stellen des WMS modals
+                                for (let alert of alerts) {
+                                    alert.style.display = "none";
+                                }
+
+                                successWMSRequest.style.display = "";
+                                successWMSRequest.innerHTML = "Die Abfrage der Layer des WMS war erfolgreich.";
                             // translateModal(undefined, undefined, undefined, success, undefined);
+                            }
 
                         } else {
 
@@ -196,8 +235,8 @@ export default class ExternalServiceWms {
                                 alert.style.display = "none";
                             }
 
-                            noWMSURLreco.style.display = "";
-                            noWMSURLreco.innerHTML = "<strong>Achtung!</strong>Keine URL erkannt, bitte nochmal versuchen.";
+                            errorWMSRequest.style.display = "";
+                            errorWMSRequest.innerHTML = "<strong>Achtung!</strong>Keine URL erkannt, bitte nochmal versuchen.";
                             // translateModal(undefined, undefined, undefined, noWMSURLreco, undefined);
 
                         }
@@ -210,8 +249,8 @@ export default class ExternalServiceWms {
                             alert.style.display = "none";
                         }
 
-                        errorRequest.style.display = "";
-                        errorRequest.innerHTML = "<strong>Achtung!</strong>Fehler in dem Request, bitte nochmal versuchen.";
+                        errorWMSRequest.style.display = "";
+                        errorWMSRequest.innerHTML = "<strong>Achtung!</strong>Fehler in dem Request, bitte nochmal versuchen.";
                         // translateModal(undefined, undefined, undefined, errorRequest, undefined);
 
                     }
@@ -230,8 +269,8 @@ export default class ExternalServiceWms {
                         alert.style.display = "none";
                     }
 
-                    noRequestSend.style.display = "";
-                    noRequestSend.innerHTML = "<strong>Achtung!</strong> Request konnte nicht abgesetzt werden, bitte nochmal versuchen.";
+                    errorWMSRequest.style.display = "";
+                    errorWMSRequest.innerHTML = "<strong>Achtung!</strong> Request konnte nicht abgesetzt werden, bitte nochmal versuchen.";
 
                     // translateModal(undefined, undefined, undefined, noRequestSend, undefined);
                     // stop the loading animation for onerror
@@ -249,7 +288,7 @@ export default class ExternalServiceWms {
             let okbtn = document.getElementById("ok_button_wms");
 
             // when no layer in the collection and try add layer to menu
-            if (!htmlcollection_layer) {
+            if (!htmlcollectionLayer) {
 
                 // Alertmeldungen und sucessmeldung nicht sichtbar stellen des WMS modals
                 for (let alert of alerts) {
@@ -261,8 +300,8 @@ export default class ExternalServiceWms {
                     okbtn.setAttribute("data-dismiss", "");
                 }
 
-                noWMSQueryed.style.display = "";
-                noWMSQueryed.innerHTML = "<strong>Achtung!</strong>Bitte zuerst den WMS anfragen und dann auf 'Zum Menü hinzufügen' klicken.";
+                errorWMSRequest.style.display = "";
+                errorWMSRequest.innerHTML = "<strong>Achtung!</strong>Bitte zuerst den WMS anfragen und dann auf 'Zum Menü hinzufügen' klicken.";
 
                 // translateModal(undefined, undefined, undefined, noWMSQueryed, undefined);
 
@@ -280,8 +319,8 @@ export default class ExternalServiceWms {
                 }
 
                 // show alert message
-                noWMSSelected.style.display = "";
-                noWMSSelected.innerHTML = "<strong>Achtung!</strong>Bitte zuerst den WMS auswählen und dann auf 'Zum Menü hinzufügen' klicken.";
+                errorWMSRequest.style.display = "";
+                errorWMSRequest.innerHTML = "<strong>Achtung!</strong>Bitte zuerst den WMS auswählen und dann auf 'Zum Menü hinzufügen' klicken.";
                 // success.style.display = "none";
                 // translateModal(undefined, undefined, undefined, noWMSSelected, undefined);
 
@@ -304,14 +343,14 @@ export default class ExternalServiceWms {
                 }
 
                 // check if there are existing WMS Layers compared with the new adding ones
-                let bool = this.checkForDublicateWMSLayer(titleWMS, WMSexistsMenu, okbtn);
+                let bool = this.checkForDublicateWMSLayer(titleWMS, errorWMSRequest, okbtn);
 
                 // only execute adding WMS Layer if the WMS is not found in the menu
                 if (!bool) {
                     // when the layer was added, close modal
                     okbtn.setAttribute("data-dismiss", "modal");
 
-                    this.addWMSLayer(value_name_wms, value_url_wms, layer_title, abstractWMS, wmsLegendURL, contactOrganisation, wmsLayerBoundingBox);
+                    this.addWMSLayer(value_name_wms, valueUrlWms, layer_title, abstractWMS, wmsLegendURL, contactOrganisation, wmsLayerBoundingBox);
                 }
                 // when the layer was added, close modal
                 // okbtn.setAttribute("data-dismiss", "modal");
