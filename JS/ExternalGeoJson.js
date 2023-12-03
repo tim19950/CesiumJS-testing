@@ -10,6 +10,7 @@ export default class ExternalGeoJson {
 
         // Observer einmal aufrufen reicht, da ansonsten zweimal aufgerufen
         // MutationObserverDOM();
+        // bla
 
         const fileSelect = document.getElementById("locale_data_button");
 
