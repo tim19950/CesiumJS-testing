@@ -7,6 +7,8 @@ export function toggleLanguage() {
         germanFlag.previousElementSibling.classList.add("active");
     });
 
+    // blub
+
     // Function switch
     function switchLang() {
 

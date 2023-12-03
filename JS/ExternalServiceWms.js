@@ -5,6 +5,7 @@ import { translateModal, translateArrayInput } from './translate.js';
 export default class ExternalServiceWms {
 
     addExternalServiceWms() {
+        // blub
 
         let htmlcollectionLayer, contactOrganisation;
         let valueUrlWms;
